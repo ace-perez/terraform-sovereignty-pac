@@ -1,0 +1,31 @@
+# instance_type.sentinel: only approved EC2 instance types.
+# A type unknown at plan time fails (fail closed). Names start with "it_" for the bundle.
+
+import "tfplan/v2" as tfplan
+import "types"
+
+param it_approved_types default ["t3.micro", "t3.small", "t3.medium"]
+
+it_type = func(rc) {
+	t = rc.change.after["instance_type"] else null
+	if types.type_of(t) is "string" {
+		return t
+	}
+	return "unknown"
+}
+
+it_changes = filter tfplan.resource_changes as _, rc {
+	rc.mode is "managed" and
+		rc.type is "aws_instance" and
+		(rc.change.actions contains "create" or rc.change.actions contains "update")
+}
+
+it_violations = filter it_changes as _, rc {
+	it_type(rc) not in it_approved_types
+}
+
+for it_violations as address, rc {
+	print("INSTANCE TYPE:", address, "is", it_type(rc), "| approved:", it_approved_types)
+}
+
+main = rule { length(it_violations) is 0 }

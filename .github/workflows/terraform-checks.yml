@@ -1,0 +1,66 @@
+# Runs on every push and pull request. It never talks to AWS or HCP.
+#   terraform: format, lock-file integrity, validation
+#   sentinel:  bundle is current, every pass/fail test case behaves as expected
+name: terraform-checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege: the workflow only needs to read the repository.
+permissions:
+  contents: read
+
+env:
+  TERRAFORM_VERSION: "1.17.2"
+  SENTINEL_VERSION: "0.40.0"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: false
+
+      - name: Formatting
+        run: terraform fmt -check -recursive -diff
+
+      # -backend=false: skip connecting to HCP (no credentials in CI).
+      # -lockfile=readonly: fail if the providers do not match .terraform.lock.hcl,
+      #   so a changed or tampered provider cannot slip in unnoticed.
+      - name: Init (lock file enforced)
+        run: terraform init -backend=false -lockfile=readonly -input=false
+
+      - name: Validate
+        run: terraform validate
+
+  sentinel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Download Sentinel and verify its SHA-256 checksum against HashiCorp's
+      # published SHA256SUMS before trusting the binary.
+      - name: Install Sentinel (checksum verified)
+        run: |
+          cd "$RUNNER_TEMP"
+          base="https://releases.hashicorp.com/sentinel/${SENTINEL_VERSION}"
+          curl -fsSLO "${base}/sentinel_${SENTINEL_VERSION}_linux_amd64.zip"
+          curl -fsSLO "${base}/sentinel_${SENTINEL_VERSION}_SHA256SUMS"
+          grep "linux_amd64.zip" "sentinel_${SENTINEL_VERSION}_SHA256SUMS" | sha256sum --check -
+          sudo unzip -o "sentinel_${SENTINEL_VERSION}_linux_amd64.zip" -d /usr/local/bin
+          sentinel version
+
+      - name: HCP bundle is up to date
+        run: python3 scripts/bundle_sentinel.py --check
+
+      - name: Sentinel tests
+        run: bash scripts/run-sentinel-tests.sh

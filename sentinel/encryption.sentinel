@@ -1,0 +1,66 @@
+# encryption.sentinel: EBS volumes and instance disks must be encrypted.
+# An instance that does not declare root_block_device fails (fail closed).
+# Names start with "enc_" for the bundle.
+
+import "tfplan/v2" as tfplan
+import "types"
+
+enc_list = func(x) {
+	if types.type_of(x) is "list" {
+		return x
+	}
+	return []
+}
+
+# Only a real boolean true counts. Missing or unknown counts as unencrypted.
+enc_on = func(x) {
+	return types.type_of(x) is "bool" and x
+}
+
+enc_problems = func(rc) {
+	after = rc.change.after
+	problems = []
+	if rc.type is "aws_ebs_volume" {
+		v = after["encrypted"] else null
+		if not enc_on(v) {
+			append(problems, "volume is not encrypted")
+		}
+	}
+	if rc.type is "aws_instance" {
+		roots_raw = after["root_block_device"] else null
+		extras_raw = after["ebs_block_device"] else null
+		roots = enc_list(roots_raw)
+		if length(roots) is 0 {
+			append(problems, "root_block_device not declared")
+		}
+		for roots as d {
+			v = d["encrypted"] else null
+			if not enc_on(v) {
+				append(problems, "root volume is not encrypted")
+			}
+		}
+		for enc_list(extras_raw) as d {
+			v = d["encrypted"] else null
+			if not enc_on(v) {
+				append(problems, "extra EBS volume is not encrypted")
+			}
+		}
+	}
+	return problems
+}
+
+enc_changes = filter tfplan.resource_changes as _, rc {
+	rc.mode is "managed" and
+		rc.type in ["aws_ebs_volume", "aws_instance"] and
+		(rc.change.actions contains "create" or rc.change.actions contains "update")
+}
+
+enc_violations = filter enc_changes as _, rc {
+	length(enc_problems(rc)) > 0
+}
+
+for enc_violations as address, rc {
+	print("ENCRYPTION:", address, "|", enc_problems(rc))
+}
+
+main = rule { length(enc_violations) is 0 }

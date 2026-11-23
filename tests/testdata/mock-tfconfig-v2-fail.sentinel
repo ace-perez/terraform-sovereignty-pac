@@ -1,0 +1,64 @@
+# Hand-written tfconfig/v2 mock: every supply chain rule broken at least once.
+
+providers = {
+	# provider version: range not on the approved list (would allow v5, which lacks per-resource region)
+	"aws": {
+		"alias":               "",
+		"full_name":           "registry.terraform.io/hashicorp/aws",
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws",
+		"version_constraint":  ">= 5.0",
+		"config":              {},
+	},
+	# provider source: look-alike provider from an unverified namespace, no version constraint
+	"awsx": {
+		"alias":               "",
+		"full_name":           "registry.terraform.io/acme-unverified/aws",
+		"module_address":      "",
+		"name":                "awsx",
+		"provider_config_key": "awsx",
+		"version_constraint":  "",
+		"config":              {},
+	},
+}
+
+module_calls = {
+	# module: approved registry namespace, but a range instead of an exact version
+	"logging": {
+		"module_address":     "",
+		"name":               "logging",
+		"source":             "terraform-aws-modules/s3-bucket/aws",
+		"version_constraint": "~> 5.0",
+		"config":             {},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+	},
+	# module: git sources are not on the approved list
+	"vpc": {
+		"module_address":     "",
+		"name":               "vpc",
+		"source":             "git::https://github.com/example-org/terraform-vpc.git?ref=main",
+		"version_constraint": "",
+		"config":             {},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+	},
+	# module: source not on the approved list at all
+	"helper": {
+		"module_address":     "",
+		"name":               "helper",
+		"source":             "github.com/random-user/terraform-helper",
+		"version_constraint": "",
+		"config":             {},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+	},
+}
+
+resources = {}
+variables = {}
+outputs = {}

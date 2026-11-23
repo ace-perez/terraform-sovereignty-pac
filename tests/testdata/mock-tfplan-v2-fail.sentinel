@@ -1,0 +1,247 @@
+# Hand-written tfplan/v2 mock: a plan that breaks every rule at least once.
+# Each resource notes which rule(s) it is meant to trip.
+
+terraform_version = "1.14.0" # supply_chain: outside the approved 1.17.x
+
+resource_changes = {
+	# sovereignty [residency]: sensitive key in eu-central-1 (approved region, but not for sensitive data)
+	"aws_kms_key.sensitive": {
+		"address":       "aws_kms_key.sensitive",
+		"mode":          "managed",
+		"type":          "aws_kms_key",
+		"name":          "sensitive",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":   "eu-central-1",
+				"tags_all": {"DataClassification": "sensitive"},
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+	# network [rule form]: inline ingress block (only aws_vpc_security_group_ingress_rule is allowed)
+	"aws_security_group.app": {
+		"address":       "aws_security_group.app",
+		"mode":          "managed",
+		"type":          "aws_security_group",
+		"name":          "app",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "eu-west-1",
+				"ingress": [
+					{
+						"protocol":         "-1",
+						"from_port":        0,
+						"to_port":          0,
+						"cidr_blocks":      ["0.0.0.0/0"],
+						"ipv6_cidr_blocks": [],
+					},
+				],
+			},
+			"after_unknown": {"id": true},
+		},
+	},
+	# network [SSH/RDP]: SSH from anywhere, not an approved admin network
+	"aws_vpc_security_group_ingress_rule.admin_ssh": {
+		"address":       "aws_vpc_security_group_ingress_rule.admin_ssh",
+		"mode":          "managed",
+		"type":          "aws_vpc_security_group_ingress_rule",
+		"name":          "admin_ssh",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":      "eu-west-1",
+				"ip_protocol": "tcp",
+				"from_port":   22,
+				"to_port":     22,
+				"cidr_ipv4":   "0.0.0.0/0",
+			},
+			"after_unknown": {"id": true},
+		},
+	},
+	# network [rule form]: legacy aws_security_group_rule (RDP from anywhere)
+	"aws_security_group_rule.rdp": {
+		"address":       "aws_security_group_rule.rdp",
+		"mode":          "managed",
+		"type":          "aws_security_group_rule",
+		"name":          "rdp",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":           "eu-west-1",
+				"type":             "ingress",
+				"protocol":         "tcp",
+				"from_port":        3389,
+				"to_port":          3389,
+				"cidr_blocks":      [],
+				"ipv6_cidr_blocks": ["::/0"],
+			},
+			"after_unknown": {"id": true},
+		},
+	},
+	# network [all traffic]: every port from the internet
+	"aws_vpc_security_group_ingress_rule.debug_all": {
+		"address":       "aws_vpc_security_group_ingress_rule.debug_all",
+		"mode":          "managed",
+		"type":          "aws_vpc_security_group_ingress_rule",
+		"name":          "debug_all",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":      "eu-west-1",
+				"ip_protocol": "-1",
+				"cidr_ipv4":   "0.0.0.0/0",
+			},
+			"after_unknown": {"id": true},
+		},
+	},
+	# instance_type, metadata, encryption (root + extra device), network [public IP]
+	"aws_instance.app": {
+		"address":       "aws_instance.app",
+		"mode":          "managed",
+		"type":          "aws_instance",
+		"name":          "app",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":                      "eu-west-1",
+				"instance_type":               "m5.4xlarge",
+				"associate_public_ip_address": true,
+				"metadata_options": [
+					{
+						"http_endpoint": "enabled",
+						"http_tokens":   "optional",
+					},
+				],
+				"root_block_device": [
+					{"encrypted": false},
+				],
+				"ebs_block_device": [
+					{"device_name": "/dev/sdg", "encrypted": false},
+				],
+			},
+			"after_unknown": {"id": true},
+		},
+	},
+	# encryption: unencrypted data volume
+	"aws_ebs_volume.data": {
+		"address":       "aws_ebs_volume.data",
+		"mode":          "managed",
+		"type":          "aws_ebs_volume",
+		"name":          "data",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":    "eu-west-1",
+				"encrypted": false,
+				"tags":      {"DataClassification": "sensitive"},
+			},
+			"after_unknown": {"id": true},
+		},
+	},
+	# sovereignty [regions] + [residency]: sensitive replica in us-east-1 via per-resource region override
+	"aws_s3_bucket.replica": {
+		"address":       "aws_s3_bucket.replica",
+		"mode":          "managed",
+		"type":          "aws_s3_bucket",
+		"name":          "replica",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "us-east-1",
+				"tags":   {"DataClassification": "sensitive"},
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+	# sovereignty [residency], fail closed: untagged bucket in eu-central-1 counts as sensitive
+	"module.sensitive_bucket.aws_s3_bucket.this": {
+		"address":       "module.sensitive_bucket.aws_s3_bucket.this",
+		"mode":          "managed",
+		"type":          "aws_s3_bucket",
+		"name":          "this",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "eu-central-1",
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+	# sovereignty [backups]: copies leave Ireland
+	"aws_backup_plan.daily": {
+		"address":       "aws_backup_plan.daily",
+		"mode":          "managed",
+		"type":          "aws_backup_plan",
+		"name":          "daily",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "eu-west-1",
+				"rule": [
+					{
+						"rule_name": "daily",
+						"copy_action": [
+							{"destination_vault_arn": "arn:aws:backup:us-east-1:111122223333:backup-vault:dr-us-east-1"},
+						],
+					},
+				],
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+	# sovereignty [regions], fail closed: region not known at plan time
+	"aws_sqs_queue.events": {
+		"address":       "aws_sqs_queue.events",
+		"mode":          "managed",
+		"type":          "aws_sqs_queue",
+		"name":          "events",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"name": "events",
+			},
+			"after_unknown": {"arn": true, "id": true, "region": true},
+		},
+	},
+	# supply_chain [provider source]: resource managed by an unapproved provider
+	"aws_cloudwatch_log_group.audit": {
+		"address":       "aws_cloudwatch_log_group.audit",
+		"mode":          "managed",
+		"type":          "aws_cloudwatch_log_group",
+		"name":          "audit",
+		"provider_name": "registry.terraform.io/acme-unverified/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "eu-west-1",
+				"name":   "audit",
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+}

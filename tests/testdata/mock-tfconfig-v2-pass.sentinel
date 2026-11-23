@@ -1,0 +1,53 @@
+# Hand-written tfconfig/v2 mock: a compliant configuration.
+# Includes both allowed module patterns: a local module, and an approved
+# registry module with an exact version.
+
+providers = {
+	"aws": {
+		"alias":               "",
+		"full_name":           "registry.terraform.io/hashicorp/aws",
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws",
+		"version_constraint":  "~> 6.0",
+		"config": {
+			"region": {"references": ["var.aws_region"]},
+		},
+	},
+	"module.sensitive_bucket:aws": {
+		"alias":               "",
+		"full_name":           "registry.terraform.io/hashicorp/aws",
+		"module_address":      "module.sensitive_bucket",
+		"name":                "aws",
+		"provider_config_key": "module.sensitive_bucket:aws",
+		"version_constraint":  "~> 6.0",
+		"config":              {},
+	},
+}
+
+module_calls = {
+	"sensitive_bucket": {
+		"module_address":     "",
+		"name":               "sensitive_bucket",
+		"source":             "./modules/secure_bucket",
+		"version_constraint": "",
+		"config":             {},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+	},
+	"logging": {
+		"module_address":     "",
+		"name":               "logging",
+		"source":             "terraform-aws-modules/s3-bucket/aws",
+		"version_constraint": "5.2.0",
+		"config":             {},
+		"count":              {},
+		"depends_on":         [],
+		"for_each":           {},
+	},
+}
+
+resources = {}
+variables = {}
+outputs = {}

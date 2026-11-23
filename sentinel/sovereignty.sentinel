@@ -1,0 +1,120 @@
+# sovereignty.sentinel: Irish digital sovereignty controls.
+#   1. Every regional resource is in an approved region (per-resource region, AWS v6).
+#   2. Sensitive data stays in eu-west-1. Untagged data counts as sensitive.
+#   3. Backup copies only go to Irish vaults.
+# Admin access from Irish networks only is checked in network.sentinel.
+# Names start with "sov_" for the bundle.
+
+import "tfplan/v2" as tfplan
+import "strings"
+import "types"
+
+param sov_approved_regions default ["eu-west-1", "eu-central-1"]
+param sov_sensitive_regions default ["eu-west-1"]
+
+sov_data_types = [
+	"aws_s3_bucket",
+	"aws_ebs_volume",
+	"aws_ebs_snapshot",
+	"aws_kms_key",
+	"aws_backup_vault",
+	"aws_db_instance",
+	"aws_rds_cluster",
+	"aws_dynamodb_table",
+	"aws_efs_file_system",
+]
+
+# "<region>", "unknown" (not known at plan time), or "" (global, e.g. IAM).
+sov_region = func(rc) {
+	r = rc.change.after["region"] else null
+	if types.type_of(r) is "string" {
+		return r
+	}
+	unknown = rc.change.after_unknown["region"] else null
+	if types.type_of(unknown) is "bool" and unknown {
+		return "unknown"
+	}
+	return ""
+}
+
+# DataClassification tag. Missing = "sensitive" (fail closed).
+sov_classification = func(rc) {
+	for ["tags_all", "tags"] as key {
+		tags = rc.change.after[key] else null
+		if types.type_of(tags) is "map" {
+			c = tags["DataClassification"] else null
+			if types.type_of(c) is "string" {
+				return strings.to_lower(c)
+			}
+		}
+	}
+	return "sensitive"
+}
+
+# Backup copy targets outside Ireland. The region is field 4 of the vault ARN.
+sov_bad_copies = func(rc) {
+	bad = []
+	backup_rules = rc.change.after["rule"] else []
+	for backup_rules as br {
+		copies = br["copy_action"] else []
+		for copies as copy {
+			arn = copy["destination_vault_arn"] else null
+			if types.type_of(arn) is "string" {
+				parts = strings.split(arn, ":")
+				region = parts[3] else ""
+				if region not in sov_sensitive_regions {
+					append(bad, arn)
+				}
+			}
+		}
+	}
+	return bad
+}
+
+# Resources being created or updated. Deletes cannot move data anywhere.
+sov_changes = filter tfplan.resource_changes as _, rc {
+	rc.mode is "managed" and
+		(rc.change.actions contains "create" or rc.change.actions contains "update")
+}
+
+# ----- 1. approved regions -----------------------------------------------------
+
+sov_region_violations = filter sov_changes as _, rc {
+	sov_region(rc) is not "" and sov_region(rc) not in sov_approved_regions
+}
+
+for sov_region_violations as address, rc {
+	print("SOVEREIGNTY [regions]:", address, "is in", sov_region(rc),
+		"| approved:", sov_approved_regions)
+}
+
+# ----- 2. data residency for sensitive data ------------------------------------
+
+sov_residency_violations = filter sov_changes as _, rc {
+	rc.type in sov_data_types and
+		sov_classification(rc) is "sensitive" and
+		sov_region(rc) not in sov_sensitive_regions
+}
+
+for sov_residency_violations as address, rc {
+	print("SOVEREIGNTY [residency]:", address, "holds sensitive data in", sov_region(rc),
+		"| allowed:", sov_sensitive_regions)
+}
+
+# ----- 3. backup copies --------------------------------------------------------
+
+sov_backup_violations = filter sov_changes as _, rc {
+	rc.type is "aws_backup_plan" and length(sov_bad_copies(rc)) > 0
+}
+
+for sov_backup_violations as address, rc {
+	print("SOVEREIGNTY [backups]:", address, "copies backups to", sov_bad_copies(rc))
+}
+
+# ----- rules -------------------------------------------------------------------
+
+sov_regions_ok = rule { length(sov_region_violations) is 0 }
+sov_residency_ok = rule { length(sov_residency_violations) is 0 }
+sov_backups_ok = rule { length(sov_backup_violations) is 0 }
+
+main = rule { sov_regions_ok and sov_residency_ok and sov_backups_ok }

@@ -1,0 +1,123 @@
+# network.sentinel: network security baseline.
+#   1. Ingress is only written as aws_vpc_security_group_ingress_rule. The other two
+#      forms (inline ingress blocks, aws_security_group_rule) are rejected, so they
+#      cannot be used to slip a rule past checks 2 and 3.
+#   2. SSH (22) and RDP (3389) only from approved Irish admin networks.
+#   3. No all-traffic ingress from the internet.
+#   4. No public IPs on instances.
+# Names start with "net_" for the bundle.
+
+import "tfplan/v2" as tfplan
+import "strings"
+import "types"
+
+param net_admin_cidrs default ["203.0.113.0/24"]
+param net_world_cidrs default ["0.0.0.0/0", "::/0"]
+
+net_str = func(x) {
+	if types.type_of(x) is "string" {
+		return x
+	}
+	return ""
+}
+
+net_changes = filter tfplan.resource_changes as _, rc {
+	rc.mode is "managed" and
+		(rc.change.actions contains "create" or rc.change.actions contains "update")
+}
+
+net_rules = filter net_changes as _, rc {
+	rc.type is "aws_vpc_security_group_ingress_rule"
+}
+
+net_protocol = func(rc) {
+	p = rc.change.after["ip_protocol"] else null
+	return strings.to_lower(net_str(p))
+}
+
+net_source = func(rc) {
+	v4 = rc.change.after["cidr_ipv4"] else null
+	v6 = rc.change.after["cidr_ipv6"] else null
+	if net_str(v4) is not "" {
+		return v4
+	}
+	return net_str(v6)
+}
+
+net_opens_port = func(rc, port) {
+	if net_protocol(rc) in ["-1", "all"] {
+		return true
+	}
+	if net_protocol(rc) not in ["tcp", "6"] {
+		return false
+	}
+	lo = rc.change.after["from_port"] else null
+	hi = rc.change.after["to_port"] else null
+	# A port range we cannot read is treated as open (fail closed).
+	if types.type_of(lo) not in ["int", "float"] or types.type_of(hi) not in ["int", "float"] {
+		return true
+	}
+	return lo <= port and hi >= port
+}
+
+# ----- 1. one way to write ingress ---------------------------------------------
+
+net_has_inline_ingress = func(rc) {
+	blocks = rc.change.after["ingress"] else null
+	return types.type_of(blocks) is "list" and length(blocks) > 0
+}
+
+net_form_violations = filter net_changes as _, rc {
+	rc.type is "aws_security_group_rule" or
+		(rc.type is "aws_security_group" and net_has_inline_ingress(rc))
+}
+
+for net_form_violations as address, rc {
+	print("NETWORK [rule form]:", address, "| use aws_vpc_security_group_ingress_rule instead")
+}
+
+# ----- 2. SSH and RDP only from approved admin networks ------------------------
+
+net_admin_violations = filter net_rules as _, rc {
+	(net_opens_port(rc, 22) or net_opens_port(rc, 3389)) and
+		net_source(rc) not in net_admin_cidrs
+}
+
+for net_admin_violations as address, rc {
+	print("NETWORK [SSH/RDP]:", address, "opens SSH/RDP to", net_source(rc),
+		"| approved admin networks:", net_admin_cidrs)
+}
+
+# ----- 3. all traffic from the internet ----------------------------------------
+
+net_all_traffic_violations = filter net_rules as _, rc {
+	net_protocol(rc) in ["-1", "all"] and net_source(rc) in net_world_cidrs
+}
+
+for net_all_traffic_violations as address, rc {
+	print("NETWORK [all traffic]:", address, "allows every port from", net_source(rc))
+}
+
+# ----- 4. public IPs on instances ----------------------------------------------
+
+net_public_ip = func(rc) {
+	v = rc.change.after["associate_public_ip_address"] else null
+	return types.type_of(v) is "bool" and v
+}
+
+net_public_ip_violations = filter net_changes as _, rc {
+	rc.type is "aws_instance" and net_public_ip(rc)
+}
+
+for net_public_ip_violations as address, rc {
+	print("NETWORK [public IP]:", address, "would get a public IP address")
+}
+
+# ----- rules -------------------------------------------------------------------
+
+net_form_ok = rule { length(net_form_violations) is 0 }
+net_admin_ok = rule { length(net_admin_violations) is 0 }
+net_all_traffic_ok = rule { length(net_all_traffic_violations) is 0 }
+net_public_ip_ok = rule { length(net_public_ip_violations) is 0 }
+
+main = rule { net_form_ok and net_admin_ok and net_all_traffic_ok and net_public_ip_ok }

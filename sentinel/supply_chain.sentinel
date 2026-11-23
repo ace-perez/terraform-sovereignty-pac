@@ -1,0 +1,78 @@
+# supply_chain.sentinel: IaC supply chain checks at plan time.
+#   1. Providers come from an approved source with an approved version constraint.
+#      The exact build is pinned by .terraform.lock.hcl, enforced in CI.
+#   2. The run uses the approved Terraform minor release.
+#   3. Modules are local (reviewed in this repo) or from an approved registry
+#      namespace with an exact version.
+# Names start with "sc_" for the bundle.
+
+import "tfconfig/v2" as tfconfig
+import "tfplan/v2" as tfplan
+import "strings"
+import "types"
+
+param sc_approved_provider_sources default ["registry.terraform.io/hashicorp/aws"]
+param sc_approved_provider_constraints default ["~> 6.0"]
+param sc_approved_terraform_minor default "1.17."
+param sc_approved_registry_prefixes default ["terraform-aws-modules/", "app.terraform.io/ATUL00206134/"]
+
+# A map field as a string, "" if missing or not a string.
+sc_field = func(m, key) {
+	v = m[key] else null
+	if types.type_of(v) is "string" {
+		return v
+	}
+	return ""
+}
+
+sc_module_ok = func(m) {
+	source = sc_field(m, "source")
+	if strings.has_prefix(source, "./") or strings.has_prefix(source, "../") {
+		return true
+	}
+	approved = any sc_approved_registry_prefixes as prefix { strings.has_prefix(source, prefix) }
+	# Exact version only ("5.2.0" or "= 5.2.0"), no ranges.
+	exact = sc_field(m, "version_constraint") matches "^=?\\s*[0-9]+\\.[0-9]+\\.[0-9]+$"
+	return approved and exact
+}
+
+# ----- 1. providers ------------------------------------------------------------
+
+sc_provider_violations = filter tfconfig.providers as _, p {
+	sc_field(p, "full_name") not in sc_approved_provider_sources or
+		sc_field(p, "version_constraint") not in sc_approved_provider_constraints
+}
+
+for sc_provider_violations as key, p {
+	print("SUPPLY CHAIN [provider]:", key, "is", sc_field(p, "full_name"),
+		"\"" + sc_field(p, "version_constraint") + "\"",
+		"| approved:", sc_approved_provider_sources, sc_approved_provider_constraints)
+}
+
+# ----- 2. Terraform version ----------------------------------------------------
+
+sc_terraform_version = tfplan.terraform_version else ""
+sc_terraform_version_ok = rule { strings.has_prefix(sc_terraform_version, sc_approved_terraform_minor) }
+
+if not strings.has_prefix(sc_terraform_version, sc_approved_terraform_minor) {
+	print("SUPPLY CHAIN [terraform version]:", sc_terraform_version,
+		"| approved:", sc_approved_terraform_minor + "x")
+}
+
+# ----- 3. modules --------------------------------------------------------------
+
+sc_module_violations = filter tfconfig.module_calls as _, m {
+	not sc_module_ok(m)
+}
+
+for sc_module_violations as key, m {
+	print("SUPPLY CHAIN [module]:", key, "source", sc_field(m, "source"),
+		"| must be local, or approved registry with an exact version")
+}
+
+# ----- rules -------------------------------------------------------------------
+
+sc_providers_ok = rule { length(sc_provider_violations) is 0 }
+sc_modules_ok = rule { length(sc_module_violations) is 0 }
+
+main = rule { sc_providers_ok and sc_terraform_version_ok and sc_modules_ok }

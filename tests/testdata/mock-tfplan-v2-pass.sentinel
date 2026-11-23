@@ -1,0 +1,236 @@
+# Hand-written tfplan/v2 mock: a compliant plan.
+# Mirrors the shape of mocks downloaded from HCP Terraform, trimmed to the
+# attributes the policies read. Real HCP mocks from the scenario runs are kept
+# as evidence in documentation/evidence/hcp-mocks/.
+
+terraform_version = "1.17.2"
+
+resource_changes = {
+	"aws_kms_key.sensitive": {
+		"address":       "aws_kms_key.sensitive",
+		"mode":          "managed",
+		"type":          "aws_kms_key",
+		"name":          "sensitive",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":              "eu-west-1",
+				"enable_key_rotation": true,
+				"tags":                {"DataClassification": "sensitive"},
+				"tags_all":            {"DataClassification": "sensitive", "Jurisdiction": "IE", "Organisation": "ATUL0012345"},
+			},
+			"after_unknown": {"arn": true, "id": true, "key_id": true},
+		},
+	},
+	"aws_vpc.main": {
+		"address":       "aws_vpc.main",
+		"mode":          "managed",
+		"type":          "aws_vpc",
+		"name":          "main",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":     "eu-west-1",
+				"cidr_block": "10.20.0.0/16",
+			},
+			"after_unknown": {"id": true},
+		},
+	},
+	"aws_security_group.app": {
+		"address":       "aws_security_group.app",
+		"mode":          "managed",
+		"type":          "aws_security_group",
+		"name":          "app",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "eu-west-1",
+				"name":   "atul00206134-app",
+			},
+			"after_unknown": {"id": true, "ingress": true, "egress": true},
+		},
+	},
+	"aws_vpc_security_group_ingress_rule.admin_ssh": {
+		"address":       "aws_vpc_security_group_ingress_rule.admin_ssh",
+		"mode":          "managed",
+		"type":          "aws_vpc_security_group_ingress_rule",
+		"name":          "admin_ssh",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":      "eu-west-1",
+				"ip_protocol": "tcp",
+				"from_port":   22,
+				"to_port":     22,
+				"cidr_ipv4":   "203.0.113.0/24",
+			},
+			"after_unknown": {"id": true, "security_group_id": true},
+		},
+	},
+	"aws_vpc_security_group_egress_rule.https_out": {
+		"address":       "aws_vpc_security_group_egress_rule.https_out",
+		"mode":          "managed",
+		"type":          "aws_vpc_security_group_egress_rule",
+		"name":          "https_out",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":      "eu-west-1",
+				"ip_protocol": "tcp",
+				"from_port":   443,
+				"to_port":     443,
+				"cidr_ipv4":   "0.0.0.0/0",
+			},
+			"after_unknown": {"id": true, "security_group_id": true},
+		},
+	},
+	"aws_instance.app": {
+		"address":       "aws_instance.app",
+		"mode":          "managed",
+		"type":          "aws_instance",
+		"name":          "app",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":                      "eu-west-1",
+				"instance_type":               "t3.micro",
+				"associate_public_ip_address": false,
+				"metadata_options": [
+					{
+						"http_endpoint":               "enabled",
+						"http_tokens":                 "required",
+						"http_put_response_hop_limit": 1,
+					},
+				],
+				"root_block_device": [
+					{
+						"encrypted":   true,
+						"volume_size": 20,
+						"volume_type": "gp3",
+					},
+				],
+				"tags": {"DataClassification": "internal"},
+			},
+			"after_unknown": {"id": true, "ebs_block_device": true},
+		},
+	},
+	"aws_ebs_volume.data": {
+		"address":       "aws_ebs_volume.data",
+		"mode":          "managed",
+		"type":          "aws_ebs_volume",
+		"name":          "data",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region":    "eu-west-1",
+				"encrypted": true,
+				"size":      10,
+				"tags":      {"DataClassification": "sensitive"},
+			},
+			"after_unknown": {"id": true, "kms_key_id": true},
+		},
+	},
+	"module.sensitive_bucket.aws_s3_bucket.this": {
+		"address":       "module.sensitive_bucket.aws_s3_bucket.this",
+		"mode":          "managed",
+		"type":          "aws_s3_bucket",
+		"name":          "this",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "eu-west-1",
+				"bucket": "atul00206134-sensitive-records",
+				"tags":   {"DataClassification": "sensitive"},
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+	"aws_s3_bucket.replica": {
+		"address":       "aws_s3_bucket.replica",
+		"mode":          "managed",
+		"type":          "aws_s3_bucket",
+		"name":          "replica",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "eu-west-1",
+				"bucket": "atul00206134-sensitive-records-replica",
+				"tags":   {"DataClassification": "sensitive", "Purpose": "replication-target"},
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+	"aws_backup_vault.primary": {
+		"address":       "aws_backup_vault.primary",
+		"mode":          "managed",
+		"type":          "aws_backup_vault",
+		"name":          "primary",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "eu-west-1",
+				"name":   "atul00206134-primary",
+				"tags":   {"DataClassification": "sensitive"},
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+	"aws_backup_plan.daily": {
+		"address":       "aws_backup_plan.daily",
+		"mode":          "managed",
+		"type":          "aws_backup_plan",
+		"name":          "daily",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"region": "eu-west-1",
+				"name":   "atul00206134-daily",
+				"rule": [
+					{
+						"rule_name":   "daily-35-day-retention",
+						"schedule":    "cron(0 3 * * ? *)",
+						"copy_action": [],
+					},
+				],
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+	"aws_iam_role.replication": {
+		"address":       "aws_iam_role.replication",
+		"mode":          "managed",
+		"type":          "aws_iam_role",
+		"name":          "replication",
+		"provider_name": "registry.terraform.io/hashicorp/aws",
+		"change": {
+			"actions": ["create"],
+			"before":  null,
+			"after": {
+				"name": "atul00206134-s3-replication",
+			},
+			"after_unknown": {"arn": true, "id": true},
+		},
+	},
+}

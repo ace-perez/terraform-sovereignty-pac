@@ -1,0 +1,36 @@
+# metadata.sentinel: IMDSv2 required (http_tokens = "required") on EC2 instances,
+# so an SSRF bug cannot read instance credentials. Not declared = fail.
+# Names start with "md_" for the bundle.
+
+import "tfplan/v2" as tfplan
+import "types"
+
+md_problem = func(rc) {
+	options = rc.change.after["metadata_options"] else null
+	if types.type_of(options) is not "list" or length(options) is 0 {
+		return "metadata_options not declared, so IMDSv2 is not guaranteed"
+	}
+	for options as o {
+		tokens = o["http_tokens"] else null
+		if types.type_of(tokens) is not "string" or tokens is not "required" {
+			return "http_tokens is not \"required\""
+		}
+	}
+	return ""
+}
+
+md_changes = filter tfplan.resource_changes as _, rc {
+	rc.mode is "managed" and
+		rc.type is "aws_instance" and
+		(rc.change.actions contains "create" or rc.change.actions contains "update")
+}
+
+md_violations = filter md_changes as _, rc {
+	md_problem(rc) is not ""
+}
+
+for md_violations as address, rc {
+	print("IMDSv2:", address, "|", md_problem(rc))
+}
+
+main = rule { length(md_violations) is 0 }

@@ -1,0 +1,24 @@
+# Provider plugins and module downloads; terraform init rebuilds them
+.terraform/
+# State never goes in git: HCP stores it, and state can hold secrets
+*.tfstate
+*.tfstate.*
+# Crash logs can contain sensitive values
+crash.log
+crash.*.log
+# Personal CLI config files can hold API tokens
+.terraformrc
+terraform.rc
+# The scenario currently being planned (copied from terraform/scenarios/)
+terraform/active.auto.tfvars
+# Test copies staged by scripts/run-sentinel-tests.sh
+sentinel/test/
+sentinel/testdata/
+sentinel/hcp/test/
+sentinel/hcp/testdata/
+# OS clutter
+.DS_Store
+Thumbs.db
+# documentation folder to be included later on in thes submission
+documentation/
+__pycache__/
