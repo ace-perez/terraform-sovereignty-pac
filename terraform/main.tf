@@ -94,7 +94,7 @@ resource "aws_iam_role" "replication" {
   name = "${var.name_prefix}-s3-replication"
 
   assume_role_policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [{
       Effect    = "Allow"
       Principal = { Service = "s3.amazonaws.com" }
@@ -108,7 +108,7 @@ resource "aws_iam_role_policy" "replication" {
   role = aws_iam_role.replication.id
 
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
         Effect   = "Allow"
