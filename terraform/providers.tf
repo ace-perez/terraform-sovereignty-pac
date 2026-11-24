@@ -9,7 +9,7 @@ provider "aws" {
   # DataClassification is deliberately not a default tag: each data resource declares it.
   default_tags {
     tags = {
-      Organisation = "ATUL0012345"
+      Organisation = "ATUL00206134"
       Jurisdiction = "IE"
       ManagedBy    = "terraform"
     }

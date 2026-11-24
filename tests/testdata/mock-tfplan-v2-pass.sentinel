@@ -19,7 +19,7 @@ resource_changes = {
 				"region":              "eu-west-1",
 				"enable_key_rotation": true,
 				"tags":                {"DataClassification": "sensitive"},
-				"tags_all":            {"DataClassification": "sensitive", "Jurisdiction": "IE", "Organisation": "ATUL0012345"},
+				"tags_all":            {"DataClassification": "sensitive", "Jurisdiction": "IE", "Organisation": "ATUL00206134"},
 			},
 			"after_unknown": {"arn": true, "id": true, "key_id": true},
 		},
