@@ -107,8 +107,6 @@ Defense in Depth for this project was achieved in such a way that there are mult
 
 ## 6. Evidence
 
-> TODO: delete this line once every file below exists in `documentation/evidence/`.
-
 | Evidence | File |
 | --- | --- |
 | Policy set in HCP: one hard-mandatory policy `atul_guardrails` | `05-policy-set.png` |
