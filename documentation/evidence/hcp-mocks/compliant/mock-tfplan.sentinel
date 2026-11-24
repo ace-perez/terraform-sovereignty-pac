@@ -1,0 +1,3055 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {},
+		"path": [],
+		"resources": {
+			"aws_backup_plan": {
+				"daily": {
+					0: {
+						"applied": {
+							"advanced_backup_setting": [],
+							"name":   "atul00206134-daily",
+							"region": "eu-west-1",
+							"rule": [
+								{
+									"completion_window":        180,
+									"copy_action":              [],
+									"enable_continuous_backup": false,
+									"lifecycle": [
+										{
+											"cold_storage_after": null,
+											"delete_after":       35,
+										},
+									],
+									"recovery_point_tags":                          null,
+									"rule_name":                                    "daily-35-day-retention",
+									"scan_action":                                  [],
+									"schedule":                                     "cron(0 3 * * ? *)",
+									"schedule_expression_timezone":                 "Etc/UTC",
+									"start_window":                                 60,
+									"target_logically_air_gapped_backup_vault_arn": "",
+									"target_vault_name":                            "atul00206134-primary",
+								},
+							],
+							"scan_setting": [],
+							"tags":         null,
+							"tags_all": {
+								"Jurisdiction": "IE",
+								"ManagedBy":    "terraform",
+								"Organisation": "ATUL0012345",
+							},
+						},
+						"destroy": false,
+						"diff": {
+							"advanced_backup_setting.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"name": {
+								"computed": false,
+								"new":      "atul00206134-daily",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"rule.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.completion_window": {
+								"computed": false,
+								"new":      "180",
+								"old":      "",
+							},
+							"rule.0.copy_action.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"rule.0.enable_continuous_backup": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"rule.0.lifecycle.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.lifecycle.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.lifecycle.0.cold_storage_after": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.lifecycle.0.delete_after": {
+								"computed": false,
+								"new":      "35",
+								"old":      "",
+							},
+							"rule.0.lifecycle.0.opt_in_to_archive_for_supported_resources": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.recovery_point_tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.rule_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.rule_name": {
+								"computed": false,
+								"new":      "daily-35-day-retention",
+								"old":      "",
+							},
+							"rule.0.scan_action.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"rule.0.schedule": {
+								"computed": false,
+								"new":      "cron(0 3 * * ? *)",
+								"old":      "",
+							},
+							"rule.0.schedule_expression_timezone": {
+								"computed": false,
+								"new":      "Etc/UTC",
+								"old":      "",
+							},
+							"rule.0.start_window": {
+								"computed": false,
+								"new":      "60",
+								"old":      "",
+							},
+							"rule.0.target_logically_air_gapped_backup_vault_arn": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.target_vault_name": {
+								"computed": false,
+								"new":      "atul00206134-primary",
+								"old":      "",
+							},
+							"scan_setting.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"version": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_backup_vault": {
+				"primary": {
+					0: {
+						"applied": {
+							"force_destroy": false,
+							"name":          "atul00206134-primary",
+							"region":        "eu-west-1",
+							"tags": {
+								"DataClassification": "sensitive",
+							},
+							"tags_all": {
+								"DataClassification": "sensitive",
+								"Jurisdiction":       "IE",
+								"ManagedBy":          "terraform",
+								"Organisation":       "ATUL0012345",
+							},
+							"timeouts": null,
+						},
+						"destroy": false,
+						"diff": {
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"force_destroy": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"kms_key_arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"name": {
+								"computed": false,
+								"new":      "atul00206134-primary",
+								"old":      "",
+							},
+							"recovery_points": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"tags.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"tags_all.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"timeouts": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_ebs_volume": {
+				"data": {
+					0: {
+						"applied": {
+							"availability_zone":    "eu-west-1a",
+							"encrypted":            true,
+							"final_snapshot":       false,
+							"multi_attach_enabled": null,
+							"outpost_arn":          null,
+							"region":               "eu-west-1",
+							"size":                 10,
+							"tags": {
+								"DataClassification": "sensitive",
+								"Name":               "atul00206134-data",
+							},
+							"tags_all": {
+								"DataClassification": "sensitive",
+								"Jurisdiction":       "IE",
+								"ManagedBy":          "terraform",
+								"Name":               "atul00206134-data",
+								"Organisation":       "ATUL0012345",
+							},
+							"timeouts": null,
+							"type":     "gp3",
+							"volume_initialization_rate": null,
+						},
+						"destroy": false,
+						"diff": {
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"availability_zone": {
+								"computed": false,
+								"new":      "eu-west-1a",
+								"old":      "",
+							},
+							"create_time": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"encrypted": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"final_snapshot": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"iops": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"kms_key_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"multi_attach_enabled": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"outpost_arn": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"size": {
+								"computed": false,
+								"new":      "10",
+								"old":      "",
+							},
+							"snapshot_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "2",
+								"old":      "",
+							},
+							"tags.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "atul00206134-data",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "5",
+								"old":      "",
+							},
+							"tags_all.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Name": {
+								"computed": false,
+								"new":      "atul00206134-data",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"throughput": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"type": {
+								"computed": false,
+								"new":      "gp3",
+								"old":      "",
+							},
+							"volume_initialization_rate": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_iam_role": {
+				"replication": {
+					0: {
+						"applied": {
+							"assume_role_policy":    "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"s3.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+							"description":           null,
+							"force_detach_policies": false,
+							"max_session_duration":  3600,
+							"name":                  "atul00206134-s3-replication",
+							"path":                  "/",
+							"permissions_boundary":  null,
+							"tags":                  null,
+							"tags_all": {
+								"Jurisdiction": "IE",
+								"ManagedBy":    "terraform",
+								"Organisation": "ATUL0012345",
+							},
+						},
+						"destroy": false,
+						"diff": {
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"assume_role_policy": {
+								"computed": false,
+								"new":      "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"s3.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+								"old":      "",
+							},
+							"create_date": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"description": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"force_detach_policies": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"inline_policy.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"managed_policy_arns.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"max_session_duration": {
+								"computed": false,
+								"new":      "3600",
+								"old":      "",
+							},
+							"name": {
+								"computed": false,
+								"new":      "atul00206134-s3-replication",
+								"old":      "",
+							},
+							"name_prefix": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"path": {
+								"computed": false,
+								"new":      "/",
+								"old":      "",
+							},
+							"permissions_boundary": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"unique_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_iam_role_policy": {
+				"replication": {
+					0: {
+						"applied": {
+							"name": "atul00206134-s3-replication",
+						},
+						"destroy": false,
+						"diff": {
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"name": {
+								"computed": false,
+								"new":      "atul00206134-s3-replication",
+								"old":      "",
+							},
+							"name_prefix": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"policy": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"role": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_instance": {
+				"app": {
+					0: {
+						"applied": {
+							"ami": "ami-0123456789abcdef0",
+							"associate_public_ip_address": false,
+							"credit_specification":        [],
+							"force_destroy":               false,
+							"get_password_data":           false,
+							"hibernation":                 null,
+							"instance_type":               "t3.micro",
+							"launch_template":             [],
+							"metadata_options": [
+								{
+									"http_endpoint":               "enabled",
+									"http_protocol_ipv6":          "disabled",
+									"http_put_response_hop_limit": 1,
+									"http_tokens":                 "required",
+								},
+							],
+							"region": "eu-west-1",
+							"root_block_device": [
+								{
+									"delete_on_termination": true,
+									"encrypted":             true,
+									"tags":                  null,
+									"volume_size":           20,
+									"volume_type":           "gp3",
+								},
+							],
+							"source_dest_check": true,
+							"tags": {
+								"DataClassification": "internal",
+								"Name":               "atul00206134-app",
+							},
+							"tags_all": {
+								"DataClassification": "internal",
+								"Jurisdiction":       "IE",
+								"ManagedBy":          "terraform",
+								"Name":               "atul00206134-app",
+								"Organisation":       "ATUL0012345",
+							},
+							"timeouts":                    null,
+							"user_data":                   null,
+							"user_data_replace_on_change": false,
+							"volume_tags":                 null,
+						},
+						"destroy": false,
+						"diff": {
+							"ami": {
+								"computed": false,
+								"new":      "ami-0123456789abcdef0",
+								"old":      "",
+							},
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"associate_public_ip_address": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"availability_zone": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"capacity_reservation_specification.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cpu_options.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"credit_specification.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"disable_api_stop": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"disable_api_termination": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ebs_optimized": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enable_primary_ipv6": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enclave_options.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ephemeral_block_device.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"force_destroy": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"get_password_data": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"hibernation": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"host_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"host_resource_group_arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"iam_instance_profile": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_initiated_shutdown_behavior": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_lifecycle": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_market_options.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_state": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_type": {
+								"computed": false,
+								"new":      "t3.micro",
+								"old":      "",
+							},
+							"ipv6_address_count": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_addresses.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"key_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"launch_template.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"maintenance_options.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"metadata_options.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"metadata_options.0.http_endpoint": {
+								"computed": false,
+								"new":      "enabled",
+								"old":      "",
+							},
+							"metadata_options.0.http_protocol_ipv6": {
+								"computed": false,
+								"new":      "disabled",
+								"old":      "",
+							},
+							"metadata_options.0.http_put_response_hop_limit": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"metadata_options.0.http_tokens": {
+								"computed": false,
+								"new":      "required",
+								"old":      "",
+							},
+							"metadata_options.0.instance_metadata_tags": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"monitoring": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"network_interface.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"outpost_arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"password_data": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_group": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_group_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"placement_partition_number": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"primary_network_interface.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"primary_network_interface_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_dns_name_options.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_dns": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"public_ip": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"root_block_device.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"root_block_device.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.delete_on_termination": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.device_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.encrypted": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"root_block_device.0.iops": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.kms_key_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.tags_all": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.throughput": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"root_block_device.0.volume_size": {
+								"computed": false,
+								"new":      "20",
+								"old":      "",
+							},
+							"root_block_device.0.volume_type": {
+								"computed": false,
+								"new":      "gp3",
+								"old":      "",
+							},
+							"secondary_network_interface.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"secondary_private_ips.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"security_groups.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"source_dest_check": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"spot_instance_request_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"subnet_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "2",
+								"old":      "",
+							},
+							"tags.DataClassification": {
+								"computed": false,
+								"new":      "internal",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "atul00206134-app",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "5",
+								"old":      "",
+							},
+							"tags_all.DataClassification": {
+								"computed": false,
+								"new":      "internal",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Name": {
+								"computed": false,
+								"new":      "atul00206134-app",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"tenancy": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_base64": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"user_data_replace_on_change": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"volume_tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"vpc_security_group_ids.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_kms_key": {
+				"sensitive": {
+					0: {
+						"applied": {
+							"bypass_policy_lockout_safety_check": false,
+							"custom_key_store_id":                null,
+							"customer_master_key_spec":           "SYMMETRIC_DEFAULT",
+							"deletion_window_in_days":            7,
+							"description":                        "Key for sensitive data held in Ireland",
+							"enable_key_rotation":                true,
+							"is_enabled":                         true,
+							"key_usage":                          "ENCRYPT_DECRYPT",
+							"region":                             "eu-west-1",
+							"tags": {
+								"DataClassification": "sensitive",
+							},
+							"tags_all": {
+								"DataClassification": "sensitive",
+								"Jurisdiction":       "IE",
+								"ManagedBy":          "terraform",
+								"Organisation":       "ATUL0012345",
+							},
+							"timeouts":   null,
+							"xks_key_id": null,
+						},
+						"destroy": false,
+						"diff": {
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bypass_policy_lockout_safety_check": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"custom_key_store_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"customer_master_key_spec": {
+								"computed": false,
+								"new":      "SYMMETRIC_DEFAULT",
+								"old":      "",
+							},
+							"deletion_window_in_days": {
+								"computed": false,
+								"new":      "7",
+								"old":      "",
+							},
+							"description": {
+								"computed": false,
+								"new":      "Key for sensitive data held in Ireland",
+								"old":      "",
+							},
+							"enable_key_rotation": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"is_enabled": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"key_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"key_usage": {
+								"computed": false,
+								"new":      "ENCRYPT_DECRYPT",
+								"old":      "",
+							},
+							"multi_region": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"policy": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"rotation_period_in_days": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"tags.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"tags_all.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"timeouts": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"xks_key_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_s3_bucket": {
+				"replica": {
+					0: {
+						"applied": {
+							"bucket":        "atul00206134-sensitive-records-replica",
+							"force_destroy": false,
+							"region":        "eu-west-1",
+							"tags": {
+								"DataClassification": "sensitive",
+								"Purpose":            "replication-target",
+							},
+							"tags_all": {
+								"DataClassification": "sensitive",
+								"Jurisdiction":       "IE",
+								"ManagedBy":          "terraform",
+								"Organisation":       "ATUL0012345",
+								"Purpose":            "replication-target",
+							},
+							"timeouts": null,
+						},
+						"destroy": false,
+						"diff": {
+							"acceleration_status": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"acl": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket": {
+								"computed": false,
+								"new":      "atul00206134-sensitive-records-replica",
+								"old":      "",
+							},
+							"bucket_domain_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_namespace": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_prefix": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_region": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_regional_domain_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cors_rule.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"force_destroy": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"grant.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"hosted_zone_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"lifecycle_rule.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"logging.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"object_lock_configuration.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"object_lock_enabled": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"policy": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"replication_configuration.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"request_payer": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "2",
+								"old":      "",
+							},
+							"tags.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags.Purpose": {
+								"computed": false,
+								"new":      "replication-target",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "5",
+								"old":      "",
+							},
+							"tags_all.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"tags_all.Purpose": {
+								"computed": false,
+								"new":      "replication-target",
+								"old":      "",
+							},
+							"timeouts": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"versioning.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"website.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"website_domain": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"website_endpoint": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_s3_bucket_replication_configuration": {
+				"sensitive": {
+					0: {
+						"applied": {
+							"region": "eu-west-1",
+							"rule": [
+								{
+									"delete_marker_replication": [
+										{
+											"status": "Disabled",
+										},
+									],
+									"destination": [
+										{
+											"access_control_translation": [],
+											"account":                    null,
+											"encryption_configuration": [
+												{},
+											],
+											"metrics":          [],
+											"replication_time": [],
+											"storage_class":    "STANDARD",
+										},
+									],
+									"existing_object_replication": [],
+									"filter": [
+										{
+											"and":    [],
+											"prefix": null,
+											"tag":    [],
+										},
+									],
+									"id":       "replicate-sensitive-records",
+									"prefix":   null,
+									"priority": null,
+									"source_selection_criteria": [
+										{
+											"replica_modifications": [],
+											"sse_kms_encrypted_objects": [
+												{
+													"status": "Enabled",
+												},
+											],
+										},
+									],
+									"status": "Enabled",
+								},
+							],
+							"token": "REDACTED_SENSITIVE",
+						},
+						"destroy": false,
+						"diff": {
+							"bucket": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"role": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.%": {
+								"computed": false,
+								"new":      "9",
+								"old":      "",
+							},
+							"rule.0.delete_marker_replication.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.delete_marker_replication.0.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.delete_marker_replication.0.status": {
+								"computed": false,
+								"new":      "Disabled",
+								"old":      "",
+							},
+							"rule.0.destination.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.destination.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.destination.0.access_control_translation.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"rule.0.destination.0.account": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.destination.0.bucket": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.destination.0.encryption_configuration.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.destination.0.encryption_configuration.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.destination.0.encryption_configuration.0.replica_kms_key_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.destination.0.metrics.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"rule.0.destination.0.replication_time.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"rule.0.destination.0.storage_class": {
+								"computed": false,
+								"new":      "STANDARD",
+								"old":      "",
+							},
+							"rule.0.existing_object_replication.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"rule.0.filter.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.filter.0.%": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"rule.0.filter.0.and.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"rule.0.filter.0.prefix": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.filter.0.tag.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"rule.0.id": {
+								"computed": false,
+								"new":      "replicate-sensitive-records",
+								"old":      "",
+							},
+							"rule.0.prefix": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.priority": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.source_selection_criteria.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.source_selection_criteria.0.%": {
+								"computed": false,
+								"new":      "2",
+								"old":      "",
+							},
+							"rule.0.source_selection_criteria.0.replica_modifications.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"rule.0.source_selection_criteria.0.sse_kms_encrypted_objects.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.source_selection_criteria.0.sse_kms_encrypted_objects.0.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.source_selection_criteria.0.sse_kms_encrypted_objects.0.status": {
+								"computed": false,
+								"new":      "Enabled",
+								"old":      "",
+							},
+							"rule.0.status": {
+								"computed": false,
+								"new":      "Enabled",
+								"old":      "",
+							},
+							"token": {
+								"computed": false,
+								"new":      "REDACTED_SENSITIVE",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_s3_bucket_versioning": {
+				"replica": {
+					0: {
+						"applied": {
+							"expected_bucket_owner": null,
+							"mfa":    null,
+							"region": "eu-west-1",
+							"versioning_configuration": [
+								{
+									"status": "Enabled",
+								},
+							],
+						},
+						"destroy": false,
+						"diff": {
+							"bucket": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"expected_bucket_owner": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"mfa": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"versioning_configuration.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"versioning_configuration.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"versioning_configuration.0.mfa_delete": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"versioning_configuration.0.status": {
+								"computed": false,
+								"new":      "Enabled",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_security_group": {
+				"app": {
+					0: {
+						"applied": {
+							"description":            "App server: admin SSH from the approved network only",
+							"name":                   "atul00206134-app",
+							"region":                 "eu-west-1",
+							"revoke_rules_on_delete": false,
+							"tags": {
+								"Name": "atul00206134-app",
+							},
+							"tags_all": {
+								"Jurisdiction": "IE",
+								"ManagedBy":    "terraform",
+								"Name":         "atul00206134-app",
+								"Organisation": "ATUL0012345",
+							},
+							"timeouts": null,
+						},
+						"destroy": false,
+						"diff": {
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"description": {
+								"computed": false,
+								"new":      "App server: admin SSH from the approved network only",
+								"old":      "",
+							},
+							"egress.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ingress.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"name": {
+								"computed": false,
+								"new":      "atul00206134-app",
+								"old":      "",
+							},
+							"name_prefix": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"owner_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"revoke_rules_on_delete": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "atul00206134-app",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Name": {
+								"computed": false,
+								"new":      "atul00206134-app",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"timeouts": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"vpc_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_subnet": {
+				"private": {
+					0: {
+						"applied": {
+							"assign_ipv6_address_on_creation":                false,
+							"availability_zone":                              "eu-west-1a",
+							"cidr_block":                                     "10.20.1.0/24",
+							"customer_owned_ipv4_pool":                       null,
+							"enable_dns64":                                   false,
+							"enable_lni_at_device_index":                     null,
+							"enable_resource_name_dns_a_record_on_launch":    false,
+							"enable_resource_name_dns_aaaa_record_on_launch": false,
+							"ipv4_ipam_pool_id":                              null,
+							"ipv4_netmask_length":                            null,
+							"ipv6_ipam_pool_id":                              null,
+							"ipv6_native":                                    false,
+							"ipv6_netmask_length":                            null,
+							"map_customer_owned_ip_on_launch":                null,
+							"map_public_ip_on_launch":                        false,
+							"outpost_arn":                                    null,
+							"region":                                         "eu-west-1",
+							"tags": {
+								"Name": "atul00206134-private-a",
+							},
+							"tags_all": {
+								"Jurisdiction": "IE",
+								"ManagedBy":    "terraform",
+								"Name":         "atul00206134-private-a",
+								"Organisation": "ATUL0012345",
+							},
+							"timeouts": null,
+						},
+						"destroy": false,
+						"diff": {
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"assign_ipv6_address_on_creation": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"availability_zone": {
+								"computed": false,
+								"new":      "eu-west-1a",
+								"old":      "",
+							},
+							"availability_zone_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cidr_block": {
+								"computed": false,
+								"new":      "10.20.1.0/24",
+								"old":      "",
+							},
+							"customer_owned_ipv4_pool": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"enable_dns64": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"enable_lni_at_device_index": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"enable_resource_name_dns_a_record_on_launch": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"enable_resource_name_dns_aaaa_record_on_launch": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv4_ipam_pool_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv4_netmask_length": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_cidr_block": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_cidr_block_association_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_ipam_pool_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_native": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"ipv6_netmask_length": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"map_customer_owned_ip_on_launch": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"map_public_ip_on_launch": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"outpost_arn": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"owner_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"private_dns_hostname_type_on_launch": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "atul00206134-private-a",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Name": {
+								"computed": false,
+								"new":      "atul00206134-private-a",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"timeouts": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"vpc_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_volume_attachment": {
+				"data": {
+					0: {
+						"applied": {
+							"device_name":                    "/dev/sdf",
+							"force_detach":                   null,
+							"region":                         "eu-west-1",
+							"skip_destroy":                   null,
+							"stop_instance_before_detaching": null,
+							"timeouts":                       null,
+						},
+						"destroy": false,
+						"diff": {
+							"device_name": {
+								"computed": false,
+								"new":      "/dev/sdf",
+								"old":      "",
+							},
+							"force_detach": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"skip_destroy": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"stop_instance_before_detaching": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"timeouts": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"volume_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_vpc": {
+				"main": {
+					0: {
+						"applied": {
+							"assign_generated_ipv6_cidr_block": null,
+							"cidr_block":                       "10.20.0.0/16",
+							"enable_dns_hostnames":             true,
+							"enable_dns_support":               true,
+							"instance_tenancy":                 "default",
+							"ipv4_ipam_pool_id":                null,
+							"ipv4_netmask_length":              null,
+							"ipv6_ipam_pool_id":                null,
+							"ipv6_netmask_length":              null,
+							"region":                           "eu-west-1",
+							"tags": {
+								"Name": "atul00206134-vpc",
+							},
+							"tags_all": {
+								"Jurisdiction": "IE",
+								"ManagedBy":    "terraform",
+								"Name":         "atul00206134-vpc",
+								"Organisation": "ATUL0012345",
+							},
+						},
+						"destroy": false,
+						"diff": {
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"assign_generated_ipv6_cidr_block": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"cidr_block": {
+								"computed": false,
+								"new":      "10.20.0.0/16",
+								"old":      "",
+							},
+							"default_network_acl_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"default_route_table_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"default_security_group_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"dhcp_options_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"enable_dns_hostnames": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"enable_dns_support": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"enable_network_address_usage_metrics": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"instance_tenancy": {
+								"computed": false,
+								"new":      "default",
+								"old":      "",
+							},
+							"ipv4_ipam_pool_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv4_netmask_length": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_association_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_cidr_block": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_cidr_block_network_border_group": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_ipam_pool_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"ipv6_netmask_length": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"main_route_table_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"owner_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "atul00206134-vpc",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Name": {
+								"computed": false,
+								"new":      "atul00206134-vpc",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_vpc_security_group_egress_rule": {
+				"https_out": {
+					0: {
+						"applied": {
+							"cidr_ipv4":                    "0.0.0.0/0",
+							"cidr_ipv6":                    null,
+							"description":                  "HTTPS out for package updates",
+							"from_port":                    443,
+							"ip_protocol":                  "tcp",
+							"prefix_list_id":               null,
+							"referenced_security_group_id": null,
+							"region":                       "eu-west-1",
+							"tags":                         null,
+							"tags_all": {
+								"Jurisdiction": "IE",
+								"ManagedBy":    "terraform",
+								"Organisation": "ATUL0012345",
+							},
+							"to_port": 443,
+						},
+						"destroy": false,
+						"diff": {
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cidr_ipv4": {
+								"computed": false,
+								"new":      "0.0.0.0/0",
+								"old":      "",
+							},
+							"cidr_ipv6": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"description": {
+								"computed": false,
+								"new":      "HTTPS out for package updates",
+								"old":      "",
+							},
+							"from_port": {
+								"computed": false,
+								"new":      "443",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ip_protocol": {
+								"computed": false,
+								"new":      "tcp",
+								"old":      "",
+							},
+							"prefix_list_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"referenced_security_group_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"security_group_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"security_group_rule_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"to_port": {
+								"computed": false,
+								"new":      "443",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_vpc_security_group_ingress_rule": {
+				"admin_ssh": {
+					0: {
+						"applied": {
+							"cidr_ipv4":                    "203.0.113.0/24",
+							"cidr_ipv6":                    null,
+							"description":                  "SSH from the approved Irish admin network",
+							"from_port":                    22,
+							"ip_protocol":                  "tcp",
+							"prefix_list_id":               null,
+							"referenced_security_group_id": null,
+							"region":                       "eu-west-1",
+							"tags":                         null,
+							"tags_all": {
+								"Jurisdiction": "IE",
+								"ManagedBy":    "terraform",
+								"Organisation": "ATUL0012345",
+							},
+							"to_port": 22,
+						},
+						"destroy": false,
+						"diff": {
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cidr_ipv4": {
+								"computed": false,
+								"new":      "203.0.113.0/24",
+								"old":      "",
+							},
+							"cidr_ipv6": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"description": {
+								"computed": false,
+								"new":      "SSH from the approved Irish admin network",
+								"old":      "",
+							},
+							"from_port": {
+								"computed": false,
+								"new":      "22",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ip_protocol": {
+								"computed": false,
+								"new":      "tcp",
+								"old":      "",
+							},
+							"prefix_list_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"referenced_security_group_id": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"security_group_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"security_group_rule_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "3",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"to_port": {
+								"computed": false,
+								"new":      "22",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+
+	"module.sensitive_bucket": {
+		"data": {},
+		"path": [
+			"sensitive_bucket",
+		],
+		"resources": {
+			"aws_s3_bucket": {
+				"this": {
+					0: {
+						"applied": {
+							"bucket":        "atul00206134-sensitive-records",
+							"force_destroy": false,
+							"region":        "eu-west-1",
+							"tags": {
+								"DataClassification": "sensitive",
+							},
+							"tags_all": {
+								"DataClassification": "sensitive",
+								"Jurisdiction":       "IE",
+								"ManagedBy":          "terraform",
+								"Organisation":       "ATUL0012345",
+							},
+							"timeouts": null,
+						},
+						"destroy": false,
+						"diff": {
+							"acceleration_status": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"acl": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket": {
+								"computed": false,
+								"new":      "atul00206134-sensitive-records",
+								"old":      "",
+							},
+							"bucket_domain_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_namespace": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_prefix": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_region": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_regional_domain_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cors_rule.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"force_destroy": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"grant.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"hosted_zone_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"lifecycle_rule.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"logging.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"object_lock_configuration.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"object_lock_enabled": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"policy": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"replication_configuration.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"request_payer": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"tags.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags_all.%": {
+								"computed": false,
+								"new":      "4",
+								"old":      "",
+							},
+							"tags_all.DataClassification": {
+								"computed": false,
+								"new":      "sensitive",
+								"old":      "",
+							},
+							"tags_all.Jurisdiction": {
+								"computed": false,
+								"new":      "IE",
+								"old":      "",
+							},
+							"tags_all.ManagedBy": {
+								"computed": false,
+								"new":      "terraform",
+								"old":      "",
+							},
+							"tags_all.Organisation": {
+								"computed": false,
+								"new":      "ATUL0012345",
+								"old":      "",
+							},
+							"timeouts": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"versioning.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"website.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"website_domain": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"website_endpoint": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_s3_bucket_public_access_block": {
+				"this": {
+					0: {
+						"applied": {
+							"block_public_acls":       true,
+							"block_public_policy":     true,
+							"ignore_public_acls":      true,
+							"region":                  "eu-west-1",
+							"restrict_public_buckets": true,
+							"skip_destroy":            null,
+						},
+						"destroy": false,
+						"diff": {
+							"block_public_acls": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"block_public_policy": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"bucket": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"ignore_public_acls": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"restrict_public_buckets": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+							"skip_destroy": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_s3_bucket_server_side_encryption_configuration": {
+				"this": {
+					0: {
+						"applied": {
+							"expected_bucket_owner": null,
+							"region":                "eu-west-1",
+							"rule": [
+								{
+									"apply_server_side_encryption_by_default": [
+										{
+											"sse_algorithm": "aws:kms",
+										},
+									],
+									"bucket_key_enabled": true,
+								},
+							],
+						},
+						"destroy": false,
+						"diff": {
+							"bucket": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"expected_bucket_owner": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"rule.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.apply_server_side_encryption_by_default.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"rule.0.apply_server_side_encryption_by_default.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.apply_server_side_encryption_by_default.0.kms_master_key_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.apply_server_side_encryption_by_default.0.sse_algorithm": {
+								"computed": false,
+								"new":      "aws:kms",
+								"old":      "",
+							},
+							"rule.0.blocked_encryption_types": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"rule.0.bucket_key_enabled": {
+								"computed": false,
+								"new":      "true",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+			"aws_s3_bucket_versioning": {
+				"this": {
+					0: {
+						"applied": {
+							"expected_bucket_owner": null,
+							"mfa":    null,
+							"region": "eu-west-1",
+							"versioning_configuration": [
+								{
+									"status": "Enabled",
+								},
+							],
+						},
+						"destroy": false,
+						"diff": {
+							"bucket": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"expected_bucket_owner": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"mfa": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": false,
+								"new":      "eu-west-1",
+								"old":      "",
+							},
+							"versioning_configuration.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"versioning_configuration.0.%": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"versioning_configuration.0.mfa_delete": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"versioning_configuration.0.status": {
+								"computed": false,
+								"new":      "Enabled",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+	[
+		"sensitive_bucket",
+	],
+]
+
+terraform_version = "1.17.1"
+
+variables = {
+	"admin_ssh_cidr":        "203.0.113.0/24",
+	"ami_id":                "ami-0123456789abcdef0",
+	"associate_public_ip":   false,
+	"aws_region":            "eu-west-1",
+	"backup_copy_vault_arn": "",
+	"ebs_encrypted":         true,
+	"imds_http_tokens":      "required",
+	"instance_type":         "t3.micro",
+	"name_prefix":           "atul00206134",
+	"offline_plan":          true,
+	"open_all_ports":        false,
+	"replica_region":        "eu-west-1",
+}
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+path = _modules.root.path
+resources = _modules.root.resources

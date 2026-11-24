@@ -1,0 +1,581 @@
+To view this run in a browser, visit:
+https://app.eu.terraform.io/app/ATUL00206134/sovereignty-pac/runs/run-K5qzyvRR7ZckGbom
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_backup_plan.daily will be created
+  + resource "aws_backup_plan" "daily" {
+      + arn      = (known after apply)
+      + id       = (known after apply)
+      + name     = "atul00206134-daily"
+      + region   = "eu-west-1"
+      + tags_all = {
+          + "Jurisdiction" = "IE"
+          + "ManagedBy"    = "terraform"
+          + "Organisation" = "ATUL0012345"
+        }
+      + version  = (known after apply)
+
+      + rule {
+          + completion_window                            = 180
+          + enable_continuous_backup                     = false
+          + rule_id                                      = (known after apply)
+          + rule_name                                    = "daily-35-day-retention"
+          + schedule                                     = "cron(0 3 * * ? *)"
+          + schedule_expression_timezone                 = "Etc/UTC"
+          + start_window                                 = 60
+          + target_vault_name                            = "atul00206134-primary"
+            # (1 unchanged attribute hidden)
+
+          + lifecycle {
+              + delete_after                              = 35
+              + opt_in_to_archive_for_supported_resources = (known after apply)
+            }
+        }
+    }
+
+  # aws_backup_vault.primary will be created
+  + resource "aws_backup_vault" "primary" {
+      + arn             = (known after apply)
+      + force_destroy   = false
+      + id              = (known after apply)
+      + kms_key_arn     = (known after apply)
+      + name            = "atul00206134-primary"
+      + recovery_points = (known after apply)
+      + region          = "eu-west-1"
+      + tags            = {
+          + "DataClassification" = "sensitive"
+        }
+      + tags_all        = {
+          + "DataClassification" = "sensitive"
+          + "Jurisdiction"       = "IE"
+          + "ManagedBy"          = "terraform"
+          + "Organisation"       = "ATUL0012345"
+        }
+    }
+
+  # aws_ebs_volume.data will be created
+  + resource "aws_ebs_volume" "data" {
+      + arn               = (known after apply)
+      + availability_zone = "eu-west-1a"
+      + create_time       = (known after apply)
+      + encrypted         = true
+      + final_snapshot    = false
+      + id                = (known after apply)
+      + iops              = (known after apply)
+      + kms_key_id        = (known after apply)
+      + region            = "eu-west-1"
+      + size              = 10
+      + snapshot_id       = (known after apply)
+      + tags              = {
+          + "DataClassification" = "sensitive"
+          + "Name"               = "atul00206134-data"
+        }
+      + tags_all          = {
+          + "DataClassification" = "sensitive"
+          + "Jurisdiction"       = "IE"
+          + "ManagedBy"          = "terraform"
+          + "Name"               = "atul00206134-data"
+          + "Organisation"       = "ATUL0012345"
+        }
+      + throughput        = (known after apply)
+      + type              = "gp3"
+    }
+
+  # aws_iam_role.replication will be created
+  + resource "aws_iam_role" "replication" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "s3.amazonaws.com"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "atul00206134-s3-replication"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = {
+          + "Jurisdiction" = "IE"
+          + "ManagedBy"    = "terraform"
+          + "Organisation" = "ATUL0012345"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # aws_iam_role_policy.replication will be created
+  + resource "aws_iam_role_policy" "replication" {
+      + id          = (known after apply)
+      + name        = "atul00206134-s3-replication"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + role        = (known after apply)
+    }
+
+  # aws_instance.app will be created
+  + resource "aws_instance" "app" {
+      + ami                                  = "ami-0123456789abcdef0"
+      + arn                                  = (known after apply)
+      + associate_public_ip_address          = false
+      + availability_zone                    = (known after apply)
+      + disable_api_stop                     = (known after apply)
+      + disable_api_termination              = (known after apply)
+      + ebs_optimized                        = (known after apply)
+      + enable_primary_ipv6                  = (known after apply)
+      + force_destroy                        = false
+      + get_password_data                    = false
+      + host_id                              = (known after apply)
+      + host_resource_group_arn              = (known after apply)
+      + iam_instance_profile                 = (known after apply)
+      + id                                   = (known after apply)
+      + instance_initiated_shutdown_behavior = (known after apply)
+      + instance_lifecycle                   = (known after apply)
+      + instance_state                       = (known after apply)
+      + instance_type                        = "t3.micro"
+      + ipv6_address_count                   = (known after apply)
+      + ipv6_addresses                       = (known after apply)
+      + key_name                             = (known after apply)
+      + monitoring                           = (known after apply)
+      + outpost_arn                          = (known after apply)
+      + password_data                        = (known after apply)
+      + placement_group                      = (known after apply)
+      + placement_group_id                   = (known after apply)
+      + placement_partition_number           = (known after apply)
+      + primary_network_interface_id         = (known after apply)
+      + private_dns                          = (known after apply)
+      + private_ip                           = (known after apply)
+      + public_dns                           = (known after apply)
+      + public_ip                            = (known after apply)
+      + region                               = "eu-west-1"
+      + secondary_private_ips                = (known after apply)
+      + security_groups                      = (known after apply)
+      + source_dest_check                    = true
+      + spot_instance_request_id             = (known after apply)
+      + subnet_id                            = (known after apply)
+      + tags                                 = {
+          + "DataClassification" = "internal"
+          + "Name"               = "atul00206134-app"
+        }
+      + tags_all                             = {
+          + "DataClassification" = "internal"
+          + "Jurisdiction"       = "IE"
+          + "ManagedBy"          = "terraform"
+          + "Name"               = "atul00206134-app"
+          + "Organisation"       = "ATUL0012345"
+        }
+      + tenancy                              = (known after apply)
+      + user_data_base64                     = (known after apply)
+      + user_data_replace_on_change          = false
+      + vpc_security_group_ids               = (known after apply)
+
+      + capacity_reservation_specification (known after apply)
+
+      + cpu_options (known after apply)
+
+      + ebs_block_device (known after apply)
+
+      + enclave_options (known after apply)
+
+      + ephemeral_block_device (known after apply)
+
+      + instance_market_options (known after apply)
+
+      + maintenance_options (known after apply)
+
+      + metadata_options {
+          + http_endpoint               = "enabled"
+          + http_protocol_ipv6          = "disabled"
+          + http_put_response_hop_limit = 1
+          + http_tokens                 = "required"
+          + instance_metadata_tags      = (known after apply)
+        }
+
+      + network_interface (known after apply)
+
+      + primary_network_interface (known after apply)
+
+      + private_dns_name_options (known after apply)
+
+      + root_block_device {
+          + delete_on_termination = true
+          + device_name           = (known after apply)
+          + encrypted             = true
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + tags_all              = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = 20
+          + volume_type           = "gp3"
+        }
+
+      + secondary_network_interface (known after apply)
+    }
+
+  # aws_kms_key.sensitive will be created
+  + resource "aws_kms_key" "sensitive" {
+      + arn                                = (known after apply)
+      + bypass_policy_lockout_safety_check = false
+      + customer_master_key_spec           = "SYMMETRIC_DEFAULT"
+      + deletion_window_in_days            = 7
+      + description                        = "Key for sensitive data held in Ireland"
+      + enable_key_rotation                = true
+      + id                                 = (known after apply)
+      + is_enabled                         = true
+      + key_id                             = (known after apply)
+      + key_usage                          = "ENCRYPT_DECRYPT"
+      + multi_region                       = (known after apply)
+      + policy                             = (known after apply)
+      + region                             = "eu-west-1"
+      + rotation_period_in_days            = (known after apply)
+      + tags                               = {
+          + "DataClassification" = "sensitive"
+        }
+      + tags_all                           = {
+          + "DataClassification" = "sensitive"
+          + "Jurisdiction"       = "IE"
+          + "ManagedBy"          = "terraform"
+          + "Organisation"       = "ATUL0012345"
+        }
+    }
+
+  # aws_s3_bucket.replica will be created
+  + resource "aws_s3_bucket" "replica" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "atul00206134-sensitive-records-replica"
+      + bucket_domain_name          = (known after apply)
+      + bucket_namespace            = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_region               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = "eu-west-1"
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "DataClassification" = "sensitive"
+          + "Purpose"            = "replication-target"
+        }
+      + tags_all                    = {
+          + "DataClassification" = "sensitive"
+          + "Jurisdiction"       = "IE"
+          + "ManagedBy"          = "terraform"
+          + "Organisation"       = "ATUL0012345"
+          + "Purpose"            = "replication-target"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # aws_s3_bucket_replication_configuration.sensitive will be created
+  + resource "aws_s3_bucket_replication_configuration" "sensitive" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+      + region = "eu-west-1"
+      + role   = (known after apply)
+
+      + rule {
+          + id     = "replicate-sensitive-records"
+          + status = "Enabled"
+
+          + delete_marker_replication {
+              + status = "Disabled"
+            }
+
+          + destination {
+              + bucket        = (known after apply)
+              + storage_class = "STANDARD"
+
+              + encryption_configuration {
+                  + replica_kms_key_id = (known after apply)
+                }
+            }
+
+          + filter {
+            }
+
+          + source_selection_criteria {
+              + sse_kms_encrypted_objects {
+                  + status = "Enabled"
+                }
+            }
+        }
+    }
+
+  # aws_s3_bucket_versioning.replica will be created
+  + resource "aws_s3_bucket_versioning" "replica" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+      + region = "eu-west-1"
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+  # aws_security_group.app will be created
+  + resource "aws_security_group" "app" {
+      + arn                    = (known after apply)
+      + description            = "App server: admin SSH from the approved network only"
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = (known after apply)
+      + name                   = "atul00206134-app"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + region                 = "eu-west-1"
+      + revoke_rules_on_delete = false
+      + tags                   = {
+          + "Name" = "atul00206134-app"
+        }
+      + tags_all               = {
+          + "Jurisdiction" = "IE"
+          + "ManagedBy"    = "terraform"
+          + "Name"         = "atul00206134-app"
+          + "Organisation" = "ATUL0012345"
+        }
+      + vpc_id                 = (known after apply)
+    }
+
+  # aws_subnet.private will be created
+  + resource "aws_subnet" "private" {
+      + arn                                            = (known after apply)
+      + assign_ipv6_address_on_creation                = false
+      + availability_zone                              = "eu-west-1a"
+      + availability_zone_id                           = (known after apply)
+      + cidr_block                                     = "10.20.1.0/24"
+      + enable_dns64                                   = false
+      + enable_resource_name_dns_a_record_on_launch    = false
+      + enable_resource_name_dns_aaaa_record_on_launch = false
+      + id                                             = (known after apply)
+      + ipv6_cidr_block                                = (known after apply)
+      + ipv6_cidr_block_association_id                 = (known after apply)
+      + ipv6_native                                    = false
+      + map_public_ip_on_launch                        = false
+      + owner_id                                       = (known after apply)
+      + private_dns_hostname_type_on_launch            = (known after apply)
+      + region                                         = "eu-west-1"
+      + tags                                           = {
+          + "Name" = "atul00206134-private-a"
+        }
+      + tags_all                                       = {
+          + "Jurisdiction" = "IE"
+          + "ManagedBy"    = "terraform"
+          + "Name"         = "atul00206134-private-a"
+          + "Organisation" = "ATUL0012345"
+        }
+      + vpc_id                                         = (known after apply)
+    }
+
+  # aws_volume_attachment.data will be created
+  + resource "aws_volume_attachment" "data" {
+      + device_name = "/dev/sdf"
+      + id          = (known after apply)
+      + instance_id = (known after apply)
+      + region      = "eu-west-1"
+      + volume_id   = (known after apply)
+    }
+
+  # aws_vpc.main will be created
+  + resource "aws_vpc" "main" {
+      + arn                                  = (known after apply)
+      + cidr_block                           = "10.20.0.0/16"
+      + default_network_acl_id               = (known after apply)
+      + default_route_table_id               = (known after apply)
+      + default_security_group_id            = (known after apply)
+      + dhcp_options_id                      = (known after apply)
+      + enable_dns_hostnames                 = true
+      + enable_dns_support                   = true
+      + enable_network_address_usage_metrics = (known after apply)
+      + id                                   = (known after apply)
+      + instance_tenancy                     = "default"
+      + ipv6_association_id                  = (known after apply)
+      + ipv6_cidr_block                      = (known after apply)
+      + ipv6_cidr_block_network_border_group = (known after apply)
+      + main_route_table_id                  = (known after apply)
+      + owner_id                             = (known after apply)
+      + region                               = "eu-west-1"
+      + tags                                 = {
+          + "Name" = "atul00206134-vpc"
+        }
+      + tags_all                             = {
+          + "Jurisdiction" = "IE"
+          + "ManagedBy"    = "terraform"
+          + "Name"         = "atul00206134-vpc"
+          + "Organisation" = "ATUL0012345"
+        }
+    }
+
+  # aws_vpc_security_group_egress_rule.https_out will be created
+  + resource "aws_vpc_security_group_egress_rule" "https_out" {
+      + arn                    = (known after apply)
+      + cidr_ipv4              = "0.0.0.0/0"
+      + description            = "HTTPS out for package updates"
+      + from_port              = 443
+      + id                     = (known after apply)
+      + ip_protocol            = "tcp"
+      + region                 = "eu-west-1"
+      + security_group_id      = (known after apply)
+      + security_group_rule_id = (known after apply)
+      + tags_all               = {
+          + "Jurisdiction" = "IE"
+          + "ManagedBy"    = "terraform"
+          + "Organisation" = "ATUL0012345"
+        }
+      + to_port                = 443
+    }
+
+  # aws_vpc_security_group_ingress_rule.admin_ssh will be created
+  + resource "aws_vpc_security_group_ingress_rule" "admin_ssh" {
+      + arn                    = (known after apply)
+      + cidr_ipv4              = "203.0.113.0/24"
+      + description            = "SSH from the approved Irish admin network"
+      + from_port              = 22
+      + id                     = (known after apply)
+      + ip_protocol            = "tcp"
+      + region                 = "eu-west-1"
+      + security_group_id      = (known after apply)
+      + security_group_rule_id = (known after apply)
+      + tags_all               = {
+          + "Jurisdiction" = "IE"
+          + "ManagedBy"    = "terraform"
+          + "Organisation" = "ATUL0012345"
+        }
+      + to_port                = 22
+    }
+
+  # module.sensitive_bucket.aws_s3_bucket.this will be created
+  + resource "aws_s3_bucket" "this" {
+      + acceleration_status         = (known after apply)
+      + acl                         = (known after apply)
+      + arn                         = (known after apply)
+      + bucket                      = "atul00206134-sensitive-records"
+      + bucket_domain_name          = (known after apply)
+      + bucket_namespace            = (known after apply)
+      + bucket_prefix               = (known after apply)
+      + bucket_region               = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + object_lock_enabled         = (known after apply)
+      + policy                      = (known after apply)
+      + region                      = "eu-west-1"
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "DataClassification" = "sensitive"
+        }
+      + tags_all                    = {
+          + "DataClassification" = "sensitive"
+          + "Jurisdiction"       = "IE"
+          + "ManagedBy"          = "terraform"
+          + "Organisation"       = "ATUL0012345"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + cors_rule (known after apply)
+
+      + grant (known after apply)
+
+      + lifecycle_rule (known after apply)
+
+      + logging (known after apply)
+
+      + object_lock_configuration (known after apply)
+
+      + replication_configuration (known after apply)
+
+      + server_side_encryption_configuration (known after apply)
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+  # module.sensitive_bucket.aws_s3_bucket_public_access_block.this will be created
+  + resource "aws_s3_bucket_public_access_block" "this" {
+      + block_public_acls       = true
+      + block_public_policy     = true
+      + bucket                  = (known after apply)
+      + id                      = (known after apply)
+      + ignore_public_acls      = true
+      + region                  = "eu-west-1"
+      + restrict_public_buckets = true
+    }
+
+  # module.sensitive_bucket.aws_s3_bucket_server_side_encryption_configuration.this will be created
+  + resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+      + region = "eu-west-1"
+
+      + rule {
+          + blocked_encryption_types = (known after apply)
+          + bucket_key_enabled       = true
+
+          + apply_server_side_encryption_by_default {
+              + kms_master_key_id = (known after apply)
+              + sse_algorithm     = "aws:kms"
+            }
+        }
+    }
+
+  # module.sensitive_bucket.aws_s3_bucket_versioning.this will be created
+  + resource "aws_s3_bucket_versioning" "this" {
+      + bucket = (known after apply)
+      + id     = (known after apply)
+      + region = "eu-west-1"
+
+      + versioning_configuration {
+          + mfa_delete = (known after apply)
+          + status     = "Enabled"
+        }
+    }
+
+Plan: 20 to add, 0 to change, 0 to destroy.
+
+Run status: planned and saved (confirmable)
+Workspace is unlocked

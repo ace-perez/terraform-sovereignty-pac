@@ -1,0 +1,805 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {},
+		"modules": {
+			"sensitive_bucket": {
+				"config": {
+					"classification": "sensitive",
+				},
+				"references": {
+					"bucket_name": [
+						"var.name_prefix",
+					],
+					"classification": [],
+					"kms_key_arn": [
+						"aws_kms_key.sensitive.arn",
+						"aws_kms_key.sensitive",
+					],
+				},
+				"source":  "./modules/secure_bucket",
+				"version": "",
+			},
+		},
+		"outputs": {},
+		"providers": {
+			"aws": {
+				"alias": {
+					"": {
+						"config": {
+							"default_tags": [
+								{
+									"tags": {
+										"Jurisdiction": "IE",
+										"ManagedBy":    "terraform",
+										"Organisation": "ATUL0012345",
+									},
+								},
+							],
+						},
+						"references": {
+							"default_tags": [
+								{
+									"tags": [],
+								},
+							],
+							"region": [
+								"var.aws_region",
+							],
+							"skip_credentials_validation": [
+								"var.offline_plan",
+							],
+							"skip_metadata_api_check": [
+								"var.offline_plan",
+							],
+							"skip_requesting_account_id": [
+								"var.offline_plan",
+							],
+						},
+						"version": "~> 6.0",
+					},
+				},
+				"config": {
+					"default_tags": [
+						{
+							"tags": {
+								"Jurisdiction": "IE",
+								"ManagedBy":    "terraform",
+								"Organisation": "ATUL0012345",
+							},
+						},
+					],
+				},
+				"references": {
+					"default_tags": [
+						{
+							"tags": [],
+						},
+					],
+					"region": [
+						"var.aws_region",
+					],
+					"skip_credentials_validation": [
+						"var.offline_plan",
+					],
+					"skip_metadata_api_check": [
+						"var.offline_plan",
+					],
+					"skip_requesting_account_id": [
+						"var.offline_plan",
+					],
+				},
+				"version": "~> 6.0",
+			},
+		},
+		"resources": {
+			"aws_backup_plan": {
+				"daily": {
+					"config": {
+						"rule": [
+							{
+								"lifecycle": [
+									{
+										"delete_after": 35,
+									},
+								],
+								"rule_name": "daily-35-day-retention",
+								"schedule":  "cron(0 3 * * ? *)",
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"name": [
+							"var.name_prefix",
+						],
+						"rule": [
+							{
+								"lifecycle": [
+									{
+										"delete_after": [],
+									},
+								],
+								"rule_name": [],
+								"schedule":  [],
+								"target_vault_name": [
+									"aws_backup_vault.primary.name",
+									"aws_backup_vault.primary",
+								],
+							},
+						],
+					},
+				},
+			},
+			"aws_backup_vault": {
+				"primary": {
+					"config": {
+						"tags": {
+							"DataClassification": "sensitive",
+						},
+					},
+					"provisioners": null,
+					"references": {
+						"kms_key_arn": [
+							"aws_kms_key.sensitive.arn",
+							"aws_kms_key.sensitive",
+						],
+						"name": [
+							"var.name_prefix",
+						],
+						"tags": [],
+					},
+				},
+			},
+			"aws_ebs_volume": {
+				"data": {
+					"config": {
+						"size": 10,
+						"type": "gp3",
+					},
+					"provisioners": null,
+					"references": {
+						"availability_zone": [
+							"aws_subnet.private.availability_zone",
+							"aws_subnet.private",
+						],
+						"encrypted": [
+							"var.ebs_encrypted",
+						],
+						"kms_key_id": [
+							"var.ebs_encrypted",
+							"aws_kms_key.sensitive.arn",
+							"aws_kms_key.sensitive",
+						],
+						"size": [],
+						"tags": [
+							"var.name_prefix",
+						],
+						"type": [],
+					},
+				},
+			},
+			"aws_iam_role": {
+				"replication": {
+					"config": {
+						"assume_role_policy": null,
+					},
+					"provisioners": null,
+					"references": {
+						"assume_role_policy": [],
+						"name": [
+							"var.name_prefix",
+						],
+					},
+				},
+			},
+			"aws_iam_role_policy": {
+				"replication": {
+					"config":       {},
+					"provisioners": null,
+					"references": {
+						"name": [
+							"var.name_prefix",
+						],
+						"policy": [
+							"module.sensitive_bucket.bucket_arn",
+							"module.sensitive_bucket",
+							"module.sensitive_bucket.bucket_arn",
+							"module.sensitive_bucket",
+							"aws_s3_bucket.replica.arn",
+							"aws_s3_bucket.replica",
+							"aws_kms_key.sensitive.arn",
+							"aws_kms_key.sensitive",
+						],
+						"role": [
+							"aws_iam_role.replication.id",
+							"aws_iam_role.replication",
+						],
+					},
+				},
+			},
+			"aws_instance": {
+				"app": {
+					"config": {
+						"metadata_options": [
+							{
+								"http_endpoint":               "enabled",
+								"http_put_response_hop_limit": 1,
+							},
+						],
+						"root_block_device": [
+							{
+								"volume_size": 20,
+								"volume_type": "gp3",
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"ami": [
+							"var.ami_id",
+						],
+						"associate_public_ip_address": [
+							"var.associate_public_ip",
+						],
+						"instance_type": [
+							"var.instance_type",
+						],
+						"metadata_options": [
+							{
+								"http_endpoint":               [],
+								"http_put_response_hop_limit": [],
+								"http_tokens": [
+									"var.imds_http_tokens",
+								],
+							},
+						],
+						"root_block_device": [
+							{
+								"encrypted": [
+									"var.ebs_encrypted",
+								],
+								"kms_key_id": [
+									"var.ebs_encrypted",
+									"aws_kms_key.sensitive.arn",
+									"aws_kms_key.sensitive",
+								],
+								"volume_size": [],
+								"volume_type": [],
+							},
+						],
+						"subnet_id": [
+							"aws_subnet.private.id",
+							"aws_subnet.private",
+						],
+						"tags": [
+							"var.name_prefix",
+						],
+						"vpc_security_group_ids": [
+							"aws_security_group.app.id",
+							"aws_security_group.app",
+						],
+					},
+				},
+			},
+			"aws_kms_key": {
+				"sensitive": {
+					"config": {
+						"deletion_window_in_days": 7,
+						"description":             "Key for sensitive data held in Ireland",
+						"enable_key_rotation":     true,
+						"tags": {
+							"DataClassification": "sensitive",
+						},
+					},
+					"provisioners": null,
+					"references": {
+						"deletion_window_in_days": [],
+						"description":             [],
+						"enable_key_rotation":     [],
+						"tags":                    [],
+					},
+				},
+			},
+			"aws_s3_bucket": {
+				"replica": {
+					"config": {
+						"tags": {
+							"DataClassification": "sensitive",
+							"Purpose":            "replication-target",
+						},
+					},
+					"provisioners": null,
+					"references": {
+						"bucket": [
+							"var.name_prefix",
+						],
+						"region": [
+							"var.replica_region",
+						],
+						"tags": [],
+					},
+				},
+			},
+			"aws_s3_bucket_replication_configuration": {
+				"sensitive": {
+					"config": {
+						"rule": [
+							{
+								"delete_marker_replication": [
+									{
+										"status": "Disabled",
+									},
+								],
+								"destination": [
+									{
+										"encryption_configuration": [
+											{},
+										],
+										"storage_class": "STANDARD",
+									},
+								],
+								"filter": [
+									{},
+								],
+								"id": "replicate-sensitive-records",
+								"source_selection_criteria": [
+									{
+										"sse_kms_encrypted_objects": [
+											{
+												"status": "Enabled",
+											},
+										],
+									},
+								],
+								"status": "Enabled",
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"bucket": [
+							"module.sensitive_bucket.bucket_id",
+							"module.sensitive_bucket",
+						],
+						"role": [
+							"aws_iam_role.replication.arn",
+							"aws_iam_role.replication",
+						],
+						"rule": [
+							{
+								"delete_marker_replication": [
+									{
+										"status": [],
+									},
+								],
+								"destination": [
+									{
+										"bucket": [
+											"aws_s3_bucket.replica.arn",
+											"aws_s3_bucket.replica",
+										],
+										"encryption_configuration": [
+											{
+												"replica_kms_key_id": [
+													"aws_kms_key.sensitive.arn",
+													"aws_kms_key.sensitive",
+												],
+											},
+										],
+										"storage_class": [],
+									},
+								],
+								"filter": [
+									{},
+								],
+								"id": [],
+								"source_selection_criteria": [
+									{
+										"sse_kms_encrypted_objects": [
+											{
+												"status": [],
+											},
+										],
+									},
+								],
+								"status": [],
+							},
+						],
+					},
+				},
+			},
+			"aws_s3_bucket_versioning": {
+				"replica": {
+					"config": {
+						"versioning_configuration": [
+							{
+								"status": "Enabled",
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"bucket": [
+							"aws_s3_bucket.replica.id",
+							"aws_s3_bucket.replica",
+						],
+						"region": [
+							"var.replica_region",
+						],
+						"versioning_configuration": [
+							{
+								"status": [],
+							},
+						],
+					},
+				},
+			},
+			"aws_security_group": {
+				"app": {
+					"config": {
+						"description": "App server: admin SSH from the approved network only",
+					},
+					"provisioners": null,
+					"references": {
+						"description": [],
+						"name": [
+							"var.name_prefix",
+						],
+						"tags": [
+							"var.name_prefix",
+						],
+						"vpc_id": [
+							"aws_vpc.main.id",
+							"aws_vpc.main",
+						],
+					},
+				},
+			},
+			"aws_subnet": {
+				"private": {
+					"config": {
+						"cidr_block": "10.20.1.0/24",
+					},
+					"provisioners": null,
+					"references": {
+						"availability_zone": [
+							"var.aws_region",
+						],
+						"cidr_block": [],
+						"tags": [
+							"var.name_prefix",
+						],
+						"vpc_id": [
+							"aws_vpc.main.id",
+							"aws_vpc.main",
+						],
+					},
+				},
+			},
+			"aws_volume_attachment": {
+				"data": {
+					"config": {
+						"device_name": "/dev/sdf",
+					},
+					"provisioners": null,
+					"references": {
+						"device_name": [],
+						"instance_id": [
+							"aws_instance.app.id",
+							"aws_instance.app",
+						],
+						"volume_id": [
+							"aws_ebs_volume.data.id",
+							"aws_ebs_volume.data",
+						],
+					},
+				},
+			},
+			"aws_vpc": {
+				"main": {
+					"config": {
+						"cidr_block":           "10.20.0.0/16",
+						"enable_dns_hostnames": true,
+						"enable_dns_support":   true,
+					},
+					"provisioners": null,
+					"references": {
+						"cidr_block":           [],
+						"enable_dns_hostnames": [],
+						"enable_dns_support":   [],
+						"tags": [
+							"var.name_prefix",
+						],
+					},
+				},
+			},
+			"aws_vpc_security_group_egress_rule": {
+				"https_out": {
+					"config": {
+						"cidr_ipv4":   "0.0.0.0/0",
+						"description": "HTTPS out for package updates",
+						"from_port":   443,
+						"ip_protocol": "tcp",
+						"to_port":     443,
+					},
+					"provisioners": null,
+					"references": {
+						"cidr_ipv4":   [],
+						"description": [],
+						"from_port":   [],
+						"ip_protocol": [],
+						"security_group_id": [
+							"aws_security_group.app.id",
+							"aws_security_group.app",
+						],
+						"to_port": [],
+					},
+				},
+			},
+			"aws_vpc_security_group_ingress_rule": {
+				"admin_ssh": {
+					"config": {
+						"description": "SSH from the approved Irish admin network",
+						"from_port":   22,
+						"ip_protocol": "tcp",
+						"to_port":     22,
+					},
+					"provisioners": null,
+					"references": {
+						"cidr_ipv4": [
+							"var.admin_ssh_cidr",
+						],
+						"description": [],
+						"from_port":   [],
+						"ip_protocol": [],
+						"security_group_id": [
+							"aws_security_group.app.id",
+							"aws_security_group.app",
+						],
+						"to_port": [],
+					},
+				},
+				"debug_all": {
+					"config": {
+						"cidr_ipv4":   "0.0.0.0/0",
+						"description": "Debug rule: all traffic from anywhere",
+						"ip_protocol": "-1",
+					},
+					"provisioners": null,
+					"references": {
+						"cidr_ipv4":   [],
+						"description": [],
+						"ip_protocol": [],
+						"security_group_id": [
+							"aws_security_group.app.id",
+							"aws_security_group.app",
+						],
+					},
+				},
+			},
+		},
+		"variables": {
+			"admin_ssh_cidr": {
+				"default":     "203.0.113.0/24",
+				"description": "Network allowed to SSH in. 203.0.113.0/24 (RFC 5737 documentation range) stands in for the Irish office VPN.",
+			},
+			"ami_id": {
+				"default":     "ami-0123456789abcdef0",
+				"description": "Placeholder AMI ID. Plan-only mode cannot look AMIs up, so a fixed ID is used.",
+			},
+			"associate_public_ip": {
+				"default":     false,
+				"description": "Give the instance a public IP address.",
+			},
+			"aws_region": {
+				"default":     "eu-west-1",
+				"description": "Default AWS region for the provider. Ireland is eu-west-1.",
+			},
+			"backup_copy_vault_arn": {
+				"default":     "",
+				"description": "Optional backup copy target vault ARN. Empty string means no copy.",
+			},
+			"ebs_encrypted": {
+				"default":     true,
+				"description": "Encrypt the root and data EBS volumes.",
+			},
+			"imds_http_tokens": {
+				"default":     "required",
+				"description": "IMDS token setting: \"required\" means IMDSv2 only.",
+			},
+			"instance_type": {
+				"default":     "t3.micro",
+				"description": "EC2 instance type for the application server.",
+			},
+			"name_prefix": {
+				"default":     "atul00206134",
+				"description": "Prefix for resource names.",
+			},
+			"offline_plan": {
+				"default":     true,
+				"description": "Plan-only lab mode: skip AWS credential and account checks so no real AWS account is needed.",
+			},
+			"open_all_ports": {
+				"default":     false,
+				"description": "Adds an allow-everything ingress rule from the internet. Only used by the non-compliant scenario.",
+			},
+			"replica_region": {
+				"default":     "eu-west-1",
+				"description": "Region of the S3 replication target bucket (AWS provider v6 per-resource region).",
+			},
+		},
+	},
+
+	"module.sensitive_bucket": {
+		"data":    {},
+		"modules": {},
+		"outputs": {
+			"bucket_arn": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"aws_s3_bucket.this.arn",
+					"aws_s3_bucket.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"bucket_id": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"aws_s3_bucket.this.id",
+					"aws_s3_bucket.this",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {},
+		"resources": {
+			"aws_s3_bucket": {
+				"this": {
+					"config":       {},
+					"provisioners": null,
+					"references": {
+						"bucket": [
+							"var.bucket_name",
+						],
+						"tags": [
+							"var.classification",
+						],
+					},
+				},
+			},
+			"aws_s3_bucket_public_access_block": {
+				"this": {
+					"config": {
+						"block_public_acls":       true,
+						"block_public_policy":     true,
+						"ignore_public_acls":      true,
+						"restrict_public_buckets": true,
+					},
+					"provisioners": null,
+					"references": {
+						"block_public_acls":   [],
+						"block_public_policy": [],
+						"bucket": [
+							"aws_s3_bucket.this.id",
+							"aws_s3_bucket.this",
+						],
+						"ignore_public_acls":      [],
+						"restrict_public_buckets": [],
+					},
+				},
+			},
+			"aws_s3_bucket_server_side_encryption_configuration": {
+				"this": {
+					"config": {
+						"rule": [
+							{
+								"apply_server_side_encryption_by_default": [
+									{
+										"sse_algorithm": "aws:kms",
+									},
+								],
+								"bucket_key_enabled": true,
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"bucket": [
+							"aws_s3_bucket.this.id",
+							"aws_s3_bucket.this",
+						],
+						"rule": [
+							{
+								"apply_server_side_encryption_by_default": [
+									{
+										"kms_master_key_id": [
+											"var.kms_key_arn",
+										],
+										"sse_algorithm": [],
+									},
+								],
+								"bucket_key_enabled": [],
+							},
+						],
+					},
+				},
+			},
+			"aws_s3_bucket_versioning": {
+				"this": {
+					"config": {
+						"versioning_configuration": [
+							{
+								"status": "Enabled",
+							},
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"bucket": [
+							"aws_s3_bucket.this.id",
+							"aws_s3_bucket.this",
+						],
+						"versioning_configuration": [
+							{
+								"status": [],
+							},
+						],
+					},
+				},
+			},
+		},
+		"variables": {
+			"bucket_name": {
+				"default":     null,
+				"description": "Globally unique bucket name.",
+			},
+			"classification": {
+				"default":     "sensitive",
+				"description": "Value for the DataClassification tag.",
+			},
+			"kms_key_arn": {
+				"default":     null,
+				"description": "KMS key used for server-side encryption.",
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+	[
+		"sensitive_bucket",
+	],
+]
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+modules = _modules.root.modules
+providers = _modules.root.providers
+resources = _modules.root.resources
+variables = _modules.root.variables
+outputs = _modules.root.outputs

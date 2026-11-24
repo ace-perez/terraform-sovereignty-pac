@@ -1,0 +1,4775 @@
+terraform_version = "1.17.1"
+
+planned_values = {
+	"outputs": {},
+	"resources": {
+		"aws_backup_plan.daily": {
+			"address":        "aws_backup_plan.daily",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "daily",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_backup_plan",
+			"values": {
+				"advanced_backup_setting": [],
+				"name":   "atul00206134-daily",
+				"region": "eu-west-1",
+				"rule": [
+					{
+						"completion_window": 180,
+						"copy_action": [
+							{
+								"destination_vault_arn": "arn:aws:backup:us-east-1:111122223333:backup-vault:dr-us-east-1",
+								"lifecycle": [
+									{
+										"cold_storage_after": null,
+										"delete_after":       35,
+									},
+								],
+							},
+						],
+						"enable_continuous_backup": false,
+						"lifecycle": [
+							{
+								"cold_storage_after": null,
+								"delete_after":       35,
+							},
+						],
+						"recovery_point_tags":                          null,
+						"rule_name":                                    "daily-35-day-retention",
+						"scan_action":                                  [],
+						"schedule":                                     "cron(0 3 * * ? *)",
+						"schedule_expression_timezone":                 "Etc/UTC",
+						"start_window":                                 60,
+						"target_logically_air_gapped_backup_vault_arn": "",
+						"target_vault_name":                            "atul00206134-primary",
+					},
+				],
+				"scan_setting": [],
+				"tags":         null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+			},
+		},
+		"aws_backup_vault.primary": {
+			"address":        "aws_backup_vault.primary",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "primary",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_backup_vault",
+			"values": {
+				"force_destroy": false,
+				"name":          "atul00206134-primary",
+				"region":        "eu-west-1",
+				"tags": {
+					"DataClassification": "sensitive",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts": null,
+			},
+		},
+		"aws_ebs_volume.data": {
+			"address":        "aws_ebs_volume.data",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "data",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_ebs_volume",
+			"values": {
+				"availability_zone":    "eu-west-1a",
+				"encrypted":            false,
+				"final_snapshot":       false,
+				"multi_attach_enabled": null,
+				"outpost_arn":          null,
+				"region":               "eu-west-1",
+				"size":                 10,
+				"tags": {
+					"DataClassification": "sensitive",
+					"Name":               "atul00206134-data",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Name":               "atul00206134-data",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts": null,
+				"type":     "gp3",
+				"volume_initialization_rate": null,
+			},
+		},
+		"aws_iam_role.replication": {
+			"address":        "aws_iam_role.replication",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "replication",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_iam_role",
+			"values": {
+				"assume_role_policy":    "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"s3.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+				"description":           null,
+				"force_detach_policies": false,
+				"max_session_duration":  3600,
+				"name":                  "atul00206134-s3-replication",
+				"path":                  "/",
+				"permissions_boundary":  null,
+				"tags":                  null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+			},
+		},
+		"aws_iam_role_policy.replication": {
+			"address":        "aws_iam_role_policy.replication",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "replication",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_iam_role_policy",
+			"values": {
+				"name": "atul00206134-s3-replication",
+			},
+		},
+		"aws_instance.app": {
+			"address":        "aws_instance.app",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "app",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_instance",
+			"values": {
+				"ami": "ami-0123456789abcdef0",
+				"associate_public_ip_address": true,
+				"credit_specification":        [],
+				"force_destroy":               false,
+				"get_password_data":           false,
+				"hibernation":                 null,
+				"instance_type":               "m5.4xlarge",
+				"launch_template":             [],
+				"metadata_options": [
+					{
+						"http_endpoint":               "enabled",
+						"http_protocol_ipv6":          "disabled",
+						"http_put_response_hop_limit": 1,
+						"http_tokens":                 "optional",
+					},
+				],
+				"region": "eu-west-1",
+				"root_block_device": [
+					{
+						"delete_on_termination": true,
+						"encrypted":             false,
+						"tags":                  null,
+						"volume_size":           20,
+						"volume_type":           "gp3",
+					},
+				],
+				"source_dest_check": true,
+				"tags": {
+					"DataClassification": "internal",
+					"Name":               "atul00206134-app",
+				},
+				"tags_all": {
+					"DataClassification": "internal",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Name":               "atul00206134-app",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts":                    null,
+				"user_data":                   null,
+				"user_data_replace_on_change": false,
+				"volume_tags":                 null,
+			},
+		},
+		"aws_kms_key.sensitive": {
+			"address":        "aws_kms_key.sensitive",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "sensitive",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_kms_key",
+			"values": {
+				"bypass_policy_lockout_safety_check": false,
+				"custom_key_store_id":                null,
+				"customer_master_key_spec":           "SYMMETRIC_DEFAULT",
+				"deletion_window_in_days":            7,
+				"description":                        "Key for sensitive data held in Ireland",
+				"enable_key_rotation":                true,
+				"is_enabled":                         true,
+				"key_usage":                          "ENCRYPT_DECRYPT",
+				"region":                             "eu-west-1",
+				"tags": {
+					"DataClassification": "sensitive",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts":   null,
+				"xks_key_id": null,
+			},
+		},
+		"aws_s3_bucket.replica": {
+			"address":        "aws_s3_bucket.replica",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "replica",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_s3_bucket",
+			"values": {
+				"bucket":        "atul00206134-sensitive-records-replica",
+				"force_destroy": false,
+				"region":        "us-east-1",
+				"tags": {
+					"DataClassification": "sensitive",
+					"Purpose":            "replication-target",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Organisation":       "ATUL0012345",
+					"Purpose":            "replication-target",
+				},
+				"timeouts": null,
+			},
+		},
+		"aws_s3_bucket_replication_configuration.sensitive": {
+			"address":        "aws_s3_bucket_replication_configuration.sensitive",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "sensitive",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_s3_bucket_replication_configuration",
+			"values": {
+				"region": "eu-west-1",
+				"rule": [
+					{
+						"delete_marker_replication": [
+							{
+								"status": "Disabled",
+							},
+						],
+						"destination": [
+							{
+								"access_control_translation": [],
+								"account":                    null,
+								"encryption_configuration": [
+									{},
+								],
+								"metrics":          [],
+								"replication_time": [],
+								"storage_class":    "STANDARD",
+							},
+						],
+						"existing_object_replication": [],
+						"filter": [
+							{
+								"and":    [],
+								"prefix": null,
+								"tag":    [],
+							},
+						],
+						"id":       "replicate-sensitive-records",
+						"prefix":   null,
+						"priority": null,
+						"source_selection_criteria": [
+							{
+								"replica_modifications": [],
+								"sse_kms_encrypted_objects": [
+									{
+										"status": "Enabled",
+									},
+								],
+							},
+						],
+						"status": "Enabled",
+					},
+				],
+				"token": "REDACTED_SENSITIVE",
+			},
+		},
+		"aws_s3_bucket_versioning.replica": {
+			"address":        "aws_s3_bucket_versioning.replica",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "replica",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_s3_bucket_versioning",
+			"values": {
+				"expected_bucket_owner": null,
+				"mfa":    null,
+				"region": "us-east-1",
+				"versioning_configuration": [
+					{
+						"status": "Enabled",
+					},
+				],
+			},
+		},
+		"aws_security_group.app": {
+			"address":        "aws_security_group.app",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "app",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_security_group",
+			"values": {
+				"description":            "App server: admin SSH from the approved network only",
+				"name":                   "atul00206134-app",
+				"region":                 "eu-west-1",
+				"revoke_rules_on_delete": false,
+				"tags": {
+					"Name": "atul00206134-app",
+				},
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Name":         "atul00206134-app",
+					"Organisation": "ATUL0012345",
+				},
+				"timeouts": null,
+			},
+		},
+		"aws_subnet.private": {
+			"address":        "aws_subnet.private",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "private",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_subnet",
+			"values": {
+				"assign_ipv6_address_on_creation":                false,
+				"availability_zone":                              "eu-west-1a",
+				"cidr_block":                                     "10.20.1.0/24",
+				"customer_owned_ipv4_pool":                       null,
+				"enable_dns64":                                   false,
+				"enable_lni_at_device_index":                     null,
+				"enable_resource_name_dns_a_record_on_launch":    false,
+				"enable_resource_name_dns_aaaa_record_on_launch": false,
+				"ipv4_ipam_pool_id":                              null,
+				"ipv4_netmask_length":                            null,
+				"ipv6_ipam_pool_id":                              null,
+				"ipv6_native":                                    false,
+				"ipv6_netmask_length":                            null,
+				"map_customer_owned_ip_on_launch":                null,
+				"map_public_ip_on_launch":                        false,
+				"outpost_arn":                                    null,
+				"region":                                         "eu-west-1",
+				"tags": {
+					"Name": "atul00206134-private-a",
+				},
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Name":         "atul00206134-private-a",
+					"Organisation": "ATUL0012345",
+				},
+				"timeouts": null,
+			},
+		},
+		"aws_volume_attachment.data": {
+			"address":        "aws_volume_attachment.data",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "data",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_volume_attachment",
+			"values": {
+				"device_name":                    "/dev/sdf",
+				"force_detach":                   null,
+				"region":                         "eu-west-1",
+				"skip_destroy":                   null,
+				"stop_instance_before_detaching": null,
+				"timeouts":                       null,
+			},
+		},
+		"aws_vpc.main": {
+			"address":        "aws_vpc.main",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "main",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_vpc",
+			"values": {
+				"assign_generated_ipv6_cidr_block": null,
+				"cidr_block":                       "10.20.0.0/16",
+				"enable_dns_hostnames":             true,
+				"enable_dns_support":               true,
+				"instance_tenancy":                 "default",
+				"ipv4_ipam_pool_id":                null,
+				"ipv4_netmask_length":              null,
+				"ipv6_ipam_pool_id":                null,
+				"ipv6_netmask_length":              null,
+				"region":                           "eu-west-1",
+				"tags": {
+					"Name": "atul00206134-vpc",
+				},
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Name":         "atul00206134-vpc",
+					"Organisation": "ATUL0012345",
+				},
+			},
+		},
+		"aws_vpc_security_group_egress_rule.https_out": {
+			"address":        "aws_vpc_security_group_egress_rule.https_out",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "https_out",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_vpc_security_group_egress_rule",
+			"values": {
+				"cidr_ipv4":                    "0.0.0.0/0",
+				"cidr_ipv6":                    null,
+				"description":                  "HTTPS out for package updates",
+				"from_port":                    443,
+				"ip_protocol":                  "tcp",
+				"prefix_list_id":               null,
+				"referenced_security_group_id": null,
+				"region":                       "eu-west-1",
+				"tags":                         null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+				"to_port": 443,
+			},
+		},
+		"aws_vpc_security_group_ingress_rule.admin_ssh": {
+			"address":        "aws_vpc_security_group_ingress_rule.admin_ssh",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "admin_ssh",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_vpc_security_group_ingress_rule",
+			"values": {
+				"cidr_ipv4":                    "0.0.0.0/0",
+				"cidr_ipv6":                    null,
+				"description":                  "SSH from the approved Irish admin network",
+				"from_port":                    22,
+				"ip_protocol":                  "tcp",
+				"prefix_list_id":               null,
+				"referenced_security_group_id": null,
+				"region":                       "eu-west-1",
+				"tags":                         null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+				"to_port": 22,
+			},
+		},
+		"aws_vpc_security_group_ingress_rule.debug_all[0]": {
+			"address":        "aws_vpc_security_group_ingress_rule.debug_all[0]",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          0,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "debug_all",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_vpc_security_group_ingress_rule",
+			"values": {
+				"cidr_ipv4":                    "0.0.0.0/0",
+				"cidr_ipv6":                    null,
+				"description":                  "Debug rule: all traffic from anywhere",
+				"from_port":                    null,
+				"ip_protocol":                  "-1",
+				"prefix_list_id":               null,
+				"referenced_security_group_id": null,
+				"region":                       "eu-west-1",
+				"tags":                         null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+				"to_port": null,
+			},
+		},
+		"module.sensitive_bucket.aws_s3_bucket.this": {
+			"address":        "module.sensitive_bucket.aws_s3_bucket.this",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "module.sensitive_bucket",
+			"name":           "this",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_s3_bucket",
+			"values": {
+				"bucket":        "atul00206134-sensitive-records",
+				"force_destroy": false,
+				"region":        "eu-west-1",
+				"tags": {
+					"DataClassification": "sensitive",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts": null,
+			},
+		},
+		"module.sensitive_bucket.aws_s3_bucket_public_access_block.this": {
+			"address":        "module.sensitive_bucket.aws_s3_bucket_public_access_block.this",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "module.sensitive_bucket",
+			"name":           "this",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_s3_bucket_public_access_block",
+			"values": {
+				"block_public_acls":       true,
+				"block_public_policy":     true,
+				"ignore_public_acls":      true,
+				"region":                  "eu-west-1",
+				"restrict_public_buckets": true,
+				"skip_destroy":            null,
+			},
+		},
+		"module.sensitive_bucket.aws_s3_bucket_server_side_encryption_configuration.this": {
+			"address":        "module.sensitive_bucket.aws_s3_bucket_server_side_encryption_configuration.this",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "module.sensitive_bucket",
+			"name":           "this",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_s3_bucket_server_side_encryption_configuration",
+			"values": {
+				"expected_bucket_owner": null,
+				"region":                "eu-west-1",
+				"rule": [
+					{
+						"apply_server_side_encryption_by_default": [
+							{
+								"sse_algorithm": "aws:kms",
+							},
+						],
+						"bucket_key_enabled": true,
+					},
+				],
+			},
+		},
+		"module.sensitive_bucket.aws_s3_bucket_versioning.this": {
+			"address":        "module.sensitive_bucket.aws_s3_bucket_versioning.this",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "module.sensitive_bucket",
+			"name":           "this",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"tainted":        false,
+			"type":           "aws_s3_bucket_versioning",
+			"values": {
+				"expected_bucket_owner": null,
+				"mfa":    null,
+				"region": "eu-west-1",
+				"versioning_configuration": [
+					{
+						"status": "Enabled",
+					},
+				],
+			},
+		},
+	},
+}
+
+variables = {
+	"admin_ssh_cidr": {
+		"name":  "admin_ssh_cidr",
+		"value": "0.0.0.0/0",
+	},
+	"ami_id": {
+		"name":  "ami_id",
+		"value": "ami-0123456789abcdef0",
+	},
+	"associate_public_ip": {
+		"name":  "associate_public_ip",
+		"value": true,
+	},
+	"aws_region": {
+		"name":  "aws_region",
+		"value": "eu-west-1",
+	},
+	"backup_copy_vault_arn": {
+		"name":  "backup_copy_vault_arn",
+		"value": "arn:aws:backup:us-east-1:111122223333:backup-vault:dr-us-east-1",
+	},
+	"ebs_encrypted": {
+		"name":  "ebs_encrypted",
+		"value": false,
+	},
+	"imds_http_tokens": {
+		"name":  "imds_http_tokens",
+		"value": "optional",
+	},
+	"instance_type": {
+		"name":  "instance_type",
+		"value": "m5.4xlarge",
+	},
+	"name_prefix": {
+		"name":  "name_prefix",
+		"value": "atul00206134",
+	},
+	"offline_plan": {
+		"name":  "offline_plan",
+		"value": true,
+	},
+	"open_all_ports": {
+		"name":  "open_all_ports",
+		"value": true,
+	},
+	"replica_region": {
+		"name":  "replica_region",
+		"value": "us-east-1",
+	},
+}
+
+resource_changes = {
+	"aws_backup_plan.daily": {
+		"address": "aws_backup_plan.daily",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"advanced_backup_setting": [],
+				"name":   "atul00206134-daily",
+				"region": "eu-west-1",
+				"rule": [
+					{
+						"completion_window": 180,
+						"copy_action": [
+							{
+								"destination_vault_arn": "arn:aws:backup:us-east-1:111122223333:backup-vault:dr-us-east-1",
+								"lifecycle": [
+									{
+										"cold_storage_after": null,
+										"delete_after":       35,
+									},
+								],
+							},
+						],
+						"enable_continuous_backup": false,
+						"lifecycle": [
+							{
+								"cold_storage_after": null,
+								"delete_after":       35,
+							},
+						],
+						"recovery_point_tags":                          null,
+						"rule_name":                                    "daily-35-day-retention",
+						"scan_action":                                  [],
+						"schedule":                                     "cron(0 3 * * ? *)",
+						"schedule_expression_timezone":                 "Etc/UTC",
+						"start_window":                                 60,
+						"target_logically_air_gapped_backup_vault_arn": "",
+						"target_vault_name":                            "atul00206134-primary",
+					},
+				],
+				"scan_setting": [],
+				"tags":         null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+			},
+			"after_unknown": {
+				"advanced_backup_setting": [],
+				"arn": true,
+				"id":  true,
+				"rule": [
+					{
+						"copy_action": [
+							{
+								"lifecycle": [
+									{
+										"opt_in_to_archive_for_supported_resources": true,
+									},
+								],
+							},
+						],
+						"lifecycle": [
+							{
+								"opt_in_to_archive_for_supported_resources": true,
+							},
+						],
+						"rule_id":     true,
+						"scan_action": [],
+					},
+				],
+				"scan_setting": [],
+				"tags_all":     {},
+				"version":      true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "daily",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_backup_plan",
+	},
+	"aws_backup_vault.primary": {
+		"address": "aws_backup_vault.primary",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"force_destroy": false,
+				"name":          "atul00206134-primary",
+				"region":        "eu-west-1",
+				"tags": {
+					"DataClassification": "sensitive",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"arn":             true,
+				"id":              true,
+				"kms_key_arn":     true,
+				"recovery_points": true,
+				"tags":            {},
+				"tags_all":        {},
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "primary",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_backup_vault",
+	},
+	"aws_ebs_volume.data": {
+		"address": "aws_ebs_volume.data",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"availability_zone":    "eu-west-1a",
+				"encrypted":            false,
+				"final_snapshot":       false,
+				"multi_attach_enabled": null,
+				"outpost_arn":          null,
+				"region":               "eu-west-1",
+				"size":                 10,
+				"tags": {
+					"DataClassification": "sensitive",
+					"Name":               "atul00206134-data",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Name":               "atul00206134-data",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts": null,
+				"type":     "gp3",
+				"volume_initialization_rate": null,
+			},
+			"after_unknown": {
+				"arn":         true,
+				"create_time": true,
+				"id":          true,
+				"iops":        true,
+				"kms_key_id":  true,
+				"snapshot_id": true,
+				"tags":        {},
+				"tags_all":    {},
+				"throughput":  true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "data",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_ebs_volume",
+	},
+	"aws_iam_role.replication": {
+		"address": "aws_iam_role.replication",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"assume_role_policy":    "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"s3.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+				"description":           null,
+				"force_detach_policies": false,
+				"max_session_duration":  3600,
+				"name":                  "atul00206134-s3-replication",
+				"path":                  "/",
+				"permissions_boundary":  null,
+				"tags":                  null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+			},
+			"after_unknown": {
+				"arn":                 true,
+				"create_date":         true,
+				"id":                  true,
+				"inline_policy":       true,
+				"managed_policy_arns": true,
+				"name_prefix":         true,
+				"tags_all":            {},
+				"unique_id":           true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "replication",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_iam_role",
+	},
+	"aws_iam_role_policy.replication": {
+		"address": "aws_iam_role_policy.replication",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"name": "atul00206134-s3-replication",
+			},
+			"after_unknown": {
+				"id":          true,
+				"name_prefix": true,
+				"policy":      true,
+				"role":        true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "replication",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_iam_role_policy",
+	},
+	"aws_instance.app": {
+		"address": "aws_instance.app",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"ami": "ami-0123456789abcdef0",
+				"associate_public_ip_address": true,
+				"credit_specification":        [],
+				"force_destroy":               false,
+				"get_password_data":           false,
+				"hibernation":                 null,
+				"instance_type":               "m5.4xlarge",
+				"launch_template":             [],
+				"metadata_options": [
+					{
+						"http_endpoint":               "enabled",
+						"http_protocol_ipv6":          "disabled",
+						"http_put_response_hop_limit": 1,
+						"http_tokens":                 "optional",
+					},
+				],
+				"region": "eu-west-1",
+				"root_block_device": [
+					{
+						"delete_on_termination": true,
+						"encrypted":             false,
+						"tags":                  null,
+						"volume_size":           20,
+						"volume_type":           "gp3",
+					},
+				],
+				"source_dest_check": true,
+				"tags": {
+					"DataClassification": "internal",
+					"Name":               "atul00206134-app",
+				},
+				"tags_all": {
+					"DataClassification": "internal",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Name":               "atul00206134-app",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts":                    null,
+				"user_data":                   null,
+				"user_data_replace_on_change": false,
+				"volume_tags":                 null,
+			},
+			"after_unknown": {
+				"arn":                                true,
+				"availability_zone":                  true,
+				"capacity_reservation_specification": true,
+				"cpu_options":                        true,
+				"credit_specification":               [],
+				"disable_api_stop":                   true,
+				"disable_api_termination":            true,
+				"ebs_block_device":                   true,
+				"ebs_optimized":                      true,
+				"enable_primary_ipv6":                true,
+				"enclave_options":                    true,
+				"ephemeral_block_device":             true,
+				"host_id":                            true,
+				"host_resource_group_arn":            true,
+				"iam_instance_profile":               true,
+				"id": true,
+				"instance_initiated_shutdown_behavior": true,
+				"instance_lifecycle":                   true,
+				"instance_market_options":              true,
+				"instance_state":                       true,
+				"ipv6_address_count":                   true,
+				"ipv6_addresses":                       true,
+				"key_name":                             true,
+				"launch_template":                      [],
+				"maintenance_options":                  true,
+				"metadata_options": [
+					{
+						"instance_metadata_tags": true,
+					},
+				],
+				"monitoring":                   true,
+				"network_interface":            true,
+				"outpost_arn":                  true,
+				"password_data":                true,
+				"placement_group":              true,
+				"placement_group_id":           true,
+				"placement_partition_number":   true,
+				"primary_network_interface":    true,
+				"primary_network_interface_id": true,
+				"private_dns":                  true,
+				"private_dns_name_options":     true,
+				"private_ip":                   true,
+				"public_dns":                   true,
+				"public_ip":                    true,
+				"root_block_device": [
+					{
+						"device_name": true,
+						"iops":        true,
+						"kms_key_id":  true,
+						"tags_all":    true,
+						"throughput":  true,
+						"volume_id":   true,
+					},
+				],
+				"secondary_network_interface": true,
+				"secondary_private_ips":       true,
+				"security_groups":             true,
+				"spot_instance_request_id":    true,
+				"subnet_id":                   true,
+				"tags":                        {},
+				"tags_all":                    {},
+				"tenancy":                     true,
+				"user_data_base64":            true,
+				"vpc_security_group_ids":      true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "app",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_instance",
+	},
+	"aws_kms_key.sensitive": {
+		"address": "aws_kms_key.sensitive",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"bypass_policy_lockout_safety_check": false,
+				"custom_key_store_id":                null,
+				"customer_master_key_spec":           "SYMMETRIC_DEFAULT",
+				"deletion_window_in_days":            7,
+				"description":                        "Key for sensitive data held in Ireland",
+				"enable_key_rotation":                true,
+				"is_enabled":                         true,
+				"key_usage":                          "ENCRYPT_DECRYPT",
+				"region":                             "eu-west-1",
+				"tags": {
+					"DataClassification": "sensitive",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts":   null,
+				"xks_key_id": null,
+			},
+			"after_unknown": {
+				"arn":                     true,
+				"id":                      true,
+				"key_id":                  true,
+				"multi_region":            true,
+				"policy":                  true,
+				"rotation_period_in_days": true,
+				"tags":     {},
+				"tags_all": {},
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "sensitive",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_kms_key",
+	},
+	"aws_s3_bucket.replica": {
+		"address": "aws_s3_bucket.replica",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"bucket":        "atul00206134-sensitive-records-replica",
+				"force_destroy": false,
+				"region":        "us-east-1",
+				"tags": {
+					"DataClassification": "sensitive",
+					"Purpose":            "replication-target",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Organisation":       "ATUL0012345",
+					"Purpose":            "replication-target",
+				},
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"acceleration_status": true,
+				"acl":                                  true,
+				"arn":                                  true,
+				"bucket_domain_name":                   true,
+				"bucket_namespace":                     true,
+				"bucket_prefix":                        true,
+				"bucket_region":                        true,
+				"bucket_regional_domain_name":          true,
+				"cors_rule":                            true,
+				"grant":                                true,
+				"hosted_zone_id":                       true,
+				"id":                                   true,
+				"lifecycle_rule":                       true,
+				"logging":                              true,
+				"object_lock_configuration":            true,
+				"object_lock_enabled":                  true,
+				"policy":                               true,
+				"replication_configuration":            true,
+				"request_payer":                        true,
+				"server_side_encryption_configuration": true,
+				"tags":             {},
+				"tags_all":         {},
+				"versioning":       true,
+				"website":          true,
+				"website_domain":   true,
+				"website_endpoint": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "replica",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_s3_bucket",
+	},
+	"aws_s3_bucket_replication_configuration.sensitive": {
+		"address": "aws_s3_bucket_replication_configuration.sensitive",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"region": "eu-west-1",
+				"rule": [
+					{
+						"delete_marker_replication": [
+							{
+								"status": "Disabled",
+							},
+						],
+						"destination": [
+							{
+								"access_control_translation": [],
+								"account":                    null,
+								"encryption_configuration": [
+									{},
+								],
+								"metrics":          [],
+								"replication_time": [],
+								"storage_class":    "STANDARD",
+							},
+						],
+						"existing_object_replication": [],
+						"filter": [
+							{
+								"and":    [],
+								"prefix": null,
+								"tag":    [],
+							},
+						],
+						"id":       "replicate-sensitive-records",
+						"prefix":   null,
+						"priority": null,
+						"source_selection_criteria": [
+							{
+								"replica_modifications": [],
+								"sse_kms_encrypted_objects": [
+									{
+										"status": "Enabled",
+									},
+								],
+							},
+						],
+						"status": "Enabled",
+					},
+				],
+				"token": "REDACTED_SENSITIVE",
+			},
+			"after_unknown": {
+				"bucket": true,
+				"id":     true,
+				"role":   true,
+				"rule": [
+					{
+						"delete_marker_replication": [
+							{},
+						],
+						"destination": [
+							{
+								"access_control_translation": [],
+								"bucket":                     true,
+								"encryption_configuration": [
+									{
+										"replica_kms_key_id": true,
+									},
+								],
+								"metrics":          [],
+								"replication_time": [],
+							},
+						],
+						"existing_object_replication": [],
+						"filter": [
+							{
+								"and": [],
+								"tag": [],
+							},
+						],
+						"source_selection_criteria": [
+							{
+								"replica_modifications": [],
+								"sse_kms_encrypted_objects": [
+									{},
+								],
+							},
+						],
+					},
+				],
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "sensitive",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_s3_bucket_replication_configuration",
+	},
+	"aws_s3_bucket_versioning.replica": {
+		"address": "aws_s3_bucket_versioning.replica",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"expected_bucket_owner": null,
+				"mfa":    null,
+				"region": "us-east-1",
+				"versioning_configuration": [
+					{
+						"status": "Enabled",
+					},
+				],
+			},
+			"after_unknown": {
+				"bucket": true,
+				"id":     true,
+				"versioning_configuration": [
+					{
+						"mfa_delete": true,
+					},
+				],
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "replica",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_s3_bucket_versioning",
+	},
+	"aws_security_group.app": {
+		"address": "aws_security_group.app",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"description":            "App server: admin SSH from the approved network only",
+				"name":                   "atul00206134-app",
+				"region":                 "eu-west-1",
+				"revoke_rules_on_delete": false,
+				"tags": {
+					"Name": "atul00206134-app",
+				},
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Name":         "atul00206134-app",
+					"Organisation": "ATUL0012345",
+				},
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"arn":         true,
+				"egress":      true,
+				"id":          true,
+				"ingress":     true,
+				"name_prefix": true,
+				"owner_id":    true,
+				"tags":        {},
+				"tags_all":    {},
+				"vpc_id":      true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "app",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_security_group",
+	},
+	"aws_subnet.private": {
+		"address": "aws_subnet.private",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"assign_ipv6_address_on_creation":                false,
+				"availability_zone":                              "eu-west-1a",
+				"cidr_block":                                     "10.20.1.0/24",
+				"customer_owned_ipv4_pool":                       null,
+				"enable_dns64":                                   false,
+				"enable_lni_at_device_index":                     null,
+				"enable_resource_name_dns_a_record_on_launch":    false,
+				"enable_resource_name_dns_aaaa_record_on_launch": false,
+				"ipv4_ipam_pool_id":                              null,
+				"ipv4_netmask_length":                            null,
+				"ipv6_ipam_pool_id":                              null,
+				"ipv6_native":                                    false,
+				"ipv6_netmask_length":                            null,
+				"map_customer_owned_ip_on_launch":                null,
+				"map_public_ip_on_launch":                        false,
+				"outpost_arn":                                    null,
+				"region":                                         "eu-west-1",
+				"tags": {
+					"Name": "atul00206134-private-a",
+				},
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Name":         "atul00206134-private-a",
+					"Organisation": "ATUL0012345",
+				},
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"arn": true,
+				"availability_zone_id": true,
+				"id":                                  true,
+				"ipv6_cidr_block":                     true,
+				"ipv6_cidr_block_association_id":      true,
+				"owner_id":                            true,
+				"private_dns_hostname_type_on_launch": true,
+				"tags":     {},
+				"tags_all": {},
+				"vpc_id":   true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "private",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_subnet",
+	},
+	"aws_volume_attachment.data": {
+		"address": "aws_volume_attachment.data",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"device_name":                    "/dev/sdf",
+				"force_detach":                   null,
+				"region":                         "eu-west-1",
+				"skip_destroy":                   null,
+				"stop_instance_before_detaching": null,
+				"timeouts":                       null,
+			},
+			"after_unknown": {
+				"id":          true,
+				"instance_id": true,
+				"volume_id":   true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "data",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_volume_attachment",
+	},
+	"aws_vpc.main": {
+		"address": "aws_vpc.main",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"assign_generated_ipv6_cidr_block": null,
+				"cidr_block":                       "10.20.0.0/16",
+				"enable_dns_hostnames":             true,
+				"enable_dns_support":               true,
+				"instance_tenancy":                 "default",
+				"ipv4_ipam_pool_id":                null,
+				"ipv4_netmask_length":              null,
+				"ipv6_ipam_pool_id":                null,
+				"ipv6_netmask_length":              null,
+				"region":                           "eu-west-1",
+				"tags": {
+					"Name": "atul00206134-vpc",
+				},
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Name":         "atul00206134-vpc",
+					"Organisation": "ATUL0012345",
+				},
+			},
+			"after_unknown": {
+				"arn": true,
+				"default_network_acl_id":               true,
+				"default_route_table_id":               true,
+				"default_security_group_id":            true,
+				"dhcp_options_id":                      true,
+				"enable_network_address_usage_metrics": true,
+				"id": true,
+				"ipv6_association_id":                  true,
+				"ipv6_cidr_block":                      true,
+				"ipv6_cidr_block_network_border_group": true,
+				"main_route_table_id":                  true,
+				"owner_id":                             true,
+				"tags":                                 {},
+				"tags_all":                             {},
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "main",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_vpc",
+	},
+	"aws_vpc_security_group_egress_rule.https_out": {
+		"address": "aws_vpc_security_group_egress_rule.https_out",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"cidr_ipv4":                    "0.0.0.0/0",
+				"cidr_ipv6":                    null,
+				"description":                  "HTTPS out for package updates",
+				"from_port":                    443,
+				"ip_protocol":                  "tcp",
+				"prefix_list_id":               null,
+				"referenced_security_group_id": null,
+				"region":                       "eu-west-1",
+				"tags":                         null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+				"to_port": 443,
+			},
+			"after_unknown": {
+				"arn":                    true,
+				"id":                     true,
+				"security_group_id":      true,
+				"security_group_rule_id": true,
+				"tags_all":               {},
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "https_out",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_vpc_security_group_egress_rule",
+	},
+	"aws_vpc_security_group_ingress_rule.admin_ssh": {
+		"address": "aws_vpc_security_group_ingress_rule.admin_ssh",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"cidr_ipv4":                    "0.0.0.0/0",
+				"cidr_ipv6":                    null,
+				"description":                  "SSH from the approved Irish admin network",
+				"from_port":                    22,
+				"ip_protocol":                  "tcp",
+				"prefix_list_id":               null,
+				"referenced_security_group_id": null,
+				"region":                       "eu-west-1",
+				"tags":                         null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+				"to_port": 22,
+			},
+			"after_unknown": {
+				"arn":                    true,
+				"id":                     true,
+				"security_group_id":      true,
+				"security_group_rule_id": true,
+				"tags_all":               {},
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "admin_ssh",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_vpc_security_group_ingress_rule",
+	},
+	"aws_vpc_security_group_ingress_rule.debug_all[0]": {
+		"address": "aws_vpc_security_group_ingress_rule.debug_all[0]",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"cidr_ipv4":                    "0.0.0.0/0",
+				"cidr_ipv6":                    null,
+				"description":                  "Debug rule: all traffic from anywhere",
+				"from_port":                    null,
+				"ip_protocol":                  "-1",
+				"prefix_list_id":               null,
+				"referenced_security_group_id": null,
+				"region":                       "eu-west-1",
+				"tags":                         null,
+				"tags_all": {
+					"Jurisdiction": "IE",
+					"ManagedBy":    "terraform",
+					"Organisation": "ATUL0012345",
+				},
+				"to_port": null,
+			},
+			"after_unknown": {
+				"arn":                    true,
+				"id":                     true,
+				"security_group_id":      true,
+				"security_group_rule_id": true,
+				"tags_all":               {},
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          0,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "debug_all",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_vpc_security_group_ingress_rule",
+	},
+	"module.sensitive_bucket.aws_s3_bucket.this": {
+		"address": "module.sensitive_bucket.aws_s3_bucket.this",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"bucket":        "atul00206134-sensitive-records",
+				"force_destroy": false,
+				"region":        "eu-west-1",
+				"tags": {
+					"DataClassification": "sensitive",
+				},
+				"tags_all": {
+					"DataClassification": "sensitive",
+					"Jurisdiction":       "IE",
+					"ManagedBy":          "terraform",
+					"Organisation":       "ATUL0012345",
+				},
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"acceleration_status": true,
+				"acl":                                  true,
+				"arn":                                  true,
+				"bucket_domain_name":                   true,
+				"bucket_namespace":                     true,
+				"bucket_prefix":                        true,
+				"bucket_region":                        true,
+				"bucket_regional_domain_name":          true,
+				"cors_rule":                            true,
+				"grant":                                true,
+				"hosted_zone_id":                       true,
+				"id":                                   true,
+				"lifecycle_rule":                       true,
+				"logging":                              true,
+				"object_lock_configuration":            true,
+				"object_lock_enabled":                  true,
+				"policy":                               true,
+				"replication_configuration":            true,
+				"request_payer":                        true,
+				"server_side_encryption_configuration": true,
+				"tags":             {},
+				"tags_all":         {},
+				"versioning":       true,
+				"website":          true,
+				"website_domain":   true,
+				"website_endpoint": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "module.sensitive_bucket",
+		"name":           "this",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_s3_bucket",
+	},
+	"module.sensitive_bucket.aws_s3_bucket_public_access_block.this": {
+		"address": "module.sensitive_bucket.aws_s3_bucket_public_access_block.this",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"block_public_acls":       true,
+				"block_public_policy":     true,
+				"ignore_public_acls":      true,
+				"region":                  "eu-west-1",
+				"restrict_public_buckets": true,
+				"skip_destroy":            null,
+			},
+			"after_unknown": {
+				"bucket": true,
+				"id":     true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "module.sensitive_bucket",
+		"name":           "this",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_s3_bucket_public_access_block",
+	},
+	"module.sensitive_bucket.aws_s3_bucket_server_side_encryption_configuration.this": {
+		"address": "module.sensitive_bucket.aws_s3_bucket_server_side_encryption_configuration.this",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"expected_bucket_owner": null,
+				"region":                "eu-west-1",
+				"rule": [
+					{
+						"apply_server_side_encryption_by_default": [
+							{
+								"sse_algorithm": "aws:kms",
+							},
+						],
+						"bucket_key_enabled": true,
+					},
+				],
+			},
+			"after_unknown": {
+				"bucket": true,
+				"id":     true,
+				"rule": [
+					{
+						"apply_server_side_encryption_by_default": [
+							{
+								"kms_master_key_id": true,
+							},
+						],
+						"blocked_encryption_types": true,
+					},
+				],
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "module.sensitive_bucket",
+		"name":           "this",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_s3_bucket_server_side_encryption_configuration",
+	},
+	"module.sensitive_bucket.aws_s3_bucket_versioning.this": {
+		"address": "module.sensitive_bucket.aws_s3_bucket_versioning.this",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"expected_bucket_owner": null,
+				"mfa":    null,
+				"region": "eu-west-1",
+				"versioning_configuration": [
+					{
+						"status": "Enabled",
+					},
+				],
+			},
+			"after_unknown": {
+				"bucket": true,
+				"id":     true,
+				"versioning_configuration": [
+					{
+						"mfa_delete": true,
+					},
+				],
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "module.sensitive_bucket",
+		"name":           "this",
+		"provider_name":  "registry.terraform.io/hashicorp/aws",
+		"type":           "aws_s3_bucket_versioning",
+	},
+}
+
+resource_drift = {}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"aws": {
+				"expressions": {
+					"default_tags": [
+						{
+							"tags": {
+								"constant_value": {
+									"Jurisdiction": "IE",
+									"ManagedBy":    "terraform",
+									"Organisation": "ATUL0012345",
+								},
+							},
+						},
+					],
+					"region": {
+						"references": [
+							"var.aws_region",
+						],
+					},
+					"skip_credentials_validation": {
+						"references": [
+							"var.offline_plan",
+						],
+					},
+					"skip_metadata_api_check": {
+						"references": [
+							"var.offline_plan",
+						],
+					},
+					"skip_requesting_account_id": {
+						"references": [
+							"var.offline_plan",
+						],
+					},
+				},
+				"full_name":          "registry.terraform.io/hashicorp/aws",
+				"name":               "aws",
+				"version_constraint": "~> 6.0",
+			},
+		},
+		"root_module": {
+			"module_calls": {
+				"sensitive_bucket": {
+					"expressions": {
+						"bucket_name": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"classification": {
+							"constant_value": "sensitive",
+						},
+						"kms_key_arn": {
+							"references": [
+								"aws_kms_key.sensitive.arn",
+								"aws_kms_key.sensitive",
+							],
+						},
+					},
+					"module": {
+						"outputs": {
+							"bucket_arn": {
+								"expression": {
+									"references": [
+										"aws_s3_bucket.this.arn",
+										"aws_s3_bucket.this",
+									],
+								},
+							},
+							"bucket_id": {
+								"expression": {
+									"references": [
+										"aws_s3_bucket.this.id",
+										"aws_s3_bucket.this",
+									],
+								},
+							},
+						},
+						"resources": [
+							{
+								"address": "aws_s3_bucket.this",
+								"expressions": {
+									"bucket": {
+										"references": [
+											"var.bucket_name",
+										],
+									},
+									"tags": {
+										"references": [
+											"var.classification",
+										],
+									},
+								},
+								"mode":                "managed",
+								"name":                "this",
+								"provider_config_key": "aws",
+								"schema_version":      0,
+								"type":                "aws_s3_bucket",
+							},
+							{
+								"address": "aws_s3_bucket_public_access_block.this",
+								"expressions": {
+									"block_public_acls": {
+										"constant_value": true,
+									},
+									"block_public_policy": {
+										"constant_value": true,
+									},
+									"bucket": {
+										"references": [
+											"aws_s3_bucket.this.id",
+											"aws_s3_bucket.this",
+										],
+									},
+									"ignore_public_acls": {
+										"constant_value": true,
+									},
+									"restrict_public_buckets": {
+										"constant_value": true,
+									},
+								},
+								"mode":                "managed",
+								"name":                "this",
+								"provider_config_key": "aws",
+								"schema_version":      0,
+								"type":                "aws_s3_bucket_public_access_block",
+							},
+							{
+								"address": "aws_s3_bucket_server_side_encryption_configuration.this",
+								"expressions": {
+									"bucket": {
+										"references": [
+											"aws_s3_bucket.this.id",
+											"aws_s3_bucket.this",
+										],
+									},
+									"rule": [
+										{
+											"apply_server_side_encryption_by_default": [
+												{
+													"kms_master_key_id": {
+														"references": [
+															"var.kms_key_arn",
+														],
+													},
+													"sse_algorithm": {
+														"constant_value": "aws:kms",
+													},
+												},
+											],
+											"bucket_key_enabled": {
+												"constant_value": true,
+											},
+										},
+									],
+								},
+								"mode":                "managed",
+								"name":                "this",
+								"provider_config_key": "aws",
+								"schema_version":      0,
+								"type":                "aws_s3_bucket_server_side_encryption_configuration",
+							},
+							{
+								"address": "aws_s3_bucket_versioning.this",
+								"expressions": {
+									"bucket": {
+										"references": [
+											"aws_s3_bucket.this.id",
+											"aws_s3_bucket.this",
+										],
+									},
+									"versioning_configuration": [
+										{
+											"status": {
+												"constant_value": "Enabled",
+											},
+										},
+									],
+								},
+								"mode":                "managed",
+								"name":                "this",
+								"provider_config_key": "aws",
+								"schema_version":      0,
+								"type":                "aws_s3_bucket_versioning",
+							},
+						],
+						"variables": {
+							"bucket_name": {
+								"description": "Globally unique bucket name.",
+							},
+							"classification": {
+								"default":     "sensitive",
+								"description": "Value for the DataClassification tag.",
+							},
+							"kms_key_arn": {
+								"description": "KMS key used for server-side encryption.",
+							},
+						},
+					},
+					"source": "./modules/secure_bucket",
+				},
+			},
+			"resources": [
+				{
+					"address": "aws_backup_plan.daily",
+					"expressions": {
+						"name": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"rule": [
+							{
+								"lifecycle": [
+									{
+										"delete_after": {
+											"constant_value": 35,
+										},
+									},
+								],
+								"rule_name": {
+									"constant_value": "daily-35-day-retention",
+								},
+								"schedule": {
+									"constant_value": "cron(0 3 * * ? *)",
+								},
+								"target_vault_name": {
+									"references": [
+										"aws_backup_vault.primary.name",
+										"aws_backup_vault.primary",
+									],
+								},
+							},
+						],
+					},
+					"mode":                "managed",
+					"name":                "daily",
+					"provider_config_key": "aws",
+					"schema_version":      1,
+					"type":                "aws_backup_plan",
+				},
+				{
+					"address": "aws_backup_vault.primary",
+					"expressions": {
+						"kms_key_arn": {
+							"references": [
+								"aws_kms_key.sensitive.arn",
+								"aws_kms_key.sensitive",
+							],
+						},
+						"name": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"tags": {
+							"constant_value": {
+								"DataClassification": "sensitive",
+							},
+						},
+					},
+					"mode":                "managed",
+					"name":                "primary",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_backup_vault",
+				},
+				{
+					"address": "aws_ebs_volume.data",
+					"expressions": {
+						"availability_zone": {
+							"references": [
+								"aws_subnet.private.availability_zone",
+								"aws_subnet.private",
+							],
+						},
+						"encrypted": {
+							"references": [
+								"var.ebs_encrypted",
+							],
+						},
+						"kms_key_id": {
+							"references": [
+								"var.ebs_encrypted",
+								"aws_kms_key.sensitive.arn",
+								"aws_kms_key.sensitive",
+							],
+						},
+						"size": {
+							"constant_value": 10,
+						},
+						"tags": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"type": {
+							"constant_value": "gp3",
+						},
+					},
+					"mode":                "managed",
+					"name":                "data",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_ebs_volume",
+				},
+				{
+					"address": "aws_iam_role.replication",
+					"expressions": {
+						"assume_role_policy": {},
+						"name": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "replication",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_iam_role",
+				},
+				{
+					"address": "aws_iam_role_policy.replication",
+					"expressions": {
+						"name": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"policy": {
+							"references": [
+								"module.sensitive_bucket.bucket_arn",
+								"module.sensitive_bucket",
+								"module.sensitive_bucket.bucket_arn",
+								"module.sensitive_bucket",
+								"aws_s3_bucket.replica.arn",
+								"aws_s3_bucket.replica",
+								"aws_kms_key.sensitive.arn",
+								"aws_kms_key.sensitive",
+							],
+						},
+						"role": {
+							"references": [
+								"aws_iam_role.replication.id",
+								"aws_iam_role.replication",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "replication",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_iam_role_policy",
+				},
+				{
+					"address": "aws_instance.app",
+					"expressions": {
+						"ami": {
+							"references": [
+								"var.ami_id",
+							],
+						},
+						"associate_public_ip_address": {
+							"references": [
+								"var.associate_public_ip",
+							],
+						},
+						"instance_type": {
+							"references": [
+								"var.instance_type",
+							],
+						},
+						"metadata_options": [
+							{
+								"http_endpoint": {
+									"constant_value": "enabled",
+								},
+								"http_put_response_hop_limit": {
+									"constant_value": 1,
+								},
+								"http_tokens": {
+									"references": [
+										"var.imds_http_tokens",
+									],
+								},
+							},
+						],
+						"root_block_device": [
+							{
+								"encrypted": {
+									"references": [
+										"var.ebs_encrypted",
+									],
+								},
+								"kms_key_id": {
+									"references": [
+										"var.ebs_encrypted",
+										"aws_kms_key.sensitive.arn",
+										"aws_kms_key.sensitive",
+									],
+								},
+								"volume_size": {
+									"constant_value": 20,
+								},
+								"volume_type": {
+									"constant_value": "gp3",
+								},
+							},
+						],
+						"subnet_id": {
+							"references": [
+								"aws_subnet.private.id",
+								"aws_subnet.private",
+							],
+						},
+						"tags": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"vpc_security_group_ids": {
+							"references": [
+								"aws_security_group.app.id",
+								"aws_security_group.app",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "app",
+					"provider_config_key": "aws",
+					"schema_version":      2,
+					"type":                "aws_instance",
+				},
+				{
+					"address": "aws_kms_key.sensitive",
+					"expressions": {
+						"deletion_window_in_days": {
+							"constant_value": 7,
+						},
+						"description": {
+							"constant_value": "Key for sensitive data held in Ireland",
+						},
+						"enable_key_rotation": {
+							"constant_value": true,
+						},
+						"tags": {
+							"constant_value": {
+								"DataClassification": "sensitive",
+							},
+						},
+					},
+					"mode":                "managed",
+					"name":                "sensitive",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_kms_key",
+				},
+				{
+					"address": "aws_s3_bucket.replica",
+					"expressions": {
+						"bucket": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"region": {
+							"references": [
+								"var.replica_region",
+							],
+						},
+						"tags": {
+							"constant_value": {
+								"DataClassification": "sensitive",
+								"Purpose":            "replication-target",
+							},
+						},
+					},
+					"mode":                "managed",
+					"name":                "replica",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_s3_bucket",
+				},
+				{
+					"address": "aws_s3_bucket_replication_configuration.sensitive",
+					"depends_on": [
+						"module.sensitive_bucket",
+						"aws_s3_bucket_versioning.replica",
+					],
+					"expressions": {
+						"bucket": {
+							"references": [
+								"module.sensitive_bucket.bucket_id",
+								"module.sensitive_bucket",
+							],
+						},
+						"role": {
+							"references": [
+								"aws_iam_role.replication.arn",
+								"aws_iam_role.replication",
+							],
+						},
+						"rule": [
+							{
+								"delete_marker_replication": [
+									{
+										"status": {
+											"constant_value": "Disabled",
+										},
+									},
+								],
+								"destination": [
+									{
+										"bucket": {
+											"references": [
+												"aws_s3_bucket.replica.arn",
+												"aws_s3_bucket.replica",
+											],
+										},
+										"encryption_configuration": [
+											{
+												"replica_kms_key_id": {
+													"references": [
+														"aws_kms_key.sensitive.arn",
+														"aws_kms_key.sensitive",
+													],
+												},
+											},
+										],
+										"storage_class": {
+											"constant_value": "STANDARD",
+										},
+									},
+								],
+								"filter": [
+									{},
+								],
+								"id": {
+									"constant_value": "replicate-sensitive-records",
+								},
+								"source_selection_criteria": [
+									{
+										"sse_kms_encrypted_objects": [
+											{
+												"status": {
+													"constant_value": "Enabled",
+												},
+											},
+										],
+									},
+								],
+								"status": {
+									"constant_value": "Enabled",
+								},
+							},
+						],
+					},
+					"mode":                "managed",
+					"name":                "sensitive",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_s3_bucket_replication_configuration",
+				},
+				{
+					"address": "aws_s3_bucket_versioning.replica",
+					"expressions": {
+						"bucket": {
+							"references": [
+								"aws_s3_bucket.replica.id",
+								"aws_s3_bucket.replica",
+							],
+						},
+						"region": {
+							"references": [
+								"var.replica_region",
+							],
+						},
+						"versioning_configuration": [
+							{
+								"status": {
+									"constant_value": "Enabled",
+								},
+							},
+						],
+					},
+					"mode":                "managed",
+					"name":                "replica",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_s3_bucket_versioning",
+				},
+				{
+					"address": "aws_security_group.app",
+					"expressions": {
+						"description": {
+							"constant_value": "App server: admin SSH from the approved network only",
+						},
+						"name": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"tags": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"vpc_id": {
+							"references": [
+								"aws_vpc.main.id",
+								"aws_vpc.main",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "app",
+					"provider_config_key": "aws",
+					"schema_version":      1,
+					"type":                "aws_security_group",
+				},
+				{
+					"address": "aws_subnet.private",
+					"expressions": {
+						"availability_zone": {
+							"references": [
+								"var.aws_region",
+							],
+						},
+						"cidr_block": {
+							"constant_value": "10.20.1.0/24",
+						},
+						"tags": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+						"vpc_id": {
+							"references": [
+								"aws_vpc.main.id",
+								"aws_vpc.main",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "private",
+					"provider_config_key": "aws",
+					"schema_version":      1,
+					"type":                "aws_subnet",
+				},
+				{
+					"address": "aws_volume_attachment.data",
+					"expressions": {
+						"device_name": {
+							"constant_value": "/dev/sdf",
+						},
+						"instance_id": {
+							"references": [
+								"aws_instance.app.id",
+								"aws_instance.app",
+							],
+						},
+						"volume_id": {
+							"references": [
+								"aws_ebs_volume.data.id",
+								"aws_ebs_volume.data",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "data",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_volume_attachment",
+				},
+				{
+					"address": "aws_vpc.main",
+					"expressions": {
+						"cidr_block": {
+							"constant_value": "10.20.0.0/16",
+						},
+						"enable_dns_hostnames": {
+							"constant_value": true,
+						},
+						"enable_dns_support": {
+							"constant_value": true,
+						},
+						"tags": {
+							"references": [
+								"var.name_prefix",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "main",
+					"provider_config_key": "aws",
+					"schema_version":      1,
+					"type":                "aws_vpc",
+				},
+				{
+					"address": "aws_vpc_security_group_egress_rule.https_out",
+					"expressions": {
+						"cidr_ipv4": {
+							"constant_value": "0.0.0.0/0",
+						},
+						"description": {
+							"constant_value": "HTTPS out for package updates",
+						},
+						"from_port": {
+							"constant_value": 443,
+						},
+						"ip_protocol": {
+							"constant_value": "tcp",
+						},
+						"security_group_id": {
+							"references": [
+								"aws_security_group.app.id",
+								"aws_security_group.app",
+							],
+						},
+						"to_port": {
+							"constant_value": 443,
+						},
+					},
+					"mode":                "managed",
+					"name":                "https_out",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_vpc_security_group_egress_rule",
+				},
+				{
+					"address": "aws_vpc_security_group_ingress_rule.admin_ssh",
+					"expressions": {
+						"cidr_ipv4": {
+							"references": [
+								"var.admin_ssh_cidr",
+							],
+						},
+						"description": {
+							"constant_value": "SSH from the approved Irish admin network",
+						},
+						"from_port": {
+							"constant_value": 22,
+						},
+						"ip_protocol": {
+							"constant_value": "tcp",
+						},
+						"security_group_id": {
+							"references": [
+								"aws_security_group.app.id",
+								"aws_security_group.app",
+							],
+						},
+						"to_port": {
+							"constant_value": 22,
+						},
+					},
+					"mode":                "managed",
+					"name":                "admin_ssh",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_vpc_security_group_ingress_rule",
+				},
+				{
+					"address": "aws_vpc_security_group_ingress_rule.debug_all",
+					"count_expression": {
+						"references": [
+							"var.open_all_ports",
+						],
+					},
+					"expressions": {
+						"cidr_ipv4": {
+							"constant_value": "0.0.0.0/0",
+						},
+						"description": {
+							"constant_value": "Debug rule: all traffic from anywhere",
+						},
+						"ip_protocol": {
+							"constant_value": "-1",
+						},
+						"security_group_id": {
+							"references": [
+								"aws_security_group.app.id",
+								"aws_security_group.app",
+							],
+						},
+					},
+					"mode":                "managed",
+					"name":                "debug_all",
+					"provider_config_key": "aws",
+					"schema_version":      0,
+					"type":                "aws_vpc_security_group_ingress_rule",
+				},
+			],
+			"variables": {
+				"admin_ssh_cidr": {
+					"default":     "203.0.113.0/24",
+					"description": "Network allowed to SSH in. 203.0.113.0/24 (RFC 5737 documentation range) stands in for the Irish office VPN.",
+				},
+				"ami_id": {
+					"default":     "ami-0123456789abcdef0",
+					"description": "Placeholder AMI ID. Plan-only mode cannot look AMIs up, so a fixed ID is used.",
+				},
+				"associate_public_ip": {
+					"default":     false,
+					"description": "Give the instance a public IP address.",
+				},
+				"aws_region": {
+					"default":     "eu-west-1",
+					"description": "Default AWS region for the provider. Ireland is eu-west-1.",
+				},
+				"backup_copy_vault_arn": {
+					"default":     "",
+					"description": "Optional backup copy target vault ARN. Empty string means no copy.",
+				},
+				"ebs_encrypted": {
+					"default":     true,
+					"description": "Encrypt the root and data EBS volumes.",
+				},
+				"imds_http_tokens": {
+					"default":     "required",
+					"description": "IMDS token setting: \"required\" means IMDSv2 only.",
+				},
+				"instance_type": {
+					"default":     "t3.micro",
+					"description": "EC2 instance type for the application server.",
+				},
+				"name_prefix": {
+					"default":     "atul00206134",
+					"description": "Prefix for resource names.",
+				},
+				"offline_plan": {
+					"default":     true,
+					"description": "Plan-only lab mode: skip AWS credential and account checks so no real AWS account is needed.",
+				},
+				"open_all_ports": {
+					"default":     false,
+					"description": "Adds an allow-everything ingress rule from the internet. Only used by the non-compliant scenario.",
+				},
+				"replica_region": {
+					"default":     "eu-west-1",
+					"description": "Region of the S3 replication target bucket (AWS provider v6 per-resource region).",
+				},
+			},
+		},
+	},
+	"format_version": "1.2",
+	"planned_values": {
+		"root_module": {
+			"child_modules": [
+				{
+					"address": "module.sensitive_bucket",
+					"resources": [
+						{
+							"address":        "module.sensitive_bucket.aws_s3_bucket.this",
+							"mode":           "managed",
+							"name":           "this",
+							"provider_name":  "registry.terraform.io/hashicorp/aws",
+							"schema_version": 0,
+							"sensitive_values": {
+								"cors_rule":                            [],
+								"grant":                                [],
+								"lifecycle_rule":                       [],
+								"logging":                              [],
+								"object_lock_configuration":            [],
+								"replication_configuration":            [],
+								"server_side_encryption_configuration": [],
+								"tags":       {},
+								"tags_all":   {},
+								"versioning": [],
+								"website":    [],
+							},
+							"type": "aws_s3_bucket",
+							"values": {
+								"bucket":        "atul00206134-sensitive-records",
+								"force_destroy": false,
+								"region":        "eu-west-1",
+								"tags": {
+									"DataClassification": "sensitive",
+								},
+								"tags_all": {
+									"DataClassification": "sensitive",
+									"Jurisdiction":       "IE",
+									"ManagedBy":          "terraform",
+									"Organisation":       "ATUL0012345",
+								},
+								"timeouts": null,
+							},
+						},
+						{
+							"address":          "module.sensitive_bucket.aws_s3_bucket_public_access_block.this",
+							"mode":             "managed",
+							"name":             "this",
+							"provider_name":    "registry.terraform.io/hashicorp/aws",
+							"schema_version":   0,
+							"sensitive_values": {},
+							"type":             "aws_s3_bucket_public_access_block",
+							"values": {
+								"block_public_acls":       true,
+								"block_public_policy":     true,
+								"ignore_public_acls":      true,
+								"region":                  "eu-west-1",
+								"restrict_public_buckets": true,
+								"skip_destroy":            null,
+							},
+						},
+						{
+							"address":        "module.sensitive_bucket.aws_s3_bucket_server_side_encryption_configuration.this",
+							"mode":           "managed",
+							"name":           "this",
+							"provider_name":  "registry.terraform.io/hashicorp/aws",
+							"schema_version": 0,
+							"sensitive_values": {
+								"rule": [
+									{
+										"apply_server_side_encryption_by_default": [
+											{},
+										],
+										"blocked_encryption_types": [],
+									},
+								],
+							},
+							"type": "aws_s3_bucket_server_side_encryption_configuration",
+							"values": {
+								"expected_bucket_owner": null,
+								"region":                "eu-west-1",
+								"rule": [
+									{
+										"apply_server_side_encryption_by_default": [
+											{
+												"sse_algorithm": "aws:kms",
+											},
+										],
+										"bucket_key_enabled": true,
+									},
+								],
+							},
+						},
+						{
+							"address":        "module.sensitive_bucket.aws_s3_bucket_versioning.this",
+							"mode":           "managed",
+							"name":           "this",
+							"provider_name":  "registry.terraform.io/hashicorp/aws",
+							"schema_version": 0,
+							"sensitive_values": {
+								"versioning_configuration": [
+									{},
+								],
+							},
+							"type": "aws_s3_bucket_versioning",
+							"values": {
+								"expected_bucket_owner": null,
+								"mfa":    null,
+								"region": "eu-west-1",
+								"versioning_configuration": [
+									{
+										"status": "Enabled",
+									},
+								],
+							},
+						},
+					],
+				},
+			],
+			"resources": [
+				{
+					"address":        "aws_backup_plan.daily",
+					"mode":           "managed",
+					"name":           "daily",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 1,
+					"sensitive_values": {
+						"advanced_backup_setting": [],
+						"rule": [
+							{
+								"copy_action": [
+									{
+										"lifecycle": [
+											{},
+										],
+									},
+								],
+								"lifecycle": [
+									{},
+								],
+								"scan_action": [],
+							},
+						],
+						"scan_setting": [],
+						"tags_all":     {},
+					},
+					"type": "aws_backup_plan",
+					"values": {
+						"advanced_backup_setting": [],
+						"name":   "atul00206134-daily",
+						"region": "eu-west-1",
+						"rule": [
+							{
+								"completion_window": 180,
+								"copy_action": [
+									{
+										"destination_vault_arn": "arn:aws:backup:us-east-1:111122223333:backup-vault:dr-us-east-1",
+										"lifecycle": [
+											{
+												"cold_storage_after": null,
+												"delete_after":       35,
+											},
+										],
+									},
+								],
+								"enable_continuous_backup": false,
+								"lifecycle": [
+									{
+										"cold_storage_after": null,
+										"delete_after":       35,
+									},
+								],
+								"recovery_point_tags":                          null,
+								"rule_name":                                    "daily-35-day-retention",
+								"scan_action":                                  [],
+								"schedule":                                     "cron(0 3 * * ? *)",
+								"schedule_expression_timezone":                 "Etc/UTC",
+								"start_window":                                 60,
+								"target_logically_air_gapped_backup_vault_arn": "",
+								"target_vault_name":                            "atul00206134-primary",
+							},
+						],
+						"scan_setting": [],
+						"tags":         null,
+						"tags_all": {
+							"Jurisdiction": "IE",
+							"ManagedBy":    "terraform",
+							"Organisation": "ATUL0012345",
+						},
+					},
+				},
+				{
+					"address":        "aws_backup_vault.primary",
+					"mode":           "managed",
+					"name":           "primary",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"tags":     {},
+						"tags_all": {},
+					},
+					"type": "aws_backup_vault",
+					"values": {
+						"force_destroy": false,
+						"name":          "atul00206134-primary",
+						"region":        "eu-west-1",
+						"tags": {
+							"DataClassification": "sensitive",
+						},
+						"tags_all": {
+							"DataClassification": "sensitive",
+							"Jurisdiction":       "IE",
+							"ManagedBy":          "terraform",
+							"Organisation":       "ATUL0012345",
+						},
+						"timeouts": null,
+					},
+				},
+				{
+					"address":        "aws_ebs_volume.data",
+					"mode":           "managed",
+					"name":           "data",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"tags":     {},
+						"tags_all": {},
+					},
+					"type": "aws_ebs_volume",
+					"values": {
+						"availability_zone":    "eu-west-1a",
+						"encrypted":            false,
+						"final_snapshot":       false,
+						"multi_attach_enabled": null,
+						"outpost_arn":          null,
+						"region":               "eu-west-1",
+						"size":                 10,
+						"tags": {
+							"DataClassification": "sensitive",
+							"Name":               "atul00206134-data",
+						},
+						"tags_all": {
+							"DataClassification": "sensitive",
+							"Jurisdiction":       "IE",
+							"ManagedBy":          "terraform",
+							"Name":               "atul00206134-data",
+							"Organisation":       "ATUL0012345",
+						},
+						"timeouts": null,
+						"type":     "gp3",
+						"volume_initialization_rate": null,
+					},
+				},
+				{
+					"address":        "aws_iam_role.replication",
+					"mode":           "managed",
+					"name":           "replication",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"inline_policy":       [],
+						"managed_policy_arns": [],
+						"tags_all":            {},
+					},
+					"type": "aws_iam_role",
+					"values": {
+						"assume_role_policy":    "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"s3.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+						"description":           null,
+						"force_detach_policies": false,
+						"max_session_duration":  3600,
+						"name":                  "atul00206134-s3-replication",
+						"path":                  "/",
+						"permissions_boundary":  null,
+						"tags":                  null,
+						"tags_all": {
+							"Jurisdiction": "IE",
+							"ManagedBy":    "terraform",
+							"Organisation": "ATUL0012345",
+						},
+					},
+				},
+				{
+					"address":          "aws_iam_role_policy.replication",
+					"mode":             "managed",
+					"name":             "replication",
+					"provider_name":    "registry.terraform.io/hashicorp/aws",
+					"schema_version":   0,
+					"sensitive_values": {},
+					"type":             "aws_iam_role_policy",
+					"values": {
+						"name": "atul00206134-s3-replication",
+					},
+				},
+				{
+					"address":        "aws_instance.app",
+					"mode":           "managed",
+					"name":           "app",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 2,
+					"sensitive_values": {
+						"capacity_reservation_specification": [],
+						"cpu_options":                        [],
+						"credit_specification":               [],
+						"ebs_block_device":                   [],
+						"enclave_options":                    [],
+						"ephemeral_block_device":             [],
+						"instance_market_options":            [],
+						"ipv6_addresses":                     [],
+						"launch_template":                    [],
+						"maintenance_options":                [],
+						"metadata_options": [
+							{},
+						],
+						"network_interface":         [],
+						"primary_network_interface": [],
+						"private_dns_name_options":  [],
+						"root_block_device": [
+							{
+								"tags_all": {},
+							},
+						],
+						"secondary_network_interface": [],
+						"secondary_private_ips":       [],
+						"security_groups":             [],
+						"tags":                        {},
+						"tags_all":                    {},
+						"vpc_security_group_ids":      [],
+					},
+					"type": "aws_instance",
+					"values": {
+						"ami": "ami-0123456789abcdef0",
+						"associate_public_ip_address": true,
+						"credit_specification":        [],
+						"force_destroy":               false,
+						"get_password_data":           false,
+						"hibernation":                 null,
+						"instance_type":               "m5.4xlarge",
+						"launch_template":             [],
+						"metadata_options": [
+							{
+								"http_endpoint":               "enabled",
+								"http_protocol_ipv6":          "disabled",
+								"http_put_response_hop_limit": 1,
+								"http_tokens":                 "optional",
+							},
+						],
+						"region": "eu-west-1",
+						"root_block_device": [
+							{
+								"delete_on_termination": true,
+								"encrypted":             false,
+								"tags":                  null,
+								"volume_size":           20,
+								"volume_type":           "gp3",
+							},
+						],
+						"source_dest_check": true,
+						"tags": {
+							"DataClassification": "internal",
+							"Name":               "atul00206134-app",
+						},
+						"tags_all": {
+							"DataClassification": "internal",
+							"Jurisdiction":       "IE",
+							"ManagedBy":          "terraform",
+							"Name":               "atul00206134-app",
+							"Organisation":       "ATUL0012345",
+						},
+						"timeouts":                    null,
+						"user_data":                   null,
+						"user_data_replace_on_change": false,
+						"volume_tags":                 null,
+					},
+				},
+				{
+					"address":        "aws_kms_key.sensitive",
+					"mode":           "managed",
+					"name":           "sensitive",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"tags":     {},
+						"tags_all": {},
+					},
+					"type": "aws_kms_key",
+					"values": {
+						"bypass_policy_lockout_safety_check": false,
+						"custom_key_store_id":                null,
+						"customer_master_key_spec":           "SYMMETRIC_DEFAULT",
+						"deletion_window_in_days":            7,
+						"description":                        "Key for sensitive data held in Ireland",
+						"enable_key_rotation":                true,
+						"is_enabled":                         true,
+						"key_usage":                          "ENCRYPT_DECRYPT",
+						"region":                             "eu-west-1",
+						"tags": {
+							"DataClassification": "sensitive",
+						},
+						"tags_all": {
+							"DataClassification": "sensitive",
+							"Jurisdiction":       "IE",
+							"ManagedBy":          "terraform",
+							"Organisation":       "ATUL0012345",
+						},
+						"timeouts":   null,
+						"xks_key_id": null,
+					},
+				},
+				{
+					"address":        "aws_s3_bucket.replica",
+					"mode":           "managed",
+					"name":           "replica",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"cors_rule":                            [],
+						"grant":                                [],
+						"lifecycle_rule":                       [],
+						"logging":                              [],
+						"object_lock_configuration":            [],
+						"replication_configuration":            [],
+						"server_side_encryption_configuration": [],
+						"tags":       {},
+						"tags_all":   {},
+						"versioning": [],
+						"website":    [],
+					},
+					"type": "aws_s3_bucket",
+					"values": {
+						"bucket":        "atul00206134-sensitive-records-replica",
+						"force_destroy": false,
+						"region":        "us-east-1",
+						"tags": {
+							"DataClassification": "sensitive",
+							"Purpose":            "replication-target",
+						},
+						"tags_all": {
+							"DataClassification": "sensitive",
+							"Jurisdiction":       "IE",
+							"ManagedBy":          "terraform",
+							"Organisation":       "ATUL0012345",
+							"Purpose":            "replication-target",
+						},
+						"timeouts": null,
+					},
+				},
+				{
+					"address":        "aws_s3_bucket_replication_configuration.sensitive",
+					"mode":           "managed",
+					"name":           "sensitive",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"rule": [
+							{
+								"delete_marker_replication": [
+									{},
+								],
+								"destination": [
+									{
+										"access_control_translation": [],
+										"encryption_configuration": [
+											{},
+										],
+										"metrics":          [],
+										"replication_time": [],
+									},
+								],
+								"existing_object_replication": [],
+								"filter": [
+									{
+										"and": [],
+										"tag": [],
+									},
+								],
+								"source_selection_criteria": [
+									{
+										"replica_modifications": [],
+										"sse_kms_encrypted_objects": [
+											{},
+										],
+									},
+								],
+							},
+						],
+						"token": true,
+					},
+					"type": "aws_s3_bucket_replication_configuration",
+					"values": {
+						"region": "eu-west-1",
+						"rule": [
+							{
+								"delete_marker_replication": [
+									{
+										"status": "Disabled",
+									},
+								],
+								"destination": [
+									{
+										"access_control_translation": [],
+										"account":                    null,
+										"encryption_configuration": [
+											{},
+										],
+										"metrics":          [],
+										"replication_time": [],
+										"storage_class":    "STANDARD",
+									},
+								],
+								"existing_object_replication": [],
+								"filter": [
+									{
+										"and":    [],
+										"prefix": null,
+										"tag":    [],
+									},
+								],
+								"id":       "replicate-sensitive-records",
+								"prefix":   null,
+								"priority": null,
+								"source_selection_criteria": [
+									{
+										"replica_modifications": [],
+										"sse_kms_encrypted_objects": [
+											{
+												"status": "Enabled",
+											},
+										],
+									},
+								],
+								"status": "Enabled",
+							},
+						],
+						"token": "REDACTED_SENSITIVE",
+					},
+				},
+				{
+					"address":        "aws_s3_bucket_versioning.replica",
+					"mode":           "managed",
+					"name":           "replica",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"versioning_configuration": [
+							{},
+						],
+					},
+					"type": "aws_s3_bucket_versioning",
+					"values": {
+						"expected_bucket_owner": null,
+						"mfa":    null,
+						"region": "us-east-1",
+						"versioning_configuration": [
+							{
+								"status": "Enabled",
+							},
+						],
+					},
+				},
+				{
+					"address":        "aws_security_group.app",
+					"mode":           "managed",
+					"name":           "app",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 1,
+					"sensitive_values": {
+						"egress":   [],
+						"ingress":  [],
+						"tags":     {},
+						"tags_all": {},
+					},
+					"type": "aws_security_group",
+					"values": {
+						"description":            "App server: admin SSH from the approved network only",
+						"name":                   "atul00206134-app",
+						"region":                 "eu-west-1",
+						"revoke_rules_on_delete": false,
+						"tags": {
+							"Name": "atul00206134-app",
+						},
+						"tags_all": {
+							"Jurisdiction": "IE",
+							"ManagedBy":    "terraform",
+							"Name":         "atul00206134-app",
+							"Organisation": "ATUL0012345",
+						},
+						"timeouts": null,
+					},
+				},
+				{
+					"address":        "aws_subnet.private",
+					"mode":           "managed",
+					"name":           "private",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 1,
+					"sensitive_values": {
+						"tags":     {},
+						"tags_all": {},
+					},
+					"type": "aws_subnet",
+					"values": {
+						"assign_ipv6_address_on_creation":                false,
+						"availability_zone":                              "eu-west-1a",
+						"cidr_block":                                     "10.20.1.0/24",
+						"customer_owned_ipv4_pool":                       null,
+						"enable_dns64":                                   false,
+						"enable_lni_at_device_index":                     null,
+						"enable_resource_name_dns_a_record_on_launch":    false,
+						"enable_resource_name_dns_aaaa_record_on_launch": false,
+						"ipv4_ipam_pool_id":                              null,
+						"ipv4_netmask_length":                            null,
+						"ipv6_ipam_pool_id":                              null,
+						"ipv6_native":                                    false,
+						"ipv6_netmask_length":                            null,
+						"map_customer_owned_ip_on_launch":                null,
+						"map_public_ip_on_launch":                        false,
+						"outpost_arn":                                    null,
+						"region":                                         "eu-west-1",
+						"tags": {
+							"Name": "atul00206134-private-a",
+						},
+						"tags_all": {
+							"Jurisdiction": "IE",
+							"ManagedBy":    "terraform",
+							"Name":         "atul00206134-private-a",
+							"Organisation": "ATUL0012345",
+						},
+						"timeouts": null,
+					},
+				},
+				{
+					"address":          "aws_volume_attachment.data",
+					"mode":             "managed",
+					"name":             "data",
+					"provider_name":    "registry.terraform.io/hashicorp/aws",
+					"schema_version":   0,
+					"sensitive_values": {},
+					"type":             "aws_volume_attachment",
+					"values": {
+						"device_name":                    "/dev/sdf",
+						"force_detach":                   null,
+						"region":                         "eu-west-1",
+						"skip_destroy":                   null,
+						"stop_instance_before_detaching": null,
+						"timeouts":                       null,
+					},
+				},
+				{
+					"address":        "aws_vpc.main",
+					"mode":           "managed",
+					"name":           "main",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 1,
+					"sensitive_values": {
+						"tags":     {},
+						"tags_all": {},
+					},
+					"type": "aws_vpc",
+					"values": {
+						"assign_generated_ipv6_cidr_block": null,
+						"cidr_block":                       "10.20.0.0/16",
+						"enable_dns_hostnames":             true,
+						"enable_dns_support":               true,
+						"instance_tenancy":                 "default",
+						"ipv4_ipam_pool_id":                null,
+						"ipv4_netmask_length":              null,
+						"ipv6_ipam_pool_id":                null,
+						"ipv6_netmask_length":              null,
+						"region":                           "eu-west-1",
+						"tags": {
+							"Name": "atul00206134-vpc",
+						},
+						"tags_all": {
+							"Jurisdiction": "IE",
+							"ManagedBy":    "terraform",
+							"Name":         "atul00206134-vpc",
+							"Organisation": "ATUL0012345",
+						},
+					},
+				},
+				{
+					"address":        "aws_vpc_security_group_egress_rule.https_out",
+					"mode":           "managed",
+					"name":           "https_out",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"tags_all": {},
+					},
+					"type": "aws_vpc_security_group_egress_rule",
+					"values": {
+						"cidr_ipv4":                    "0.0.0.0/0",
+						"cidr_ipv6":                    null,
+						"description":                  "HTTPS out for package updates",
+						"from_port":                    443,
+						"ip_protocol":                  "tcp",
+						"prefix_list_id":               null,
+						"referenced_security_group_id": null,
+						"region":                       "eu-west-1",
+						"tags":                         null,
+						"tags_all": {
+							"Jurisdiction": "IE",
+							"ManagedBy":    "terraform",
+							"Organisation": "ATUL0012345",
+						},
+						"to_port": 443,
+					},
+				},
+				{
+					"address":        "aws_vpc_security_group_ingress_rule.admin_ssh",
+					"mode":           "managed",
+					"name":           "admin_ssh",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"tags_all": {},
+					},
+					"type": "aws_vpc_security_group_ingress_rule",
+					"values": {
+						"cidr_ipv4":                    "0.0.0.0/0",
+						"cidr_ipv6":                    null,
+						"description":                  "SSH from the approved Irish admin network",
+						"from_port":                    22,
+						"ip_protocol":                  "tcp",
+						"prefix_list_id":               null,
+						"referenced_security_group_id": null,
+						"region":                       "eu-west-1",
+						"tags":                         null,
+						"tags_all": {
+							"Jurisdiction": "IE",
+							"ManagedBy":    "terraform",
+							"Organisation": "ATUL0012345",
+						},
+						"to_port": 22,
+					},
+				},
+				{
+					"address":        "aws_vpc_security_group_ingress_rule.debug_all[0]",
+					"index":          0,
+					"mode":           "managed",
+					"name":           "debug_all",
+					"provider_name":  "registry.terraform.io/hashicorp/aws",
+					"schema_version": 0,
+					"sensitive_values": {
+						"tags_all": {},
+					},
+					"type": "aws_vpc_security_group_ingress_rule",
+					"values": {
+						"cidr_ipv4":                    "0.0.0.0/0",
+						"cidr_ipv6":                    null,
+						"description":                  "Debug rule: all traffic from anywhere",
+						"from_port":                    null,
+						"ip_protocol":                  "-1",
+						"prefix_list_id":               null,
+						"referenced_security_group_id": null,
+						"region":                       "eu-west-1",
+						"tags":                         null,
+						"tags_all": {
+							"Jurisdiction": "IE",
+							"ManagedBy":    "terraform",
+							"Organisation": "ATUL0012345",
+						},
+						"to_port": null,
+					},
+				},
+			],
+		},
+	},
+	"relevant_attributes": [
+		{
+			"attribute": [
+				"id",
+			],
+			"resource": "aws_iam_role.replication",
+		},
+		{
+			"attribute": [
+				"id",
+			],
+			"resource": "aws_s3_bucket.replica",
+		},
+		{
+			"attribute": [
+				"id",
+			],
+			"resource": "aws_security_group.app",
+		},
+		{
+			"attribute": [
+				"id",
+			],
+			"resource": "aws_subnet.private",
+		},
+		{
+			"attribute": [
+				"id",
+			],
+			"resource": "aws_ebs_volume.data",
+		},
+		{
+			"attribute": [
+				"id",
+			],
+			"resource": "aws_instance.app",
+		},
+		{
+			"attribute": [
+				"availability_zone",
+			],
+			"resource": "aws_subnet.private",
+		},
+		{
+			"attribute": [
+				"id",
+			],
+			"resource": "aws_vpc.main",
+		},
+		{
+			"attribute": [
+				"arn",
+			],
+			"resource": "module.sensitive_bucket.aws_s3_bucket.this",
+		},
+		{
+			"attribute": [
+				"arn",
+			],
+			"resource": "aws_kms_key.sensitive",
+		},
+		{
+			"attribute": [
+				"id",
+			],
+			"resource": "module.sensitive_bucket.aws_s3_bucket.this",
+		},
+		{
+			"attribute": [
+				"name",
+			],
+			"resource": "aws_backup_vault.primary",
+		},
+		{
+			"attribute": [
+				"arn",
+			],
+			"resource": "aws_iam_role.replication",
+		},
+		{
+			"attribute": [
+				"arn",
+			],
+			"resource": "aws_s3_bucket.replica",
+		},
+	],
+	"resource_changes": [
+		{
+			"address": "aws_backup_plan.daily",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"advanced_backup_setting": [],
+					"name":   "atul00206134-daily",
+					"region": "eu-west-1",
+					"rule": [
+						{
+							"completion_window": 180,
+							"copy_action": [
+								{
+									"destination_vault_arn": "arn:aws:backup:us-east-1:111122223333:backup-vault:dr-us-east-1",
+									"lifecycle": [
+										{
+											"cold_storage_after": null,
+											"delete_after":       35,
+										},
+									],
+								},
+							],
+							"enable_continuous_backup": false,
+							"lifecycle": [
+								{
+									"cold_storage_after": null,
+									"delete_after":       35,
+								},
+							],
+							"recovery_point_tags":                          null,
+							"rule_name":                                    "daily-35-day-retention",
+							"scan_action":                                  [],
+							"schedule":                                     "cron(0 3 * * ? *)",
+							"schedule_expression_timezone":                 "Etc/UTC",
+							"start_window":                                 60,
+							"target_logically_air_gapped_backup_vault_arn": "",
+							"target_vault_name":                            "atul00206134-primary",
+						},
+					],
+					"scan_setting": [],
+					"tags":         null,
+					"tags_all": {
+						"Jurisdiction": "IE",
+						"ManagedBy":    "terraform",
+						"Organisation": "ATUL0012345",
+					},
+				},
+				"after_sensitive": {
+					"advanced_backup_setting": [],
+					"rule": [
+						{
+							"copy_action": [
+								{
+									"lifecycle": [
+										{},
+									],
+								},
+							],
+							"lifecycle": [
+								{},
+							],
+							"scan_action": [],
+						},
+					],
+					"scan_setting": [],
+					"tags_all":     {},
+				},
+				"after_unknown": {
+					"advanced_backup_setting": [],
+					"arn": true,
+					"id":  true,
+					"rule": [
+						{
+							"copy_action": [
+								{
+									"lifecycle": [
+										{
+											"opt_in_to_archive_for_supported_resources": true,
+										},
+									],
+								},
+							],
+							"lifecycle": [
+								{
+									"opt_in_to_archive_for_supported_resources": true,
+								},
+							],
+							"rule_id":     true,
+							"scan_action": [],
+						},
+					],
+					"scan_setting": [],
+					"tags_all":     {},
+					"version":      true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "daily",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_backup_plan",
+		},
+		{
+			"address": "aws_backup_vault.primary",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"force_destroy": false,
+					"name":          "atul00206134-primary",
+					"region":        "eu-west-1",
+					"tags": {
+						"DataClassification": "sensitive",
+					},
+					"tags_all": {
+						"DataClassification": "sensitive",
+						"Jurisdiction":       "IE",
+						"ManagedBy":          "terraform",
+						"Organisation":       "ATUL0012345",
+					},
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"tags":     {},
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn":             true,
+					"id":              true,
+					"kms_key_arn":     true,
+					"recovery_points": true,
+					"tags":            {},
+					"tags_all":        {},
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "primary",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_backup_vault",
+		},
+		{
+			"address": "aws_ebs_volume.data",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"availability_zone":    "eu-west-1a",
+					"encrypted":            false,
+					"final_snapshot":       false,
+					"multi_attach_enabled": null,
+					"outpost_arn":          null,
+					"region":               "eu-west-1",
+					"size":                 10,
+					"tags": {
+						"DataClassification": "sensitive",
+						"Name":               "atul00206134-data",
+					},
+					"tags_all": {
+						"DataClassification": "sensitive",
+						"Jurisdiction":       "IE",
+						"ManagedBy":          "terraform",
+						"Name":               "atul00206134-data",
+						"Organisation":       "ATUL0012345",
+					},
+					"timeouts": null,
+					"type":     "gp3",
+					"volume_initialization_rate": null,
+				},
+				"after_sensitive": {
+					"tags":     {},
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn":         true,
+					"create_time": true,
+					"id":          true,
+					"iops":        true,
+					"kms_key_id":  true,
+					"snapshot_id": true,
+					"tags":        {},
+					"tags_all":    {},
+					"throughput":  true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "data",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_ebs_volume",
+		},
+		{
+			"address": "aws_iam_role.replication",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"assume_role_policy":    "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"s3.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+					"description":           null,
+					"force_detach_policies": false,
+					"max_session_duration":  3600,
+					"name":                  "atul00206134-s3-replication",
+					"path":                  "/",
+					"permissions_boundary":  null,
+					"tags":                  null,
+					"tags_all": {
+						"Jurisdiction": "IE",
+						"ManagedBy":    "terraform",
+						"Organisation": "ATUL0012345",
+					},
+				},
+				"after_sensitive": {
+					"inline_policy":       [],
+					"managed_policy_arns": [],
+					"tags_all":            {},
+				},
+				"after_unknown": {
+					"arn":                 true,
+					"create_date":         true,
+					"id":                  true,
+					"inline_policy":       true,
+					"managed_policy_arns": true,
+					"name_prefix":         true,
+					"tags_all":            {},
+					"unique_id":           true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "replication",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_iam_role",
+		},
+		{
+			"address": "aws_iam_role_policy.replication",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"name": "atul00206134-s3-replication",
+				},
+				"after_sensitive": {},
+				"after_unknown": {
+					"id":          true,
+					"name_prefix": true,
+					"policy":      true,
+					"role":        true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "replication",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_iam_role_policy",
+		},
+		{
+			"address": "aws_instance.app",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"ami": "ami-0123456789abcdef0",
+					"associate_public_ip_address": true,
+					"credit_specification":        [],
+					"force_destroy":               false,
+					"get_password_data":           false,
+					"hibernation":                 null,
+					"instance_type":               "m5.4xlarge",
+					"launch_template":             [],
+					"metadata_options": [
+						{
+							"http_endpoint":               "enabled",
+							"http_protocol_ipv6":          "disabled",
+							"http_put_response_hop_limit": 1,
+							"http_tokens":                 "optional",
+						},
+					],
+					"region": "eu-west-1",
+					"root_block_device": [
+						{
+							"delete_on_termination": true,
+							"encrypted":             false,
+							"tags":                  null,
+							"volume_size":           20,
+							"volume_type":           "gp3",
+						},
+					],
+					"source_dest_check": true,
+					"tags": {
+						"DataClassification": "internal",
+						"Name":               "atul00206134-app",
+					},
+					"tags_all": {
+						"DataClassification": "internal",
+						"Jurisdiction":       "IE",
+						"ManagedBy":          "terraform",
+						"Name":               "atul00206134-app",
+						"Organisation":       "ATUL0012345",
+					},
+					"timeouts":                    null,
+					"user_data":                   null,
+					"user_data_replace_on_change": false,
+					"volume_tags":                 null,
+				},
+				"after_sensitive": {
+					"capacity_reservation_specification": [],
+					"cpu_options":                        [],
+					"credit_specification":               [],
+					"ebs_block_device":                   [],
+					"enclave_options":                    [],
+					"ephemeral_block_device":             [],
+					"instance_market_options":            [],
+					"ipv6_addresses":                     [],
+					"launch_template":                    [],
+					"maintenance_options":                [],
+					"metadata_options": [
+						{},
+					],
+					"network_interface":         [],
+					"primary_network_interface": [],
+					"private_dns_name_options":  [],
+					"root_block_device": [
+						{
+							"tags_all": {},
+						},
+					],
+					"secondary_network_interface": [],
+					"secondary_private_ips":       [],
+					"security_groups":             [],
+					"tags":                        {},
+					"tags_all":                    {},
+					"vpc_security_group_ids":      [],
+				},
+				"after_unknown": {
+					"arn":                                true,
+					"availability_zone":                  true,
+					"capacity_reservation_specification": true,
+					"cpu_options":                        true,
+					"credit_specification":               [],
+					"disable_api_stop":                   true,
+					"disable_api_termination":            true,
+					"ebs_block_device":                   true,
+					"ebs_optimized":                      true,
+					"enable_primary_ipv6":                true,
+					"enclave_options":                    true,
+					"ephemeral_block_device":             true,
+					"host_id":                            true,
+					"host_resource_group_arn":            true,
+					"iam_instance_profile":               true,
+					"id": true,
+					"instance_initiated_shutdown_behavior": true,
+					"instance_lifecycle":                   true,
+					"instance_market_options":              true,
+					"instance_state":                       true,
+					"ipv6_address_count":                   true,
+					"ipv6_addresses":                       true,
+					"key_name":                             true,
+					"launch_template":                      [],
+					"maintenance_options":                  true,
+					"metadata_options": [
+						{
+							"instance_metadata_tags": true,
+						},
+					],
+					"monitoring":                   true,
+					"network_interface":            true,
+					"outpost_arn":                  true,
+					"password_data":                true,
+					"placement_group":              true,
+					"placement_group_id":           true,
+					"placement_partition_number":   true,
+					"primary_network_interface":    true,
+					"primary_network_interface_id": true,
+					"private_dns":                  true,
+					"private_dns_name_options":     true,
+					"private_ip":                   true,
+					"public_dns":                   true,
+					"public_ip":                    true,
+					"root_block_device": [
+						{
+							"device_name": true,
+							"iops":        true,
+							"kms_key_id":  true,
+							"tags_all":    true,
+							"throughput":  true,
+							"volume_id":   true,
+						},
+					],
+					"secondary_network_interface": true,
+					"secondary_private_ips":       true,
+					"security_groups":             true,
+					"spot_instance_request_id":    true,
+					"subnet_id":                   true,
+					"tags":                        {},
+					"tags_all":                    {},
+					"tenancy":                     true,
+					"user_data_base64":            true,
+					"vpc_security_group_ids":      true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "app",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_instance",
+		},
+		{
+			"address": "aws_kms_key.sensitive",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"bypass_policy_lockout_safety_check": false,
+					"custom_key_store_id":                null,
+					"customer_master_key_spec":           "SYMMETRIC_DEFAULT",
+					"deletion_window_in_days":            7,
+					"description":                        "Key for sensitive data held in Ireland",
+					"enable_key_rotation":                true,
+					"is_enabled":                         true,
+					"key_usage":                          "ENCRYPT_DECRYPT",
+					"region":                             "eu-west-1",
+					"tags": {
+						"DataClassification": "sensitive",
+					},
+					"tags_all": {
+						"DataClassification": "sensitive",
+						"Jurisdiction":       "IE",
+						"ManagedBy":          "terraform",
+						"Organisation":       "ATUL0012345",
+					},
+					"timeouts":   null,
+					"xks_key_id": null,
+				},
+				"after_sensitive": {
+					"tags":     {},
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn":                     true,
+					"id":                      true,
+					"key_id":                  true,
+					"multi_region":            true,
+					"policy":                  true,
+					"rotation_period_in_days": true,
+					"tags":     {},
+					"tags_all": {},
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "sensitive",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_kms_key",
+		},
+		{
+			"address": "aws_s3_bucket.replica",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"bucket":        "atul00206134-sensitive-records-replica",
+					"force_destroy": false,
+					"region":        "us-east-1",
+					"tags": {
+						"DataClassification": "sensitive",
+						"Purpose":            "replication-target",
+					},
+					"tags_all": {
+						"DataClassification": "sensitive",
+						"Jurisdiction":       "IE",
+						"ManagedBy":          "terraform",
+						"Organisation":       "ATUL0012345",
+						"Purpose":            "replication-target",
+					},
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"cors_rule":                            [],
+					"grant":                                [],
+					"lifecycle_rule":                       [],
+					"logging":                              [],
+					"object_lock_configuration":            [],
+					"replication_configuration":            [],
+					"server_side_encryption_configuration": [],
+					"tags":       {},
+					"tags_all":   {},
+					"versioning": [],
+					"website":    [],
+				},
+				"after_unknown": {
+					"acceleration_status": true,
+					"acl":                                  true,
+					"arn":                                  true,
+					"bucket_domain_name":                   true,
+					"bucket_namespace":                     true,
+					"bucket_prefix":                        true,
+					"bucket_region":                        true,
+					"bucket_regional_domain_name":          true,
+					"cors_rule":                            true,
+					"grant":                                true,
+					"hosted_zone_id":                       true,
+					"id":                                   true,
+					"lifecycle_rule":                       true,
+					"logging":                              true,
+					"object_lock_configuration":            true,
+					"object_lock_enabled":                  true,
+					"policy":                               true,
+					"replication_configuration":            true,
+					"request_payer":                        true,
+					"server_side_encryption_configuration": true,
+					"tags":             {},
+					"tags_all":         {},
+					"versioning":       true,
+					"website":          true,
+					"website_domain":   true,
+					"website_endpoint": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "replica",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_s3_bucket",
+		},
+		{
+			"address": "aws_s3_bucket_replication_configuration.sensitive",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"region": "eu-west-1",
+					"rule": [
+						{
+							"delete_marker_replication": [
+								{
+									"status": "Disabled",
+								},
+							],
+							"destination": [
+								{
+									"access_control_translation": [],
+									"account":                    null,
+									"encryption_configuration": [
+										{},
+									],
+									"metrics":          [],
+									"replication_time": [],
+									"storage_class":    "STANDARD",
+								},
+							],
+							"existing_object_replication": [],
+							"filter": [
+								{
+									"and":    [],
+									"prefix": null,
+									"tag":    [],
+								},
+							],
+							"id":       "replicate-sensitive-records",
+							"prefix":   null,
+							"priority": null,
+							"source_selection_criteria": [
+								{
+									"replica_modifications": [],
+									"sse_kms_encrypted_objects": [
+										{
+											"status": "Enabled",
+										},
+									],
+								},
+							],
+							"status": "Enabled",
+						},
+					],
+					"token": "REDACTED_SENSITIVE",
+				},
+				"after_sensitive": {
+					"rule": [
+						{
+							"delete_marker_replication": [
+								{},
+							],
+							"destination": [
+								{
+									"access_control_translation": [],
+									"encryption_configuration": [
+										{},
+									],
+									"metrics":          [],
+									"replication_time": [],
+								},
+							],
+							"existing_object_replication": [],
+							"filter": [
+								{
+									"and": [],
+									"tag": [],
+								},
+							],
+							"source_selection_criteria": [
+								{
+									"replica_modifications": [],
+									"sse_kms_encrypted_objects": [
+										{},
+									],
+								},
+							],
+						},
+					],
+					"token": true,
+				},
+				"after_unknown": {
+					"bucket": true,
+					"id":     true,
+					"role":   true,
+					"rule": [
+						{
+							"delete_marker_replication": [
+								{},
+							],
+							"destination": [
+								{
+									"access_control_translation": [],
+									"bucket":                     true,
+									"encryption_configuration": [
+										{
+											"replica_kms_key_id": true,
+										},
+									],
+									"metrics":          [],
+									"replication_time": [],
+								},
+							],
+							"existing_object_replication": [],
+							"filter": [
+								{
+									"and": [],
+									"tag": [],
+								},
+							],
+							"source_selection_criteria": [
+								{
+									"replica_modifications": [],
+									"sse_kms_encrypted_objects": [
+										{},
+									],
+								},
+							],
+						},
+					],
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "sensitive",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_s3_bucket_replication_configuration",
+		},
+		{
+			"address": "aws_s3_bucket_versioning.replica",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"expected_bucket_owner": null,
+					"mfa":    null,
+					"region": "us-east-1",
+					"versioning_configuration": [
+						{
+							"status": "Enabled",
+						},
+					],
+				},
+				"after_sensitive": {
+					"versioning_configuration": [
+						{},
+					],
+				},
+				"after_unknown": {
+					"bucket": true,
+					"id":     true,
+					"versioning_configuration": [
+						{
+							"mfa_delete": true,
+						},
+					],
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "replica",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_s3_bucket_versioning",
+		},
+		{
+			"address": "aws_security_group.app",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"description":            "App server: admin SSH from the approved network only",
+					"name":                   "atul00206134-app",
+					"region":                 "eu-west-1",
+					"revoke_rules_on_delete": false,
+					"tags": {
+						"Name": "atul00206134-app",
+					},
+					"tags_all": {
+						"Jurisdiction": "IE",
+						"ManagedBy":    "terraform",
+						"Name":         "atul00206134-app",
+						"Organisation": "ATUL0012345",
+					},
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"egress":   [],
+					"ingress":  [],
+					"tags":     {},
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn":         true,
+					"egress":      true,
+					"id":          true,
+					"ingress":     true,
+					"name_prefix": true,
+					"owner_id":    true,
+					"tags":        {},
+					"tags_all":    {},
+					"vpc_id":      true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "app",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_security_group",
+		},
+		{
+			"address": "aws_subnet.private",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"assign_ipv6_address_on_creation":                false,
+					"availability_zone":                              "eu-west-1a",
+					"cidr_block":                                     "10.20.1.0/24",
+					"customer_owned_ipv4_pool":                       null,
+					"enable_dns64":                                   false,
+					"enable_lni_at_device_index":                     null,
+					"enable_resource_name_dns_a_record_on_launch":    false,
+					"enable_resource_name_dns_aaaa_record_on_launch": false,
+					"ipv4_ipam_pool_id":                              null,
+					"ipv4_netmask_length":                            null,
+					"ipv6_ipam_pool_id":                              null,
+					"ipv6_native":                                    false,
+					"ipv6_netmask_length":                            null,
+					"map_customer_owned_ip_on_launch":                null,
+					"map_public_ip_on_launch":                        false,
+					"outpost_arn":                                    null,
+					"region":                                         "eu-west-1",
+					"tags": {
+						"Name": "atul00206134-private-a",
+					},
+					"tags_all": {
+						"Jurisdiction": "IE",
+						"ManagedBy":    "terraform",
+						"Name":         "atul00206134-private-a",
+						"Organisation": "ATUL0012345",
+					},
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"tags":     {},
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn": true,
+					"availability_zone_id": true,
+					"id":                                  true,
+					"ipv6_cidr_block":                     true,
+					"ipv6_cidr_block_association_id":      true,
+					"owner_id":                            true,
+					"private_dns_hostname_type_on_launch": true,
+					"tags":     {},
+					"tags_all": {},
+					"vpc_id":   true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "private",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_subnet",
+		},
+		{
+			"address": "aws_volume_attachment.data",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"device_name":                    "/dev/sdf",
+					"force_detach":                   null,
+					"region":                         "eu-west-1",
+					"skip_destroy":                   null,
+					"stop_instance_before_detaching": null,
+					"timeouts":                       null,
+				},
+				"after_sensitive": {},
+				"after_unknown": {
+					"id":          true,
+					"instance_id": true,
+					"volume_id":   true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "data",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_volume_attachment",
+		},
+		{
+			"address": "aws_vpc.main",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"assign_generated_ipv6_cidr_block": null,
+					"cidr_block":                       "10.20.0.0/16",
+					"enable_dns_hostnames":             true,
+					"enable_dns_support":               true,
+					"instance_tenancy":                 "default",
+					"ipv4_ipam_pool_id":                null,
+					"ipv4_netmask_length":              null,
+					"ipv6_ipam_pool_id":                null,
+					"ipv6_netmask_length":              null,
+					"region":                           "eu-west-1",
+					"tags": {
+						"Name": "atul00206134-vpc",
+					},
+					"tags_all": {
+						"Jurisdiction": "IE",
+						"ManagedBy":    "terraform",
+						"Name":         "atul00206134-vpc",
+						"Organisation": "ATUL0012345",
+					},
+				},
+				"after_sensitive": {
+					"tags":     {},
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn": true,
+					"default_network_acl_id":               true,
+					"default_route_table_id":               true,
+					"default_security_group_id":            true,
+					"dhcp_options_id":                      true,
+					"enable_network_address_usage_metrics": true,
+					"id": true,
+					"ipv6_association_id":                  true,
+					"ipv6_cidr_block":                      true,
+					"ipv6_cidr_block_network_border_group": true,
+					"main_route_table_id":                  true,
+					"owner_id":                             true,
+					"tags":                                 {},
+					"tags_all":                             {},
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "main",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_vpc",
+		},
+		{
+			"address": "aws_vpc_security_group_egress_rule.https_out",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"cidr_ipv4":                    "0.0.0.0/0",
+					"cidr_ipv6":                    null,
+					"description":                  "HTTPS out for package updates",
+					"from_port":                    443,
+					"ip_protocol":                  "tcp",
+					"prefix_list_id":               null,
+					"referenced_security_group_id": null,
+					"region":                       "eu-west-1",
+					"tags":                         null,
+					"tags_all": {
+						"Jurisdiction": "IE",
+						"ManagedBy":    "terraform",
+						"Organisation": "ATUL0012345",
+					},
+					"to_port": 443,
+				},
+				"after_sensitive": {
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn":                    true,
+					"id":                     true,
+					"security_group_id":      true,
+					"security_group_rule_id": true,
+					"tags_all":               {},
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "https_out",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_vpc_security_group_egress_rule",
+		},
+		{
+			"address": "aws_vpc_security_group_ingress_rule.admin_ssh",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"cidr_ipv4":                    "0.0.0.0/0",
+					"cidr_ipv6":                    null,
+					"description":                  "SSH from the approved Irish admin network",
+					"from_port":                    22,
+					"ip_protocol":                  "tcp",
+					"prefix_list_id":               null,
+					"referenced_security_group_id": null,
+					"region":                       "eu-west-1",
+					"tags":                         null,
+					"tags_all": {
+						"Jurisdiction": "IE",
+						"ManagedBy":    "terraform",
+						"Organisation": "ATUL0012345",
+					},
+					"to_port": 22,
+				},
+				"after_sensitive": {
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn":                    true,
+					"id":                     true,
+					"security_group_id":      true,
+					"security_group_rule_id": true,
+					"tags_all":               {},
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "admin_ssh",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_vpc_security_group_ingress_rule",
+		},
+		{
+			"address": "aws_vpc_security_group_ingress_rule.debug_all[0]",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"cidr_ipv4":                    "0.0.0.0/0",
+					"cidr_ipv6":                    null,
+					"description":                  "Debug rule: all traffic from anywhere",
+					"from_port":                    null,
+					"ip_protocol":                  "-1",
+					"prefix_list_id":               null,
+					"referenced_security_group_id": null,
+					"region":                       "eu-west-1",
+					"tags":                         null,
+					"tags_all": {
+						"Jurisdiction": "IE",
+						"ManagedBy":    "terraform",
+						"Organisation": "ATUL0012345",
+					},
+					"to_port": null,
+				},
+				"after_sensitive": {
+					"tags_all": {},
+				},
+				"after_unknown": {
+					"arn":                    true,
+					"id":                     true,
+					"security_group_id":      true,
+					"security_group_rule_id": true,
+					"tags_all":               {},
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"index":         0,
+			"mode":          "managed",
+			"name":          "debug_all",
+			"provider_name": "registry.terraform.io/hashicorp/aws",
+			"type":          "aws_vpc_security_group_ingress_rule",
+		},
+		{
+			"address": "module.sensitive_bucket.aws_s3_bucket.this",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"bucket":        "atul00206134-sensitive-records",
+					"force_destroy": false,
+					"region":        "eu-west-1",
+					"tags": {
+						"DataClassification": "sensitive",
+					},
+					"tags_all": {
+						"DataClassification": "sensitive",
+						"Jurisdiction":       "IE",
+						"ManagedBy":          "terraform",
+						"Organisation":       "ATUL0012345",
+					},
+					"timeouts": null,
+				},
+				"after_sensitive": {
+					"cors_rule":                            [],
+					"grant":                                [],
+					"lifecycle_rule":                       [],
+					"logging":                              [],
+					"object_lock_configuration":            [],
+					"replication_configuration":            [],
+					"server_side_encryption_configuration": [],
+					"tags":       {},
+					"tags_all":   {},
+					"versioning": [],
+					"website":    [],
+				},
+				"after_unknown": {
+					"acceleration_status": true,
+					"acl":                                  true,
+					"arn":                                  true,
+					"bucket_domain_name":                   true,
+					"bucket_namespace":                     true,
+					"bucket_prefix":                        true,
+					"bucket_region":                        true,
+					"bucket_regional_domain_name":          true,
+					"cors_rule":                            true,
+					"grant":                                true,
+					"hosted_zone_id":                       true,
+					"id":                                   true,
+					"lifecycle_rule":                       true,
+					"logging":                              true,
+					"object_lock_configuration":            true,
+					"object_lock_enabled":                  true,
+					"policy":                               true,
+					"replication_configuration":            true,
+					"request_payer":                        true,
+					"server_side_encryption_configuration": true,
+					"tags":             {},
+					"tags_all":         {},
+					"versioning":       true,
+					"website":          true,
+					"website_domain":   true,
+					"website_endpoint": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":           "managed",
+			"module_address": "module.sensitive_bucket",
+			"name":           "this",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"type":           "aws_s3_bucket",
+		},
+		{
+			"address": "module.sensitive_bucket.aws_s3_bucket_public_access_block.this",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"block_public_acls":       true,
+					"block_public_policy":     true,
+					"ignore_public_acls":      true,
+					"region":                  "eu-west-1",
+					"restrict_public_buckets": true,
+					"skip_destroy":            null,
+				},
+				"after_sensitive": {},
+				"after_unknown": {
+					"bucket": true,
+					"id":     true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":           "managed",
+			"module_address": "module.sensitive_bucket",
+			"name":           "this",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"type":           "aws_s3_bucket_public_access_block",
+		},
+		{
+			"address": "module.sensitive_bucket.aws_s3_bucket_server_side_encryption_configuration.this",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"expected_bucket_owner": null,
+					"region":                "eu-west-1",
+					"rule": [
+						{
+							"apply_server_side_encryption_by_default": [
+								{
+									"sse_algorithm": "aws:kms",
+								},
+							],
+							"bucket_key_enabled": true,
+						},
+					],
+				},
+				"after_sensitive": {
+					"rule": [
+						{
+							"apply_server_side_encryption_by_default": [
+								{},
+							],
+							"blocked_encryption_types": [],
+						},
+					],
+				},
+				"after_unknown": {
+					"bucket": true,
+					"id":     true,
+					"rule": [
+						{
+							"apply_server_side_encryption_by_default": [
+								{
+									"kms_master_key_id": true,
+								},
+							],
+							"blocked_encryption_types": true,
+						},
+					],
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":           "managed",
+			"module_address": "module.sensitive_bucket",
+			"name":           "this",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"type":           "aws_s3_bucket_server_side_encryption_configuration",
+		},
+		{
+			"address": "module.sensitive_bucket.aws_s3_bucket_versioning.this",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"expected_bucket_owner": null,
+					"mfa":    null,
+					"region": "eu-west-1",
+					"versioning_configuration": [
+						{
+							"status": "Enabled",
+						},
+					],
+				},
+				"after_sensitive": {
+					"versioning_configuration": [
+						{},
+					],
+				},
+				"after_unknown": {
+					"bucket": true,
+					"id":     true,
+					"versioning_configuration": [
+						{
+							"mfa_delete": true,
+						},
+					],
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":           "managed",
+			"module_address": "module.sensitive_bucket",
+			"name":           "this",
+			"provider_name":  "registry.terraform.io/hashicorp/aws",
+			"type":           "aws_s3_bucket_versioning",
+		},
+	],
+	"terraform_version": "1.17.1",
+	"timestamp":         "2026-11-23T19:39:31Z",
+	"variables": {
+		"admin_ssh_cidr": {
+			"value": "0.0.0.0/0",
+		},
+		"ami_id": {
+			"value": "ami-0123456789abcdef0",
+		},
+		"associate_public_ip": {
+			"value": true,
+		},
+		"aws_region": {
+			"value": "eu-west-1",
+		},
+		"backup_copy_vault_arn": {
+			"value": "arn:aws:backup:us-east-1:111122223333:backup-vault:dr-us-east-1",
+		},
+		"ebs_encrypted": {
+			"value": false,
+		},
+		"imds_http_tokens": {
+			"value": "optional",
+		},
+		"instance_type": {
+			"value": "m5.4xlarge",
+		},
+		"name_prefix": {
+			"value": "atul00206134",
+		},
+		"offline_plan": {
+			"value": true,
+		},
+		"open_all_ports": {
+			"value": true,
+		},
+		"replica_region": {
+			"value": "us-east-1",
+		},
+	},
+}

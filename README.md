@@ -35,14 +35,15 @@ Three groups of controls are implemented:
 flowchart LR
     dev[Engineer] -->|git push| gh[GitHub repo<br/>terraform/ sentinel/ tests/]
     gh --> ci[GitHub Actions<br/>fmt, validate, lock file,<br/>bundle check, sentinel test]
-    dev -->|terraform plan / apply<br/>scenario tfvars| hcp[HCP Terraform workspace<br/>sovereignty-pac<br/>remote plan, dummy AWS creds]
+    dev -->|terraform plan / apply<br/>scenario tfvars| hcp[HCP Terraform Europe<br/>workspace sovereignty-pac<br/>dummy AWS creds]
+    hcp <-->|run jobs| agent[Self-hosted agent<br/>Docker, Ireland<br/>pool mac-ireland]
     hcp --> pol{Sentinel policy set<br/>atul_guardrails<br/>hard-mandatory}
     pol -->|pass| ok[Apply allowed<br/>never confirmed: plan-only]
     pol -->|fail| block[Run blocked<br/>violations printed]
     hcp -->|Download Sentinel mocks| ev[documentation/evidence]
 ```
 
-The repository is the source of truth. GitHub Actions re-checks formatting, provider lock integrity and every Sentinel test case on each push. Real plans run in HCP Terraform, where the policy set sits between plan and apply.
+The repository is the source of truth. GitHub Actions re-checks formatting, provider lock integrity and every Sentinel test case on each push. Real plans are run by HCP Terraform Europe on a self-hosted agent in Ireland, and the policy set sits between plan and apply.
 
 ## 3. Repository layout
 
@@ -70,7 +71,7 @@ scripts/
   run-sentinel-tests.sh                   runs all Sentinel tests
 documentation/
   evidence/                               screenshots, outputs, HCP mocks
-  technical-report/                       one-page report (LaTeX + PDF)
+  L00206134_Ace_Perez_Technical_Report.pdf  one-page technical report
   llm-declaration.md                      AI tool use and prompt
 ```
 
@@ -104,30 +105,38 @@ Defence in depth in this project: even a passing plan cannot be applied, because
 
 ## 6. Evidence
 
-> TODO: delete this line once every file below exists in `documentation/evidence/`.
-
 | Evidence | File |
 | --- | --- |
-| Policy set in HCP: one hard-mandatory policy `atul_guardrails` | `05-policy-set.png` |
-| Free tier refuses a second mandatory policy | `06-free-tier-mandatory-limit.png` |
-| Compliant plan: policy check passed | `01-compliant-pass.png`, `plan-compliant.txt` |
-| Everything-wrong plan: blocked, all violations printed | `02-noncompliant-all-blocked.png`, `plan-noncompliant-all.txt` |
-| Region moved to us-east-1: blocked | `03-noncompliant-region-blocked.png`, `plan-noncompliant-region.txt` |
-| SSH open to the internet: blocked | `04-noncompliant-ssh-blocked.png`, `plan-noncompliant-ssh.txt` |
-| Saved plan of the compliant scenario | `terraform/tfplan`, `terraform/tfplan.txt`, `terraform/tfplan.json` |
+| Policy set in HCP: `atul-guardrails`, scope and attached policy | `01-policy-set.png` |
+| Policy `atul_guardrails`: Sentinel, hard mandatory; HCP warns the Free tier's single mandatory policy is already used | `02-policy-hard-mandatory.png` |
+| Compliant plan: policy check passed | `03-compliant-pass.png`, `plan-compliant.txt` |
+| Everything-wrong plan: blocked, all violations printed | `04-noncompliant-all-blocked.png`, `05-noncompliant-all-violations.png`, `plan-noncompliant-all.txt` |
+| Region moved to us-east-1: blocked | `06-noncompliant-region-blocked.png`, `plan-noncompliant-region.txt` |
+| SSH open to the internet: blocked | `07-noncompliant-ssh-blocked.png`, `plan-noncompliant-ssh.txt` |
+| Saved plan of the compliant scenario | `terraform/tfplan` (plan output), `terraform/tfplan.json` (machine-readable, what Sentinel reads), `terraform/tfplan.txt` (same as `tfplan`), `terraform/tfplan.hcp-run` (the saved-plan pointer `terraform plan -out` writes for HCP runs: it holds only the run ID) |
 | Sentinel mocks downloaded from the HCP runs | `hcp-mocks/` |
 | All Sentinel test cases (pass and fail) | `sentinel-test-output.txt`, summary in `test-results.md` |
-| CI green on GitHub Actions | `07-github-actions-green.png` |
+| CI green on GitHub Actions | `08-github-actions-green.png` |
 
 ## 7. How to run it
 
-Prerequisites: Terraform 1.17.x, Sentinel CLI 0.40.0 (checksum verified), Python 3, an HCP Terraform Free account.
+Prerequisites: Terraform 1.17.x, Sentinel CLI 0.40.0 (checksum verified), Python 3, Docker, an HCP Europe account.
 
 **HCP Terraform (one-off):**
 
-1. In HCP Europe (portal.cloud.eu.hashicorp.com), create organisation `ATUL00206134` and a **CLI-driven** workspace `sovereignty-pac` (execution mode Remote, Terraform 1.17.x, manual apply).
-2. Add **environment variables** `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` with the dummy value `offline-plan-only`.
-3. Create a policy set `atul-guardrails` (individually managed, Sentinel, enforced globally). Create one policy `atul_guardrails`, **hard-mandatory**, with the contents of `sentinel/hcp/atul_guardrails.sentinel`.
+1. In HCP Europe (portal.cloud.eu.hashicorp.com), create organisation `ATUL00206134` and a **CLI-driven** workspace `sovereignty-pac` (Terraform 1.17.x, manual apply).
+2. Create an agent pool `mac-ireland` and an agent token, start the agent, then set the workspace's execution mode to **Agent** with that pool. HCP Europe's hosted runners errored every run for this organisation within a second of queueing, with no logs; a self-hosted agent runs the same job on your own machine while HCP still evaluates Sentinel:
+
+   ```bash
+   read -s "TFC_AGENT_TOKEN?Paste agent token: " && export TFC_AGENT_TOKEN   # zsh: hidden input, not saved in history
+   docker run -d --name tfc-agent --platform linux/amd64 \
+     -e TFC_ADDRESS=https://app.eu.terraform.io -e TFC_AGENT_TOKEN -e TFC_AGENT_NAME=ace-mac \
+     hashicorp/tfc-agent:latest
+   ```
+
+   `linux/amd64` matches the `linux_amd64` checksums in `.terraform.lock.hcl`.
+3. Add **environment variables** `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (marked sensitive) with the dummy value `offline-plan-only`.
+4. Create a policy set `atul-guardrails` (individually managed, Sentinel, enforced globally). Create one policy `atul_guardrails`, **hard-mandatory**, with the contents of `sentinel/hcp/atul_guardrails.sentinel`.
 
 **Plans:**
 
@@ -156,6 +165,8 @@ python3 scripts/bundle_sentinel.py --check  # what CI runs
 ### 8.1 Effectiveness of Policy as Code for digital sovereignty
 
 Policy as Code turns a sovereignty commitment into a check that runs on every change, the same way every time, and leaves a record. It is version-controlled, peer-reviewed and tested like application code, so the rules themselves are auditable. It also moves enforcement to the cheapest point: a blocked plan costs a few seconds, while data that has already been replicated to another jurisdiction may be impossible to recall.
+
+The platform that enforces the policy is in scope too. This project uses HCP Europe, so plans, state and policy results are stored in the EU, and the runs themselves execute on a self-hosted agent in Ireland, so no plan data is processed outside the EU.
 
 Its effectiveness is bounded by coverage. It only governs changes made through Terraform in workspaces where the policy set applies. Console changes, other tools and other accounts are outside it, which is why it should sit alongside account-level guardrails (section 10).
 
@@ -207,13 +218,14 @@ This is managed by: tests for every policy with pass and fail mocks, run in CI; 
 | AWS credentials | Dummy credentials + provider skip flags | Real account with OIDC dynamic credentials | No AWS data sources (e.g. AMI lookup) at plan time |
 | Region model | Sensitive data eu-west-1 only; other resources eu-west-1 or eu-central-1 | Ireland-only for all; any EU region | No cross-region DR for sensitive data |
 | Workflow | CLI-driven workspace, scenario tfvars | VCS-driven workspace with PR checks | No automatic PR gate yet |
+| Run execution | Self-hosted HCP Terraform agent in Docker, in Ireland | HCP-hosted remote runners (failed for this HCP Europe organisation) | The agent must be running for any plan; execution stays in Ireland |
 | Tests | Hand-written mocks covering bypasses, plus mocks downloaded from real runs as evidence | Downloaded mocks only | Hand-written mocks must track the real plan shape |
 
 **Recommended next steps:** VCS-connected policy sets (paid tier) or the `tfe` provider to remove the manual paste; AWS Organizations service control policies denying non-approved regions as a runtime backstop; AWS Config rules for drift; OIDC dynamic credentials with a read-only role; Dependabot and commit-SHA pinning for GitHub Actions.
 
 ## 11. Use of AI tools
 
-This project was built with help from **Claude Opus 5.5 (Anthropic)**, used through claude.ai on 22 and 23 November 2026. Claude acted as a tutor and drafted the Terraform configuration, Sentinel policies, mocks and tests, CI workflow, this README and the report outline. I set up HCP Terraform and GitHub, ran every plan and test, captured the evidence, and reviewed and corrected the generated code. The prompt and how the tool was used are recorded in [`documentation/llm-declaration.md`](documentation/llm-declaration.md).
+This project was built with help from **Claude Opus 5.5 (Anthropic)**, used through claude.ai from 22 to 24 November 2026. Claude acted as a tutor and drafted the Terraform configuration, Sentinel policies, mocks and tests, CI workflow, this README and the report outline. I set up HCP Terraform and GitHub, ran every plan and test, captured the evidence, and reviewed and corrected the generated code. The prompt and how the tool was used are recorded in [`documentation/llm-declaration.md`](documentation/llm-declaration.md).
 
 ## 12. References
 
