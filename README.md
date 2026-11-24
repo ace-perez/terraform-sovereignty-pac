@@ -1,6 +1,6 @@
 # Policy-as-Code for Irish Digital Sovereignty and IaC Supply Chain Security
 
-Terraform and HashiCorp Sentinel, enforced in HCP Terraform Free, for organisation **ATUL0012345** (HCP organisation `ATUL00206134`).
+Terraform and HashiCorp Sentinel, enforced in HCP Terraform Free, for organisation **ATUL00206134** (HCP organisation `ATUL00206134`).
 
 Each Terraform plan for AWS is checked by Sentinel **after it is planned and before it can be applied**. A plan that would place sensitive data outside Ireland, open SSH to the internet, run an unencrypted volume, allow IMDSv1, use an unapproved instance type, or pull a provider or module from an untrusted source is blocked. Nothing in this project is ever applied: the HCP workspace only holds dummy AWS credentials, so even an approved plan cannot create real resources.
 
